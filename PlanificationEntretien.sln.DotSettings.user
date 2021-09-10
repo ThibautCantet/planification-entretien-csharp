@@ -1,0 +1,13 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=17fd607a_002D7325_002D4109_002Da403_002D097d2d74c5f0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from planification-entretien.feature.cs #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;ProjectFile&gt;1B5DC730-11BF-4FC7-A8A7-E789E96FC793/d:Features/f:planification-entretien.feature.cs&lt;/ProjectFile&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=18a23eb7_002De30d_002D4192_002D8c07_002Dafc56d39b215/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from planification-entretien.feature.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;ProjectFile&gt;1B5DC730-11BF-4FC7-A8A7-E789E96FC793/d:Features/f:planification-entretien.feature.cs&lt;/ProjectFile&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bddaa8db_002D039a_002D485d_002Da6ab_002D16cd069238e7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from planification-entretien.feature.cs #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;ProjectFile&gt;1B5DC730-11BF-4FC7-A8A7-E789E96FC793/d:Features/f:planification-entretien.feature.cs&lt;/ProjectFile&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eb6f459e_002D52a6_002D43d6_002D872d_002D98b8f27dad47/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from planification-entretien.feature.cs #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;ProjectFile&gt;1B5DC730-11BF-4FC7-A8A7-E789E96FC793/d:Features/f:planification-entretien.feature.cs&lt;/ProjectFile&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

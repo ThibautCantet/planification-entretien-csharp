@@ -2,10 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <AssemblyName>Entretien.Tests</AssemblyName>
-        <RootNamespace>Entretien.Tests</RootNamespace>
-        <Company>Thibaut Cantet</Company>
-        <Product>Entretien</Product>
+        <RootNamespace>PlanificationEntretien</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,16 +18,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Features\Calculator.feature.cs">
-        <DependentUpon>Calculator.feature</DependentUpon>
-        <AutoGen>true</AutoGen>
-        <DesignTime>true</DesignTime>
-        <Visible>true</Visible>
-      </Compile>
+      <ProjectReference Include="..\PlanificationEntretien\PlanificationEntretien.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Entretien\Entretien.csproj" />
+      <Folder Include="infrastructure" />
+      <Folder Include="obj\Debug\netcoreapp3.1" />
     </ItemGroup>
 
 </Project>
