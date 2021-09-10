@@ -18,6 +18,8 @@ namespace PlanificationEntretien.Tests
         private readonly EntretienRepository _entretienRepository = new InMemoryEntretienRepository();
         private readonly IEmailService _emailService = new FakeEmailService();
 
+        private ResultatPlanificationEntretien _resultatPlanificationEntretien;
+
         [Given(@"un candidat ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences qui est disponible ""(.*)"" à ""(.*)""")]
         public void GivenUnCandidatAvecAnsDExperiencesQuiEstDisponibleA(string language, string email, string experienceInYears, string date, string time)
         {
@@ -36,15 +38,18 @@ namespace PlanificationEntretien.Tests
         public void WhenOnTenteUnePlanificationDEntretien()
         {
             _planifierEntretien = new PlanifierEntretien(_entretienRepository, _emailService);
-            _planifierEntretien.Execute(_candidat, _disponibiliteDuCandidat, _recruteur, _dateDeDisponibiliteDuRecruteur);
+            _resultatPlanificationEntretien = _planifierEntretien.Execute(_candidat, _disponibiliteDuCandidat, _recruteur, _dateDeDisponibiliteDuRecruteur);
         }
 
         [Then(@"L’entretien est planifié")]
         public void ThenLEntretienEstPlanifie()
         {
+            var resultatPlanificationEntretien = new EntretienPlanifie(_candidat, _recruteur, new HoraireEntretien(_disponibiliteDuCandidat.Horaire));
+            Assert.Equal(resultatPlanificationEntretien, _resultatPlanificationEntretien);
+            
             Entretien entretien = _entretienRepository.FindByCandidat(_candidat);
             HoraireEntretien horaire = new HoraireEntretien(_disponibiliteDuCandidat.Horaire);
-            Entretien expectedEntretien = new Entretien(_candidat, _recruteur, horaire);
+            Entretien expectedEntretien = Entretien.of(_candidat, _recruteur, horaire);
             Assert.Equal(expectedEntretien, entretien);
         }
 
@@ -54,6 +59,23 @@ namespace PlanificationEntretien.Tests
             HoraireEntretien horaire = new HoraireEntretien(_disponibiliteDuCandidat.Horaire);
             Assert.True(((FakeEmailService) _emailService).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_candidat.Email, horaire));
             Assert.True(((FakeEmailService) _emailService).UnEmailDeConfirmationAEteEnvoyeAuRecruteur(_recruteur.Email, horaire));
+        }
+
+        [Then(@"L’entretien n'est pas planifié")]
+        public void ThenLEntretienNestPasPlanifie()
+        {
+            Assert.Equal(_resultatPlanificationEntretien, new EntretienEchouee(_candidat, _recruteur, new HoraireEntretien(_disponibiliteDuCandidat.Horaire)));
+            
+            Entretien entretien = _entretienRepository.FindByCandidat(_candidat);
+            Assert.Null(entretien);
+        }
+
+        [Then(@"aucun mail de confirmation est envoyé au candidat ou au recruteur")]
+        public void ThenAucunMailDeConfirmationEstEnvoyeAuCandidatOuAuRecruteur()
+        {
+            HoraireEntretien horaire = new HoraireEntretien(_disponibiliteDuCandidat.Horaire);
+            Assert.False(((FakeEmailService) _emailService).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_candidat.Email, horaire));
+            Assert.False(((FakeEmailService) _emailService).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_recruteur.Email, horaire));
         }
     }
 }

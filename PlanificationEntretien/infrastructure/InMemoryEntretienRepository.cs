@@ -8,7 +8,9 @@ namespace Planification
         private Dictionary<Candidat, Entretien> _entretiens = new Dictionary<Candidat, Entretien>();
         public Entretien FindByCandidat(Candidat candidat)
         {
-            return _entretiens[candidat];
+            Entretien value;
+            _entretiens.TryGetValue(candidat, out value);
+            return value;
         }
 
         public void Save(Entretien entretien)

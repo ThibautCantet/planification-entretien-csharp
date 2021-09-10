@@ -10,5 +10,10 @@ namespace PlanificationEntretien.domain
         {
             Horaire = horaire;
         }
+
+        public bool Verifier(DateTime dateDeDisponibiliteDuRecruteur)
+        {
+            return Horaire.Date.Equals(dateDeDisponibiliteDuRecruteur);
+        }
     }
 }
