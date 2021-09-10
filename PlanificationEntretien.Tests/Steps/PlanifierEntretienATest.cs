@@ -35,7 +35,7 @@ namespace PlanificationEntretien.Tests
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            _planifierEntretien = new PlanifierEntretien();
+            _planifierEntretien = new PlanifierEntretien(_entretienRepository, _emailService);
             _planifierEntretien.Execute(_candidat, _disponibiliteDuCandidat, _recruteur, _dateDeDisponibiliteDuRecruteur);
         }
 
@@ -45,7 +45,7 @@ namespace PlanificationEntretien.Tests
             Entretien entretien = _entretienRepository.FindByCandidat(_candidat);
             HoraireEntretien horaire = new HoraireEntretien(_disponibiliteDuCandidat.Horaire);
             Entretien expectedEntretien = new Entretien(_candidat, _recruteur, horaire);
-            Assert.Same(expectedEntretien, entretien);
+            Assert.Equal(expectedEntretien, entretien);
         }
 
         [Then(@"un mail de confirmation est envoyé au candidat et le recruteur")]
