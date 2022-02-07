@@ -109,21 +109,23 @@ namespace PlanificationEntretien.Features
             {
                 this.ScenarioStart();
 #line 5
-    testRunner.Given("un candidat \"Java\" (\"candidat@email.com\") avec \"2\" ans d’expériences qui est disp" +
-                        "onible \"15/04/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+    testRunner.Given("un candidat \"Java\" (\"candidat@email.com\") avec 2 ans d’expériences qui est dispon" +
+                        "ible \"15/04/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
 #line 6
-    testRunner.And("un recruteur \"Java\" (\"recruteur@soat.fr\") qui a \"6\" ans d’XP qui est dispo \"15/04" +
-                        "/2019\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
+    testRunner.And("un recruteur \"Java\" (\"recruteur@soat.fr\") qui a 6 ans d’XP qui est dispo \"15/04/2" +
+                        "019\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
 #line hidden
 #line 7
     testRunner.When("on tente une planification d’entretien", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
 #line 8
-    testRunner.Then("L’entretien est planifié", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
+    testRunner.Then("L’entretien est planifié : \"candidat@email.com\", \"recruteur@soat.fr\" à \"15/04/201" +
+                        "9\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
 #line 9
-    testRunner.And("un mail de confirmation est envoyé au candidat et le recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
+    testRunner.And("un mail de confirmation est envoyé au candidat (\"candidat@email.com\") et au recru" +
+                        "teur (\"recruteur@soat.fr\")", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -158,12 +160,12 @@ namespace PlanificationEntretien.Features
             {
                 this.ScenarioStart();
 #line 12
-    testRunner.Given("un candidat \"Java\" (\"candidat@email.com\") avec \"2\" ans d’expériences qui est disp" +
-                        "onible \"16/04/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+    testRunner.Given("un candidat \"Java\" (\"candidat@email.com\") avec 2 ans d’expériences qui est dispon" +
+                        "ible \"16/04/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
 #line 13
-    testRunner.And("un recruteur \"Java\" (\"recruteur@soat.fr\") qui a \"6\" ans d’XP qui est dispo \"15/04" +
-                        "/2019\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
+    testRunner.And("un recruteur \"Java\" (\"recruteur@soat.fr\") qui a 6 ans d’XP qui est dispo \"15/04/2" +
+                        "019\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
 #line hidden
 #line 14
     testRunner.When("on tente une planification d’entretien", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
