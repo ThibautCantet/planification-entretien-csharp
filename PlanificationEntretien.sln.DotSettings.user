@@ -9,5 +9,12 @@
   &lt;ProjectFile&gt;1B5DC730-11BF-4FC7-A8A7-E789E96FC793/d:Features/f:planification-entretien.feature.cs&lt;/ProjectFile&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eb6f459e_002D52a6_002D43d6_002D872d_002D98b8f27dad47/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from planification-entretien.feature.cs #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;ProjectFile&gt;1B5DC730-11BF-4FC7-A8A7-E789E96FC793/d:Features/f:planification-entretien.feature.cs&lt;/ProjectFile&gt;
+  &lt;Or&gt;
+    &lt;ProjectFile&gt;1B5DC730-11BF-4FC7-A8A7-E789E96FC793/d:Features/f:planification-entretien.feature.cs&lt;/ProjectFile&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;xUnit::1B5DC730-11BF-4FC7-A8A7-E789E96FC793::.NETCoreApp,Version=v3.1::PlanificationEntretien.EntretienServiceUTest.should_save_entretien&lt;/TestId&gt;
+      &lt;TestId&gt;xUnit::1B5DC730-11BF-4FC7-A8A7-E789E96FC793::.NETCoreApp,Version=v3.1::PlanificationEntretien.EntretienServiceUTest&lt;/TestId&gt;
+      &lt;TestId&gt;xUnit::1B5DC730-11BF-4FC7-A8A7-E789E96FC793::.NETCoreApp,Version=v3.1::PlanificationEntretien.EntretienUTest.should_return_true_when_same_values&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+  &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -40,21 +40,26 @@ namespace PlanificationEntretien.Tests
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
+            var entretien = new Entretien(_disponibiliteCandidat, _candidat.Email, _recruteur.Email);
+            _entretienRepository.Setup(x => x.Save(It.IsAny<Entretien>())).Returns(entretien);
+
             _entretien = _entretienService.planifier(_candidat, _recruteur, _disponibiliteCandidat, _disponibiliteRecruteur);
         }
 
         [Then(@"L’entretien est planifié : ""(.*)"", ""(.*)"" à ""(.*)"" à ""(.*)""")]
         public void ThenLEntretienEstPlanifieAa(string emailCandidat, string emailRecruteur, string date, string heure)
         {
-            _entretienRepository.Verify(t => t.Save(It.Is<Entretien>(s => s.Equals(_entretien))));
+            var dateEtHeure = DateTime.ParseExact($"{date} {heure}", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+            var entretien = new Entretien(dateEtHeure, emailCandidat, emailRecruteur);
+            _entretienRepository.Verify(repository => repository.Save(It.Is<Entretien>(e => entretien.Equals(e))));
             Assert.NotNull(_entretien);
         }
 
         [Then(@"un mail de confirmation est envoyé au candidat \(""(.*)""\) et au recruteur \(""(.*)""\)")]
         public void ThenUnMailDeConfirmationEstEnvoyeAuCandidatEtAuRecruteur(string emailCandidat, string emailRecruteur)
         {
-            _emailService.Verify(t => t.SendToCandidat(It.Is<string>(s => s.Equals(emailCandidat))));
-            _emailService.Verify(t => t.SendToRecruteur(It.Is<string>(s => s.Equals(emailRecruteur))));
+            _emailService.Verify(emailService => emailService.SendToCandidat(It.Is<string>(s => s.Equals(emailCandidat))));
+            _emailService.Verify(emailService => emailService.SendToRecruteur(It.Is<string>(s => s.Equals(emailRecruteur))));
         }
 
         [Then(@"L’entretien n'est pas planifié")]
