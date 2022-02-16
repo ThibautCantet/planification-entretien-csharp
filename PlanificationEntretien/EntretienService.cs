@@ -13,13 +13,19 @@ namespace PlanificationEntretien
             _emailService = emailService;
         }
 
-        public Entretien planifier(Candidat candidat, Recruteur recruteur, DateTime disponibiliteCandidat, DateTime disponibiliteRecruteur)
+        public Entretien planifier(Candidat candidat, Recruteur recruteur, DateTime disponibiliteCandidat,
+            DateTime disponibiliteRecruteur)
         {
-            var entretien = new Entretien(disponibiliteCandidat, candidat.Email, recruteur.Email);
-            _emailService.SendToCandidat(candidat.Email);
-            _emailService.SendToRecruteur(recruteur.Email);
-            
-            return _entretienRepository.Save(entretien);
+            if (disponibiliteCandidat.Date.Equals(disponibiliteRecruteur.Date))
+            {
+                var entretien = new Entretien(disponibiliteCandidat, candidat.Email, recruteur.Email);
+                _emailService.SendToCandidat(candidat.Email);
+                _emailService.SendToRecruteur(recruteur.Email);
+
+                return _entretienRepository.Save(entretien);
+            }
+
+            return null;
         }
     }
 }

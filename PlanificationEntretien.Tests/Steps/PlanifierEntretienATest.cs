@@ -65,11 +65,15 @@ namespace PlanificationEntretien.Tests
         [Then(@"L’entretien n'est pas planifié")]
         public void ThenLEntretienNestPasPlanifie()
         {
+            _entretienRepository.Verify(repository => repository.Save(It.IsAny<Entretien>()), Times.Never);
+            Assert.Null(_entretien);
         }
 
         [Then(@"aucun mail de confirmation est envoyé au candidat ou au recruteur")]
         public void ThenAucunMailDeConfirmationEstEnvoyeAuCandidatOuAuRecruteur()
         {
+            _emailService.Verify(emailService => emailService.SendToCandidat(It.IsAny<string>()), Times.Never);
+            _emailService.Verify(emailService => emailService.SendToRecruteur(It.IsAny<string>()), Times.Never);
         }
     }
 }
