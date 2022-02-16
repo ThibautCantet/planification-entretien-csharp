@@ -16,7 +16,7 @@ namespace PlanificationEntretien
         public Entretien planifier(Candidat candidat, Recruteur recruteur, DateTime disponibiliteCandidat,
             DateTime disponibiliteRecruteur)
         {
-            if (disponibiliteCandidat.Date.Equals(disponibiliteRecruteur.Date))
+            if (disponibiliteCandidat.Date.Equals(disponibiliteRecruteur.Date) && candidat.Language.Equals(recruteur.Language))
             {
                 var entretien = new Entretien(disponibiliteCandidat, candidat.Email, recruteur.Email);
                 _emailService.SendToCandidat(candidat.Email);
