@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanificationEntretien", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanificationEntretien.Tests", "PlanificationEntretien.Tests\PlanificationEntretien.Tests.csproj", "{D42D8AA5-D78C-441A-90CD-17F1643F74CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cqrs", "Cqrs\Cqrs.csproj", "{C2A8487F-80D1-4B56-939D-C0F4A1B24BCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{D42D8AA5-D78C-441A-90CD-17F1643F74CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D42D8AA5-D78C-441A-90CD-17F1643F74CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D42D8AA5-D78C-441A-90CD-17F1643F74CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2A8487F-80D1-4B56-939D-C0F4A1B24BCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A8487F-80D1-4B56-939D-C0F4A1B24BCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2A8487F-80D1-4B56-939D-C0F4A1B24BCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A8487F-80D1-4B56-939D-C0F4A1B24BCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
