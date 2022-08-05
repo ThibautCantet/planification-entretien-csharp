@@ -1,11 +1,8 @@
 namespace Cqrs;
 
-public interface CommandHandler<C, R, E> 
-    where C : Command
-    where R : CommandResponse<E>
-    where E : Event
+public interface CommandHandler<Event>
 {
-    R handle(C command);
+    CommandResponse<Event> handle(Command command);
 
     Type listenTo();
 }

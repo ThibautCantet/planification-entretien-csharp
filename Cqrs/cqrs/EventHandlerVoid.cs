@@ -1,11 +1,13 @@
 namespace Cqrs;
 
-public abstract class EventHandlerVoid<E> : EventHandlerReturnVoid<E> where E : Event
+public abstract class EventHandlerVoid : EventHandlerReturnVoid
 {
+    public abstract Type listenTo();
+
     public EventHandlerType getType()
     {
         return EventHandlerType.VOID;
     }
 
-    public abstract void handle(E e);
+    public abstract void handle(Event e);
 }

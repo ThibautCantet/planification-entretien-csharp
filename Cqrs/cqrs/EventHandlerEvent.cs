@@ -1,13 +1,12 @@
 namespace Cqrs;
 
-public abstract class EventHandlerEvent<E> : EventHandlerReturnEvent<E> 
-    where E : Event {
-
+public abstract class EventHandlerEvent : EventHandlerReturnEvent
+{
     public EventHandlerType getType() {
         return EventHandlerType.EVENT;
     }
-    
-    public abstract Type listenTo();
 
-    public abstract Ev handle<Ev>(E e) where Ev : Event;
+    public abstract Type listenTo();
+    public abstract Event handle(Event e);
+
 }

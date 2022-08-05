@@ -1,8 +1,9 @@
 namespace Cqrs;
 
 
-public interface EventHandlerReturnCommand<E> where E : Event {
+public interface EventHandlerReturnCommand : EventHandler
+{
 
-     C handle<C>(E e) where C : Command;
+     Command handle(Event e);
 
 }

@@ -1,10 +1,8 @@
 namespace Cqrs;
 
-public interface QueryHandler<Q, R>
-    where Q : Query
-    where R : QueryResponse<Type>
+public interface QueryHandler<Query, QueryResponse>
 {
-    R handle(Q query);
+    QueryResponse handle(Query query);
 
     Type listenTo();
 }

@@ -1,13 +1,12 @@
 namespace Cqrs;
 
-public class CommandResponse<E>
-    where E : Event 
+public class CommandResponse<Event>
 {
 
-    private List<E> _events;
+    private List<Event> _events;
     
-    public CommandResponse(E e) {
-        _events = new List<E>();
+    public CommandResponse(Event e) {
+        _events = new List<Event>();
         _events.Add(e);
     }
 
@@ -15,7 +14,7 @@ public class CommandResponse<E>
         return _events.ToList().Exists(e => e.GetType() == clazz);
     }
 
-    public List<E> events() {
+    public List<Event> events() {
         return _events;
     }
 }

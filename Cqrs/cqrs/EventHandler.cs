@@ -1,9 +1,7 @@
 namespace Cqrs;
 
-public interface EventHandler<E> where E : Event
+public interface EventHandler
 {
-    //Event handle(T event);
-
     Type listenTo();
 
     EventHandlerType getType();

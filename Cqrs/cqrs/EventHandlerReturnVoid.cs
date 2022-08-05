@@ -1,6 +1,6 @@
 namespace Cqrs;
 
-public interface EventHandlerReturnVoid<E> where E: Event
+public interface EventHandlerReturnVoid : EventHandler
 {
-    void handle(E e);
+    void handle(Event e);
 }
