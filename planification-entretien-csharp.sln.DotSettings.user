@@ -1,8 +1,19 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b722ea7d_002Dfc4c_002D470a_002Da94f_002D76c6f0161606/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="PlanifierUnEntretienDeRecrutementChezSoatFeature" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9c6a09aa_002Dc185_002D4a52_002D86eb_002Df52a5a1b5885/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ListerLesEntretiensChezSoatFeature #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::F07ED85B-F88D-432E-A924-5DC5A9A6EF26::.NETCoreApp,Version=v3.1::PlanificationEntretien.Features.ListerLesEntretiensChezSoatFeature&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a6682884_002D5f35_002D40e2_002Daa0a_002D2515c10e79e7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ListerLesEntretiensChezSoatFeature" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::F07ED85B-F88D-432E-A924-5DC5A9A6EF26::.NETCoreApp,Version=v3.1::PlanificationEntretien.Features.ListerLesEntretiensChezSoatFeature&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b722ea7d_002Dfc4c_002D470a_002Da94f_002D76c6f0161606/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PlanifierUnEntretienDeRecrutementChezSoatFeature" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::F07ED85B-F88D-432E-A924-5DC5A9A6EF26::.NETCoreApp,Version=v3.1::PlanificationEntretien.Features.PlanifierUnEntretienDeRecrutementChezSoatFeature&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::F07ED85B-F88D-432E-A924-5DC5A9A6EF26::.NETCoreApp,Version=v3.1::PlanificationEntretien.Features.CreationDunCandidatFeature&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::F07ED85B-F88D-432E-A924-5DC5A9A6EF26::.NETCoreApp,Version=v3.1::PlanificationEntretien.Features.CreationDunRecruteurFeature&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::F07ED85B-F88D-432E-A924-5DC5A9A6EF26::.NETCoreApp,Version=v3.1::PlanificationEntretien.Features.ListerLesEntretiensChezSoatFeature&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

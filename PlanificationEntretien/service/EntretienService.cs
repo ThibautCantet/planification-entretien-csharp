@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.memory;
 using IEmailService = PlanificationEntretien.domain.IEmailService;
@@ -37,6 +38,11 @@ namespace Planification
             }
 
             return false;
+        }
+
+        public IEnumerable<Entretien> ListerEntretiens()
+        {
+            return _entretienRepository.FindAll();
         }
     }
 }

@@ -17,5 +17,10 @@ namespace Planification
         {
             _entretiens.Add(entretien.Candidat, entretien);
         }
+
+        public IEnumerable<Entretien> FindAll()
+        {
+            return _entretiens.Values;
+        }
     }
 }
