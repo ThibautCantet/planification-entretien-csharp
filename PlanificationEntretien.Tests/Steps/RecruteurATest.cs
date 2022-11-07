@@ -16,14 +16,15 @@ namespace PlanificationEntretien.Steps
         [Given(@"un recruteur ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnRecruteurAvecAnsDExperiences(string language, string email, string xp)
         {
-            _recruteur = new Recruteur(language, email, Int32.Parse(xp));
+            int? value = String.IsNullOrEmpty(xp) ? (int?)null : Int32.Parse(xp);
+            _recruteur = new Recruteur(language, email, value);
         }
 
         [When(@"on tente d'enregistrer le recruteur")]
         public void WhenOnTenteDenregistrerLeRecruteur()
         {
             var recruteurService = new RecruteurService(_recruteurRepository);
-            recruteurService.Save(_recruteur);
+            recruteurService.Create(_recruteur);
         }
 
         [Then(@"le recruteur est correctement enregistré avec ses informations ""(.*)"", ""(.*)"" et ""(.*)"" ans d’expériences")]
@@ -33,16 +34,11 @@ namespace PlanificationEntretien.Steps
             Assert.Equal(_recruteur, recruteur);
         }
 
-        [Then(@"l'enregistrement est refusé")]
-        public void ThenLenregistrementEstRefuse()
-        {
-            ScenarioContext.StepIsPending();
-        }
-
         [Then(@"le recruteur n'est pas enregistré")]
         public void ThenLeRecruteurNestPasEnregistre()
         {
-            ScenarioContext.StepIsPending();
+            var recruteur = _recruteurRepository.FindByEmail(_recruteur.Email);
+            Assert.Null(recruteur);
         }
     }
 }

@@ -8,11 +8,11 @@ namespace PlanificationEntretien.domain
         public string Email { get; }
         public int ExperienceEnAnnees { get; }
 
-        public Recruteur(string language, string email, int experienceEnAnnees)
+        public Recruteur(string language, string email, int? experienceEnAnnees)
         {
             Language = language;
             Email = email;
-            ExperienceEnAnnees = experienceEnAnnees;
+            ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
         }
 
         public bool Equals(Recruteur other)

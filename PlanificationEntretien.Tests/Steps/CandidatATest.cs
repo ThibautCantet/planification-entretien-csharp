@@ -16,7 +16,8 @@ namespace PlanificationEntretien.Steps
         [Given(@"un candidat ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnCandidatAvecAnsDExperiences(string language, string email, string xp)
         {
-            _candidat = new Candidat(language, email, Int32.Parse(xp));
+            int? value = String.IsNullOrEmpty(xp) ? (int?)null : Int32.Parse(xp);
+            _candidat = new Candidat(language, email, value);
         }
 
         [When(@"on tente d'enregistrer le candidat")]
@@ -33,16 +34,11 @@ namespace PlanificationEntretien.Steps
             Assert.Equal(_candidat, candidat);
         }
 
-        [Then(@"l'enregistrement est refusé")]
-        public void ThenLenregistrementEstRefuse()
-        {
-            ScenarioContext.StepIsPending();
-        }
-
         [Then(@"le candidat n'est pas enregistré")]
         public void ThenLeCandidatNestPasEnregistre()
         {
-            ScenarioContext.StepIsPending();
+            var candidat = _candidatRepository.FindByEmail(_candidat.Email);
+            Assert.Null(candidat);
         }
     }
 }

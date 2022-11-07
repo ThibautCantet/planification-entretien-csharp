@@ -6,11 +6,11 @@ namespace PlanificationEntretien.domain
         public string Email { get; }
         public int ExperienceEnAnnees { get; }
 
-        public Candidat(string language, string email, int experienceEnAnnees)
+        public Candidat(string language, string email, int? experienceEnAnnees)
         {
             Language = language;
             Email = email;
-            ExperienceEnAnnees = experienceEnAnnees;
+            ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
         }
     }
 }
