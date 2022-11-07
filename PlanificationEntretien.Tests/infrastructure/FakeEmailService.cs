@@ -1,3 +1,4 @@
+using System;
 using PlanificationEntretien.domain;
 
 namespace PlanificationEntretien.Tests
@@ -7,22 +8,22 @@ namespace PlanificationEntretien.Tests
         private bool _unEmailDeConfirmationAEteEnvoyeAuCandidat;
         private bool _unEmailDeConfirmationAEteEnvoyeAuRecruteur;
 
-        public bool UnEmailDeConfirmationAEteEnvoyeAuCandidat(string candidatEmail, HoraireEntretien horaire)
+        public bool UnEmailDeConfirmationAEteEnvoyeAuCandidat(string candidatEmail, DateTime horaire)
         {
             return _unEmailDeConfirmationAEteEnvoyeAuCandidat;
         }
 
-        public bool UnEmailDeConfirmationAEteEnvoyeAuRecruteur(string recruteurEmail, HoraireEntretien horaire)
+        public bool UnEmailDeConfirmationAEteEnvoyeAuRecruteur(string recruteurEmail, DateTime horaire)
         {
             return _unEmailDeConfirmationAEteEnvoyeAuRecruteur;
         }
 
-        public void EnvoyerUnEmailDeConfirmationAuCandidat(string email, HoraireEntretien horaire)
+        public void EnvoyerUnEmailDeConfirmationAuCandidat(string email, DateTime horaire)
         {
             _unEmailDeConfirmationAEteEnvoyeAuCandidat = true;
         }
 
-        public void EnvoyerUnEmailDeConfirmationAuRecruteur(string email, HoraireEntretien horaire)
+        public void EnvoyerUnEmailDeConfirmationAuRecruteur(string email, DateTime horaire)
         {
             _unEmailDeConfirmationAEteEnvoyeAuRecruteur = true;
         }

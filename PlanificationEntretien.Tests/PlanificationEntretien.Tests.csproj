@@ -25,4 +25,13 @@
       <Folder Include="obj\Debug\netcoreapp3.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Features\creation-recruteur.feature.cs">
+        <DependentUpon>creation-recruteur.feature</DependentUpon>
+        <AutoGen>true</AutoGen>
+        <DesignTime>true</DesignTime>
+        <Visible>true</Visible>
+      </Compile>
+    </ItemGroup>
+
 </Project>

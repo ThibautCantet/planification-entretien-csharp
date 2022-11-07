@@ -114,7 +114,7 @@ namespace PlanificationEntretien.Features
 #line hidden
 #line 6
     testRunner.And("un recruteur \"Java\" (\"recruteur@soat.fr\") qui a \"6\" ans d’XP qui est dispo \"15/04" +
-                        "/2019\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
+                        "/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
 #line hidden
 #line 7
     testRunner.When("on tente une planification d’entretien", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
@@ -163,7 +163,7 @@ namespace PlanificationEntretien.Features
 #line hidden
 #line 13
     testRunner.And("un recruteur \"Java\" (\"recruteur@soat.fr\") qui a \"6\" ans d’XP qui est dispo \"15/04" +
-                        "/2019\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
+                        "/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
 #line hidden
 #line 14
     testRunner.When("on tente une planification d’entretien", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
@@ -172,6 +172,107 @@ namespace PlanificationEntretien.Features
     testRunner.Then("L’entretien n\'est pas planifié", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
 #line 16
+    testRunner.And("aucun mail de confirmation est envoyé au candidat ou au recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Recruteur ne peut pas tester le candidat car leur techno ne correspondent pas")]
+        [Xunit.TraitAttribute("FeatureTitle", "Planifier un entretien de recrutement chez Soat")]
+        [Xunit.TraitAttribute("Description", "Recruteur ne peut pas tester le candidat car leur techno ne correspondent pas")]
+        public virtual void RecruteurNePeutPasTesterLeCandidatCarLeurTechnoNeCorrespondentPas()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Recruteur ne peut pas tester le candidat car leur techno ne correspondent pas", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 18
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 19
+    testRunner.Given("un candidat \"C#\" (\"candidat@email.com\") avec \"2\" ans d’expériences qui est dispon" +
+                        "ible \"16/04/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+#line hidden
+#line 20
+    testRunner.And("un recruteur \"Java\" (\"recruteur@soat.fr\") qui a \"6\" ans d’XP qui est dispo \"15/04" +
+                        "/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
+#line hidden
+#line 21
+    testRunner.When("on tente une planification d’entretien", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
+#line hidden
+#line 22
+    testRunner.Then("L’entretien n\'est pas planifié", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
+#line hidden
+#line 23
+    testRunner.And("aucun mail de confirmation est envoyé au candidat ou au recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Recruteur ne peut pas tester le candidat car ce dernier est strictement plus expé" +
+            "rimenté que le recruteur")]
+        [Xunit.TraitAttribute("FeatureTitle", "Planifier un entretien de recrutement chez Soat")]
+        [Xunit.TraitAttribute("Description", "Recruteur ne peut pas tester le candidat car ce dernier est strictement plus expé" +
+            "rimenté que le recruteur")]
+        public virtual void RecruteurNePeutPasTesterLeCandidatCarCeDernierEstStrictementPlusExperimenteQueLeRecruteur()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Recruteur ne peut pas tester le candidat car ce dernier est strictement plus expé" +
+                    "rimenté que le recruteur", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 25
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 26
+    testRunner.Given("un candidat \"Java\" (\"candidat@email.com\") avec \"8\" ans d’expériences qui est disp" +
+                        "onible \"16/04/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+#line hidden
+#line 27
+    testRunner.And("un recruteur \"Java\" (\"recruteur@soat.fr\") qui a \"6\" ans d’XP qui est dispo \"15/04" +
+                        "/2019\" à \"15:00\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et qu\'");
+#line hidden
+#line 28
+    testRunner.When("on tente une planification d’entretien", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
+#line hidden
+#line 29
+    testRunner.Then("L’entretien n\'est pas planifié", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
+#line hidden
+#line 30
     testRunner.And("aucun mail de confirmation est envoyé au candidat ou au recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
 #line hidden
             }

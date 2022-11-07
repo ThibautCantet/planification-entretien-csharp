@@ -2,24 +2,25 @@ using System;
 
 namespace PlanificationEntretien.domain
 {
-    public class ResultatPlanificationEntretien : IEquatable<ResultatPlanificationEntretien>
+    public class Entretien : IEquatable<Entretien>
     {
         public Candidat Candidat { get; }
         public Recruteur Recruteur { get; }
-        public HoraireEntretien HoraireEntretien { get; }
+        public DateTime Horaire { get; }
 
-        public ResultatPlanificationEntretien(Candidat candidat, Recruteur recruteur, HoraireEntretien horaireEntretien)
+        public Entretien(Candidat candidat, Recruteur recruteur, DateTime horaire)
         {
             Candidat = candidat;
             Recruteur = recruteur;
-            HoraireEntretien = horaireEntretien;
+            Horaire = horaire;
         }
-        
-        public bool Equals(ResultatPlanificationEntretien other)
+
+
+        public bool Equals(Entretien other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(Candidat, other.Candidat) && Equals(Recruteur, other.Recruteur) && Equals(HoraireEntretien, other.HoraireEntretien);
+            return Equals(Candidat, other.Candidat) && Equals(Recruteur, other.Recruteur) && Equals(Horaire, other.Horaire);
         }
 
         public override bool Equals(object obj)
@@ -27,12 +28,17 @@ namespace PlanificationEntretien.domain
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((ResultatPlanificationEntretien)obj);
+            return Equals((Entretien)obj);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Candidat, Recruteur, HoraireEntretien);
+            return HashCode.Combine(Candidat, Recruteur, Horaire);
+        }
+
+        public static Entretien of(Candidat candidat, Recruteur recruteur, DateTime horaire)
+        {
+            return new Entretien(candidat, recruteur, horaire);
         }
     }
 }
