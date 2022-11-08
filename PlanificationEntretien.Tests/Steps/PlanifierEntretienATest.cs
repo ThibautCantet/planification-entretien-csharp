@@ -16,7 +16,7 @@ namespace PlanificationEntretien.Steps
         private DateTime _disponibiliteDuCandidat;
         private Recruteur _recruteur;
         private DateTime _dateDeDisponibiliteDuRecruteur;
-        private EntretienService _entretienService;
+        private PlanifierEntretien _planifierEntretien;
         private readonly IEntretienRepository _entretienRepository = new InMemoryEntretienRepository();
         private readonly ICandidatRepository _candidatRepository = new InMemoryCandidatRepository();
         private readonly IRecruteurRepository _recruteurRepository = new InMemoryRecruteurRepository();
@@ -43,8 +43,8 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            _entretienService = new EntretienService(_entretienRepository, _emailService, _candidatRepository, _recruteurRepository);
-            _resultatPlanificationEntretien = _entretienService.Planifier(_candidat.Email, _disponibiliteDuCandidat, _recruteur.Email, _dateDeDisponibiliteDuRecruteur);
+            _planifierEntretien = new PlanifierEntretien(_entretienRepository, _emailService, _candidatRepository, _recruteurRepository);
+            _resultatPlanificationEntretien = _planifierEntretien.Execute(_candidat.Email, _disponibiliteDuCandidat, _recruteur.Email, _dateDeDisponibiliteDuRecruteur);
         }
 
         [Then(@"L’entretien est planifié")]

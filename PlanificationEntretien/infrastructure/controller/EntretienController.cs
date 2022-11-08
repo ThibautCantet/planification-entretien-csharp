@@ -8,18 +8,18 @@ namespace PlanificationEntretien.infrastructure.controller;
 [Route("/api/entretien")]
 public class EntretienController : ControllerBase
 {
-    private readonly EntretienService _entretienService;
+    private readonly PlanifierEntretien _planifierEntretien;
 
-    public EntretienController(EntretienService entretienService)
+    public EntretienController(PlanifierEntretien planifierEntretien)
     {
-        _entretienService = entretienService;
+        _planifierEntretien = planifierEntretien;
     }
 
     
     [HttpPost("")]
     public Task<IActionResult> Create([FromBody] CreateEntretienRequest createOfferRequest)
     {
-        var result = _entretienService.Planifier(createOfferRequest.EmailCandidat, createOfferRequest.DisponibiliteCandidat,
+        var result = _planifierEntretien.Execute(createOfferRequest.EmailCandidat, createOfferRequest.DisponibiliteCandidat,
             createOfferRequest.EmailRecruteur, createOfferRequest.DisponibiliteRecruteur);
         if (result)
         {

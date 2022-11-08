@@ -1,19 +1,17 @@
 using System;
-using System.Collections.Generic;
 using PlanificationEntretien.domain;
-using PlanificationEntretien.infrastructure.memory;
 using PlanificationEntretien.email;
 
 namespace PlanificationEntretien.use_case;
 
-public class EntretienService
+public class PlanifierEntretien
 {
     private readonly IEntretienRepository _entretienRepository;
     private readonly ICandidatRepository _candidatRepository;
     private readonly IRecruteurRepository _recruteurRepository;
     private readonly IEmailService _emailService;
 
-    public EntretienService(IEntretienRepository entretienRepository, IEmailService emailService,
+    public PlanifierEntretien(IEntretienRepository entretienRepository, IEmailService emailService,
         ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository)
     {
         _entretienRepository = entretienRepository;
@@ -22,7 +20,7 @@ public class EntretienService
         _recruteurRepository = recruteurRepository;
     }
 
-    public Boolean Planifier(string emailCandidat, DateTime disponibiliteDuCandidat,
+    public Boolean Execute(string emailCandidat, DateTime disponibiliteDuCandidat,
         string emailRecruteur, DateTime dateDeDisponibiliteDuRecruteur)
     {
         var candidat = _candidatRepository.FindByEmail(emailCandidat);
@@ -39,10 +37,5 @@ public class EntretienService
         }
 
         return false;
-    }
-
-    public IEnumerable<Entretien> ListerEntretiens()
-    {
-        return _entretienRepository.FindAll();
     }
 }
