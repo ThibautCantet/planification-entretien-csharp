@@ -2,6 +2,7 @@ using System;
 using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.infrastructure.memory;
+using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -25,7 +26,8 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente d'enregistrer le candidat")]
         public void WhenOnTenteDenregistrerLeCandidat()
         {
-            var candidatController = new CandidatController(_candidatRepository);
+            var creerCandidat = new CreerCandidat(_candidatRepository);
+            var candidatController = new CandidatController(creerCandidat);
             candidatController.Create(_candidatRequest);
         }
 

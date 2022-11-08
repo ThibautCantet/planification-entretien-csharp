@@ -1,9 +1,7 @@
-using System;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain;
-using PlanificationEntretien.infrastructure.memory;
+using PlanificationEntretien.use_case;
 
 namespace PlanificationEntretien.infrastructure.controller;
 
@@ -11,11 +9,11 @@ namespace PlanificationEntretien.infrastructure.controller;
 [Route("/api/candidat")]
 public class CandidatController : ControllerBase
 {
-    private readonly ICandidatRepository _candidatRepository;
+    private readonly CreerCandidat _creerCandidat;
 
-    public CandidatController(ICandidatRepository candidatRepository)
+    public CandidatController(CreerCandidat creerCandidat)
     {
-        _candidatRepository = candidatRepository;
+        _creerCandidat = creerCandidat;
     }
 
     [HttpPost("")]
@@ -24,28 +22,10 @@ public class CandidatController : ControllerBase
         var candidat = new Candidat(createCandidatRequest.Language,
             createCandidatRequest.Email,
             createCandidatRequest.XP);
-        if (!string.IsNullOrEmpty(candidat.Email) && IsValid(candidat.Email)
-                                                  && !string.IsNullOrEmpty(candidat.Language)
-                                                  && candidat.ExperienceEnAnnees > 0)
-        {
-            _candidatRepository.Save(candidat);
+        if (_creerCandidat.Execute(candidat)) {
             return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createCandidatRequest },
                 createCandidatRequest));
         }
         return Task.FromResult<IActionResult>(BadRequest());
-    }
-
-    private static bool IsValid(string email)
-    {
-        try
-        {
-            new MailAddress(email);
-
-            return true;
-        }
-        catch (FormatException)
-        {
-            return false;
-        }
     }
 }
