@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using PlanificationEntretien.domain;
 
-namespace PlanificationEntretien.infrastructure.memory;
+namespace PlanificationEntretien.domain;
 
 public interface IEntretienRepository
 {

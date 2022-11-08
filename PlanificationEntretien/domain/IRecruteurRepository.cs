@@ -1,6 +1,4 @@
-using PlanificationEntretien.domain;
-
-namespace PlanificationEntretien.infrastructure.memory;
+namespace PlanificationEntretien.domain;
 
 public interface IRecruteurRepository
 {
