@@ -1,19 +1,17 @@
 using System;
-using System.Collections.Generic;
 using PlanificationEntretien.domain;
-using PlanificationEntretien.infrastructure.memory;
 using PlanificationEntretien.email;
 
 namespace PlanificationEntretien.use_case;
 
-public class EntretienService
+public class PlanifierEntretien
 {
     private readonly IEntretienPort _entretienPort;
     private readonly ICandidatPort _candidatPort;
     private readonly IRecruteurPort _recruteurPort;
     private readonly IEmailPort _emailPort;
 
-    public EntretienService(IEntretienPort entretienPort, IEmailPort emailPort,
+    public PlanifierEntretien(IEntretienPort entretienPort, IEmailPort emailPort,
         ICandidatPort candidatPort, IRecruteurPort recruteurPort)
     {
         _entretienPort = entretienPort;
@@ -22,7 +20,7 @@ public class EntretienService
         _recruteurPort = recruteurPort;
     }
 
-    public Boolean Planifier(string emailCandidat, DateTime disponibiliteDuCandidat,
+    public Boolean Execute(string emailCandidat, DateTime disponibiliteDuCandidat,
         string emailRecruteur, DateTime dateDeDisponibiliteDuRecruteur)
     {
         var candidat = _candidatPort.FindByEmail(emailCandidat);
@@ -39,10 +37,5 @@ public class EntretienService
         }
 
         return false;
-    }
-
-    public IEnumerable<Entretien> ListerEntretiens()
-    {
-        return _entretienPort.FindAll();
     }
 }

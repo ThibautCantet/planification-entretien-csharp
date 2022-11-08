@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.infrastructure.memory;
-using PlanificationEntretien.use_case;
+using uc = PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -62,8 +62,8 @@ namespace PlanificationEntretien.Steps
         [When(@"on liste les tous les entretiens")]
         public void WhenOnListeLesTousLesEntretiens()
         {
-            var entretienService = new EntretienService(_entretienPort, null, _candidatPort, _recruteurPort);
-            _entretiens = entretienService.ListerEntretiens();
+            var entretienService = new uc.ListerEntretien(_entretienPort);
+            _entretiens = entretienService.Execute();
         }
 
         [Then(@"on récupères les entretiens suivants")]
