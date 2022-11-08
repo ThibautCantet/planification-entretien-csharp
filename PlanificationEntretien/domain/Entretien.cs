@@ -2,7 +2,14 @@ using System;
 
 namespace PlanificationEntretien.domain;
 
-public class Entretien : IEquatable<Entretien>
+public interface IEntretien
+{
+    Candidat Candidat { get; }
+    Recruteur Recruteur { get; }
+    DateTime Horaire { get; }
+}
+
+public class Entretien : IEquatable<Entretien>, IEntretien
 {
     public Candidat Candidat { get; }
     public Recruteur Recruteur { get; }

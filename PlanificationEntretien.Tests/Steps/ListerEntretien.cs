@@ -16,7 +16,7 @@ namespace PlanificationEntretien.Steps
         private readonly IEntretienRepository _entretienRepository = new InMemoryEntretienRepository();
         private IRecruteurRepository _recruteurRepository = new InMemoryRecruteurRepository();
         private ICandidatRepository _candidatRepository = new InMemoryCandidatRepository();
-        private IEnumerable<Entretien> _entretiens;
+        private IEnumerable<IEntretien> _entretiens;
 
         [Given(@"les recruteurs existants")]
         public void GivenLesRecruteursExistants(Table table)

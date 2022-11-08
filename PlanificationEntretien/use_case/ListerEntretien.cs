@@ -12,7 +12,7 @@ public class ListerEntretien
         _entretienRepository = entretienRepository;
     }
     
-    public IEnumerable<Entretien> Execute()
+    public IEnumerable<IEntretien> Execute()
     {
         return _entretienRepository.FindAll();
     }
