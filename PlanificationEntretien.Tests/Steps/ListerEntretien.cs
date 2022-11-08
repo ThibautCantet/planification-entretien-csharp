@@ -8,7 +8,7 @@ using PlanificationEntretien.memory;
 using TechTalk.SpecFlow;
 using Xunit;
 
-namespace PlanificationEntretien
+namespace PlanificationEntretien.Steps
 {
     [Binding]
     public class ListerEntretien

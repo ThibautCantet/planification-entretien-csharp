@@ -1,5 +1,6 @@
 using System;
 using Planification;
+using PlanificationEntretien.controller;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.memory;
 using TechTalk.SpecFlow;
@@ -11,20 +12,22 @@ namespace PlanificationEntretien.Steps
     public class CandidatATest
     {
         private Candidat _candidat;
+        private CreateCandidatRequest _candidatRequest;
         private ICandidatRepository _candidatRepository = new InMemoryCandidatRepository();
 
         [Given(@"un candidat ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnCandidatAvecAnsDExperiences(string language, string email, string xp)
         {
-            int? value = String.IsNullOrEmpty(xp) ? (int?)null : Int32.Parse(xp);
+            int? value = String.IsNullOrEmpty(xp) ? null : Int32.Parse(xp);
             _candidat = new Candidat(language, email, value);
+            _candidatRequest = new CreateCandidatRequest(language, email, value);
         }
 
         [When(@"on tente d'enregistrer le candidat")]
         public void WhenOnTenteDenregistrerLeCandidat()
         {
-            var candidatService = new CandidatService(_candidatRepository);
-            candidatService.Save(_candidat);
+            var candidatController = new CandidatController(_candidatRepository);
+            candidatController.Create(_candidatRequest);
         }
 
         [Then(@"le candidat est correctement enregistré avec ses informations ""(.*)"", ""(.*)"" et ""(.*)"" ans d’expériences")]

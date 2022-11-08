@@ -1,5 +1,6 @@
 using System;
 using Planification;
+using PlanificationEntretien.controller;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.memory;
 using TechTalk.SpecFlow;
@@ -12,19 +13,21 @@ namespace PlanificationEntretien.Steps
     {
         private Recruteur _recruteur;
         private IRecruteurRepository _recruteurRepository = new InMemoryRecruteurRepository();
+        private CreateRecruteurRequest _createRecruteurRequest;
 
         [Given(@"un recruteur ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnRecruteurAvecAnsDExperiences(string language, string email, string xp)
         {
-            int? value = String.IsNullOrEmpty(xp) ? (int?)null : Int32.Parse(xp);
+            int? value = String.IsNullOrEmpty(xp) ? null : Int32.Parse(xp);
             _recruteur = new Recruteur(language, email, value);
+            _createRecruteurRequest = new CreateRecruteurRequest(language, email, value);
         }
 
         [When(@"on tente d'enregistrer le recruteur")]
         public void WhenOnTenteDenregistrerLeRecruteur()
         {
-            var recruteurService = new RecruteurService(_recruteurRepository);
-            recruteurService.Create(_recruteur);
+            var recruteurController = new RecruteurController(_recruteurRepository);
+            recruteurController.Create(_createRecruteurRequest);
         }
 
         [Then(@"le recruteur est correctement enregistré avec ses informations ""(.*)"", ""(.*)"" et ""(.*)"" ans d’expériences")]
