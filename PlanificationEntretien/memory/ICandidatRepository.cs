@@ -1,10 +1,9 @@
-using PlanificationEntretien.domain;
+using PlanificationEntretien.model;
 
-namespace PlanificationEntretien.memory
+namespace PlanificationEntretien.memory;
+
+public interface ICandidatRepository
 {
-    public interface ICandidatRepository
-    {
-        Candidat FindByEmail(string email);
-        void Save(Candidat candidat);
-    }
+    Candidat FindByEmail(string email);
+    void Save(Candidat candidat);
 }

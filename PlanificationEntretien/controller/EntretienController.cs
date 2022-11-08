@@ -1,22 +1,17 @@
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Planification;
-using PlanificationEntretien.controller;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.service;
+
+namespace PlanificationEntretien.controller;
 
 [ApiController]
 [Route("/api/entretien")]
 public class EntretienController : ControllerBase
 {
-    private readonly IEntretienRepository _entretienRepository;
     private readonly EntretienService _entretienService;
-    private readonly IMapper _mapper;
 
-    public EntretienController(IEntretienRepository entretienRepository, IMapper mapper, EntretienService entretienService)
+    public EntretienController(EntretienService entretienService)
     {
-        _entretienRepository = entretienRepository;
-        _mapper = mapper;
         _entretienService = entretienService;
     }
 

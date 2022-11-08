@@ -1,31 +1,29 @@
 using System;
-using PlanificationEntretien.domain;
 
-namespace PlanificationEntretien.Tests
+namespace PlanificationEntretien.email;
+
+public class FakeEmailService : IEmailService
 {
-    public class FakeEmailService : IEmailService
+    private bool _unEmailDeConfirmationAEteEnvoyeAuCandidat;
+    private bool _unEmailDeConfirmationAEteEnvoyeAuRecruteur;
+
+    public bool UnEmailDeConfirmationAEteEnvoyeAuCandidat(string candidatEmail, DateTime horaire)
     {
-        private bool _unEmailDeConfirmationAEteEnvoyeAuCandidat;
-        private bool _unEmailDeConfirmationAEteEnvoyeAuRecruteur;
+        return _unEmailDeConfirmationAEteEnvoyeAuCandidat;
+    }
 
-        public bool UnEmailDeConfirmationAEteEnvoyeAuCandidat(string candidatEmail, DateTime horaire)
-        {
-            return _unEmailDeConfirmationAEteEnvoyeAuCandidat;
-        }
+    public bool UnEmailDeConfirmationAEteEnvoyeAuRecruteur(string recruteurEmail, DateTime horaire)
+    {
+        return _unEmailDeConfirmationAEteEnvoyeAuRecruteur;
+    }
 
-        public bool UnEmailDeConfirmationAEteEnvoyeAuRecruteur(string recruteurEmail, DateTime horaire)
-        {
-            return _unEmailDeConfirmationAEteEnvoyeAuRecruteur;
-        }
+    public void EnvoyerUnEmailDeConfirmationAuCandidat(string email, DateTime horaire)
+    {
+        _unEmailDeConfirmationAEteEnvoyeAuCandidat = true;
+    }
 
-        public void EnvoyerUnEmailDeConfirmationAuCandidat(string email, DateTime horaire)
-        {
-            _unEmailDeConfirmationAEteEnvoyeAuCandidat = true;
-        }
-
-        public void EnvoyerUnEmailDeConfirmationAuRecruteur(string email, DateTime horaire)
-        {
-            _unEmailDeConfirmationAEteEnvoyeAuRecruteur = true;
-        }
+    public void EnvoyerUnEmailDeConfirmationAuRecruteur(string email, DateTime horaire)
+    {
+        _unEmailDeConfirmationAEteEnvoyeAuRecruteur = true;
     }
 }

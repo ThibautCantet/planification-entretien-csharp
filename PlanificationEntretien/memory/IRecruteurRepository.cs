@@ -1,10 +1,9 @@
-using PlanificationEntretien.domain;
+using PlanificationEntretien.model;
 
-namespace PlanificationEntretien.memory
+namespace PlanificationEntretien.memory;
+
+public interface IRecruteurRepository
 {
-    public interface IRecruteurRepository
-    {
-        Recruteur FindByEmail(string email);
-        void Save(Recruteur candidat);
-    }
+    Recruteur FindByEmail(string email);
+    void Save(Recruteur candidat);
 }

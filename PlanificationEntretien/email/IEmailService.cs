@@ -1,11 +1,10 @@
 using System;
 
-namespace PlanificationEntretien.domain
-{
-    public interface IEmailService
-    {
-        void EnvoyerUnEmailDeConfirmationAuCandidat(string email, DateTime horaire);
+namespace PlanificationEntretien.email;
 
-        void EnvoyerUnEmailDeConfirmationAuRecruteur(string email, DateTime horaire);
-    }
+public interface IEmailService
+{
+    void EnvoyerUnEmailDeConfirmationAuCandidat(string email, DateTime horaire);
+
+    void EnvoyerUnEmailDeConfirmationAuRecruteur(string email, DateTime horaire);
 }

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
+using PlanificationEntretien.model;
 
-namespace PlanificationEntretien.domain
+namespace PlanificationEntretien.memory;
+
+public interface IEntretienRepository
 {
-    public interface IEntretienRepository
-    {
-        Entretien FindByCandidat(Candidat candidat);
-        void Save(Entretien entretien);
-        IEnumerable<Entretien> FindAll();
-    }
+    Entretien FindByCandidat(Candidat candidat);
+    void Save(Entretien entretien);
+    IEnumerable<Entretien> FindAll();
 }

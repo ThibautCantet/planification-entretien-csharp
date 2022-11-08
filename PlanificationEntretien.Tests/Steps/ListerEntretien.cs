@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Planification;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.model;
 using PlanificationEntretien.memory;
+using PlanificationEntretien.service;
 using TechTalk.SpecFlow;
 using Xunit;
 

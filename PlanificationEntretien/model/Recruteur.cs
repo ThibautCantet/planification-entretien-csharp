@@ -1,38 +1,37 @@
 using System;
 
-namespace PlanificationEntretien.domain
+namespace PlanificationEntretien.model;
+
+public class Recruteur : IEquatable<Recruteur>
 {
-    public class Recruteur : IEquatable<Recruteur>
+    public string Language { get; }
+    public string Email { get; }
+    public int ExperienceEnAnnees { get; }
+
+    public Recruteur(string language, string email, int? experienceEnAnnees)
     {
-        public string Language { get; }
-        public string Email { get; }
-        public int ExperienceEnAnnees { get; }
+        Language = language;
+        Email = email;
+        ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
+    }
 
-        public Recruteur(string language, string email, int? experienceEnAnnees)
-        {
-            Language = language;
-            Email = email;
-            ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
-        }
+    public bool Equals(Recruteur other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Language == other.Language && Email == other.Email && ExperienceEnAnnees == other.ExperienceEnAnnees;
+    }
 
-        public bool Equals(Recruteur other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Language == other.Language && Email == other.Email && ExperienceEnAnnees == other.ExperienceEnAnnees;
-        }
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((Recruteur)obj);
+    }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Recruteur)obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Language, Email, ExperienceEnAnnees);
-        }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Language, Email, ExperienceEnAnnees);
     }
 }

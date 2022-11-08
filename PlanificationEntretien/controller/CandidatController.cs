@@ -2,7 +2,7 @@ using System;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.model;
 using PlanificationEntretien.memory;
 
 namespace PlanificationEntretien.controller;
