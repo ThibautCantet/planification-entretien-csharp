@@ -1,6 +1,6 @@
-using PlanificationEntretien.model;
+using PlanificationEntretien.domain;
 
-namespace PlanificationEntretien.memory;
+namespace PlanificationEntretien.infrastructure.memory;
 
 public interface ICandidatRepository
 {

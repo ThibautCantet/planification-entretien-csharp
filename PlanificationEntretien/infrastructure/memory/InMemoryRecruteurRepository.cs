@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using PlanificationEntretien.model;
+using PlanificationEntretien.domain;
 
-namespace PlanificationEntretien.memory;
+namespace PlanificationEntretien.infrastructure.memory;
 
 public class InMemoryRecruteurRepository : IRecruteurRepository
 {

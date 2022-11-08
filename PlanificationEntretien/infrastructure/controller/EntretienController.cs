@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.service;
+using PlanificationEntretien.use_case;
 
-namespace PlanificationEntretien.controller;
+namespace PlanificationEntretien.infrastructure.controller;
 
 [ApiController]
 [Route("/api/entretien")]
@@ -25,9 +25,6 @@ public class EntretienController : ControllerBase
         {
             return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createOfferRequest }, createOfferRequest));
         }
-        else
-        {
-            return Task.FromResult<IActionResult>(BadRequest());
-        }
+        return Task.FromResult<IActionResult>(BadRequest());
     }
 }

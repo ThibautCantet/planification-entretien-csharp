@@ -1,8 +1,8 @@
-namespace PlanificationEntretien.controller;
+namespace PlanificationEntretien.infrastructure.controller;
 
-public record CreateCandidatRequest()
+public record CreateRecruteurRequest()
 {
-    public CreateCandidatRequest(string language, string email, int? xp) : this()
+    public CreateRecruteurRequest(string language, string email, int? xp) : this()
     {
         Language = language;
         Email = email;

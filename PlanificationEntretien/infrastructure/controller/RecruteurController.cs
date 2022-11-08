@@ -2,10 +2,10 @@ using System;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.model;
-using PlanificationEntretien.memory;
+using PlanificationEntretien.domain;
+using PlanificationEntretien.infrastructure.memory;
 
-namespace PlanificationEntretien.controller;
+namespace PlanificationEntretien.infrastructure.controller;
 
 [ApiController]
 [Route("/api/recruteure")]

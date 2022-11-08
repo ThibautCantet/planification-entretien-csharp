@@ -1,7 +1,7 @@
 using System;
-using PlanificationEntretien.controller;
-using PlanificationEntretien.model;
-using PlanificationEntretien.memory;
+using PlanificationEntretien.infrastructure.controller;
+using PlanificationEntretien.domain;
+using PlanificationEntretien.infrastructure.memory;
 using TechTalk.SpecFlow;
 using Xunit;
 

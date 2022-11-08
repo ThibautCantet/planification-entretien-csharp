@@ -1,9 +1,9 @@
 using System;
 using System.Globalization;
+using PlanificationEntretien.domain;
+using PlanificationEntretien.infrastructure.memory;
 using PlanificationEntretien.email;
-using PlanificationEntretien.model;
-using PlanificationEntretien.memory;
-using PlanificationEntretien.service;
+using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;
 

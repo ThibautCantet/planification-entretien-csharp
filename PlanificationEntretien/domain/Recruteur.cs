@@ -1,6 +1,6 @@
 using System;
 
-namespace PlanificationEntretien.model;
+namespace PlanificationEntretien.domain;
 
 public class Recruteur : IEquatable<Recruteur>
 {

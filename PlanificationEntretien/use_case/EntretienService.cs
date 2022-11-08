@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using PlanificationEntretien.domain;
+using PlanificationEntretien.infrastructure.memory;
 using PlanificationEntretien.email;
-using PlanificationEntretien.memory;
-using PlanificationEntretien.model;
 
-namespace PlanificationEntretien.service;
+namespace PlanificationEntretien.use_case;
 
 public class EntretienService
 {
