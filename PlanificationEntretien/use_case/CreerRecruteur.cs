@@ -6,11 +6,11 @@ namespace PlanificationEntretien.use_case;
 
 public class CreerRecruteur
 {
-    private readonly IRecruteurRepository _recruteurRepository;
+    private readonly IRecruteurPort _recruteurPort;
 
-    public CreerRecruteur(IRecruteurRepository recruteurRepository)
+    public CreerRecruteur(IRecruteurPort recruteurPort)
     {
-        _recruteurRepository = recruteurRepository;
+        _recruteurPort = recruteurPort;
     }
 
     public bool Execute(Recruteur recruteur)
@@ -19,7 +19,7 @@ public class CreerRecruteur
                                                    && !string.IsNullOrEmpty(recruteur.Language)
                                                    && recruteur.ExperienceEnAnnees > 0)
         {
-            _recruteurRepository.Save(recruteur);
+            _recruteurPort.Save(recruteur);
             return true;
         }
 

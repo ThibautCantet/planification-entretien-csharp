@@ -1,6 +1,6 @@
 namespace PlanificationEntretien.domain;
 
-public interface IRecruteurRepository
+public interface IRecruteurPort
 {
     Recruteur FindByEmail(string email);
     void Save(Recruteur candidat);

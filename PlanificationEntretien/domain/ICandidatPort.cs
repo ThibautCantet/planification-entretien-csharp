@@ -1,6 +1,6 @@
 namespace PlanificationEntretien.domain;
 
-public interface ICandidatRepository
+public interface ICandidatPort
 {
     Candidat FindByEmail(string email);
     void Save(Candidat candidat);

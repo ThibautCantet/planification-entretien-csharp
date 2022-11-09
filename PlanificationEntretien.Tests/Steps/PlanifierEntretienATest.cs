@@ -17,10 +17,10 @@ namespace PlanificationEntretien.Steps
         private Recruteur _recruteur;
         private DateTime _dateDeDisponibiliteDuRecruteur;
         private PlanifierEntretien _planifierEntretien;
-        private readonly IEntretienRepository _entretienRepository = new InMemoryEntretienRepository();
-        private readonly ICandidatRepository _candidatRepository = new InMemoryCandidatRepository();
-        private readonly IRecruteurRepository _recruteurRepository = new InMemoryRecruteurRepository();
-        private readonly IEmailService _emailService = new FakeEmailService();
+        private readonly IEntretienPort _entretienPort = new InMemoryEntretienAdapter();
+        private readonly ICandidatPort _candidatPort = new InMemoryCandidatAdapter();
+        private readonly IRecruteurPort _recruteurPort = new InMemoryRecruteurAdapter();
+        private readonly IEmailPort _emailPort = new FakeEmailAdapter();
 
         private Boolean _resultatPlanificationEntretien;
 
@@ -28,7 +28,7 @@ namespace PlanificationEntretien.Steps
         public void GivenUnCandidatAvecAnsDExperiencesQuiEstDisponibleA(string language, string email, string experienceInYears, string date, string time)
         {
             _candidat = new Candidat(language, email, Int32.Parse(experienceInYears));
-            _candidatRepository.Save(_candidat);
+            _candidatPort.Save(_candidat);
             _disponibiliteDuCandidat = DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
         }
 
@@ -36,14 +36,14 @@ namespace PlanificationEntretien.Steps
         public void GivenUnRecruteurQuiAAnsDxpQuiEstDispo(string language, string email, string experienceInYears, string date, string time)
         {
             _recruteur = new Recruteur(language, email, Int32.Parse(experienceInYears));
-            _recruteurRepository.Save(_recruteur);
+            _recruteurPort.Save(_recruteur);
             _dateDeDisponibiliteDuRecruteur = DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
         }
 
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            _planifierEntretien = new PlanifierEntretien(_entretienRepository, _emailService, _candidatRepository, _recruteurRepository);
+            _planifierEntretien = new PlanifierEntretien(_entretienPort, _emailPort, _candidatPort, _recruteurPort);
             _resultatPlanificationEntretien = _planifierEntretien.Execute(_candidat.Email, _disponibiliteDuCandidat, _recruteur.Email, _dateDeDisponibiliteDuRecruteur);
         }
 
@@ -52,7 +52,7 @@ namespace PlanificationEntretien.Steps
         {
             Assert.True(_resultatPlanificationEntretien);
             
-            Entretien entretien = _entretienRepository.FindByCandidat(_candidat);
+            Entretien entretien = _entretienPort.FindByCandidat(_candidat);
             Entretien expectedEntretien = Entretien.of(_candidat, _recruteur, _disponibiliteDuCandidat);
             Assert.Equal(expectedEntretien, entretien);
         }
@@ -60,8 +60,8 @@ namespace PlanificationEntretien.Steps
         [Then(@"un mail de confirmation est envoyé au candidat et le recruteur")]
         public void ThenUnMailDeConfirmationEstEnvoyeAuCandidatEtLeRecruteur()
         {
-            Assert.True(((FakeEmailService) _emailService).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_candidat.Email, _disponibiliteDuCandidat));
-            Assert.True(((FakeEmailService) _emailService).UnEmailDeConfirmationAEteEnvoyeAuRecruteur(_recruteur.Email, _disponibiliteDuCandidat));
+            Assert.True(((FakeEmailAdapter) _emailPort).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_candidat.Email, _disponibiliteDuCandidat));
+            Assert.True(((FakeEmailAdapter) _emailPort).UnEmailDeConfirmationAEteEnvoyeAuRecruteur(_recruteur.Email, _disponibiliteDuCandidat));
         }
 
         [Then(@"L’entretien n'est pas planifié")]
@@ -69,15 +69,15 @@ namespace PlanificationEntretien.Steps
         {
             Assert.False(_resultatPlanificationEntretien);
             
-            Entretien entretien = _entretienRepository.FindByCandidat(_candidat);
+            Entretien entretien = _entretienPort.FindByCandidat(_candidat);
             Assert.Null(entretien);
         }
 
         [Then(@"aucun mail de confirmation est envoyé au candidat ou au recruteur")]
         public void ThenAucunMailDeConfirmationEstEnvoyeAuCandidatOuAuRecruteur()
         {
-            Assert.False(((FakeEmailService) _emailService).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_candidat.Email, _disponibiliteDuCandidat));
-            Assert.False(((FakeEmailService) _emailService).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_recruteur.Email, _disponibiliteDuCandidat));
+            Assert.False(((FakeEmailAdapter) _emailPort).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_candidat.Email, _disponibiliteDuCandidat));
+            Assert.False(((FakeEmailAdapter) _emailPort).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_recruteur.Email, _disponibiliteDuCandidat));
         }
     }
 }

@@ -1,5 +1,5 @@
 using System;
-using PlanificationEntretien.infrastructure.controller;
+using PlanificationEntretien.application;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.infrastructure.memory;
 using PlanificationEntretien.use_case;
@@ -12,7 +12,7 @@ namespace PlanificationEntretien.Steps
     public class RecruteurATest
     {
         private Recruteur _recruteur;
-        private IRecruteurRepository _recruteurRepository = new InMemoryRecruteurRepository();
+        private IRecruteurPort _recruteurPort = new InMemoryRecruteurAdapter();
         private CreateRecruteurRequest _createRecruteurRequest;
 
         [Given(@"un recruteur ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
@@ -26,7 +26,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente d'enregistrer le recruteur")]
         public void WhenOnTenteDenregistrerLeRecruteur()
         {
-            var creerRecruteur = new CreerRecruteur(_recruteurRepository);
+            var creerRecruteur = new CreerRecruteur(_recruteurPort);
             var recruteurController = new RecruteurController(creerRecruteur);
             recruteurController.Create(_createRecruteurRequest);
         }
@@ -34,14 +34,14 @@ namespace PlanificationEntretien.Steps
         [Then(@"le recruteur est correctement enregistré avec ses informations ""(.*)"", ""(.*)"" et ""(.*)"" ans d’expériences")]
         public void ThenLeRecruteurEstCorrectementEnregistreAvecSesInformationsEtAnsDExperiences(string java, string p1, string p2)
         {
-            var recruteur = _recruteurRepository.FindByEmail(_recruteur.Email);
+            var recruteur = _recruteurPort.FindByEmail(_recruteur.Email);
             Assert.Equal(_recruteur, recruteur);
         }
 
         [Then(@"le recruteur n'est pas enregistré")]
         public void ThenLeRecruteurNestPasEnregistre()
         {
-            var recruteur = _recruteurRepository.FindByEmail(_recruteur.Email);
+            var recruteur = _recruteurPort.FindByEmail(_recruteur.Email);
             Assert.Null(recruteur);
         }
     }
