@@ -1,5 +1,5 @@
 using System;
-using PlanificationEntretien.infrastructure.controller;
+using PlanificationEntretien.application;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.infrastructure.memory;
 using TechTalk.SpecFlow;
@@ -12,7 +12,7 @@ namespace PlanificationEntretien.Steps
     {
         private Candidat _candidat;
         private CreateCandidatRequest _candidatRequest;
-        private ICandidatRepository _candidatRepository = new InMemoryCandidatRepository();
+        private ICandidatPort _candidatPort = new InMemoryCandidatAdapter();
 
         [Given(@"un candidat ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnCandidatAvecAnsDExperiences(string language, string email, string xp)
@@ -25,21 +25,21 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente d'enregistrer le candidat")]
         public void WhenOnTenteDenregistrerLeCandidat()
         {
-            var candidatController = new CandidatController(_candidatRepository);
+            var candidatController = new CandidatController(_candidatPort);
             candidatController.Create(_candidatRequest);
         }
 
         [Then(@"le candidat est correctement enregistré avec ses informations ""(.*)"", ""(.*)"" et ""(.*)"" ans d’expériences")]
         public void ThenLeCandidatEstCorrectementEnregistreAvecSesInformationsEtAnsDExperiences(string java, string p1, string p2)
         {
-            var candidat = _candidatRepository.FindByEmail(_candidat.Email);
+            var candidat = _candidatPort.FindByEmail(_candidat.Email);
             Assert.Equal(_candidat, candidat);
         }
 
         [Then(@"le candidat n'est pas enregistré")]
         public void ThenLeCandidatNestPasEnregistre()
         {
-            var candidat = _candidatRepository.FindByEmail(_candidat.Email);
+            var candidat = _candidatPort.FindByEmail(_candidat.Email);
             Assert.Null(candidat);
         }
     }

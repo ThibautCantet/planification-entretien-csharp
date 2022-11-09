@@ -5,17 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.infrastructure.memory;
 
-namespace PlanificationEntretien.infrastructure.controller;
+namespace PlanificationEntretien.application;
 
 [ApiController]
 [Route("/api/candidat")]
 public class CandidatController : ControllerBase
 {
-    private readonly ICandidatRepository _candidatRepository;
+    private readonly ICandidatPort _candidatPort;
 
-    public CandidatController(ICandidatRepository candidatRepository)
+    public CandidatController(ICandidatPort candidatPort)
     {
-        _candidatRepository = candidatRepository;
+        _candidatPort = candidatPort;
     }
 
     [HttpPost("")]
@@ -28,7 +28,7 @@ public class CandidatController : ControllerBase
                                                   && !string.IsNullOrEmpty(candidat.Language)
                                                   && candidat.ExperienceEnAnnees > 0)
         {
-            _candidatRepository.Save(candidat);
+            _candidatPort.Save(candidat);
             return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createCandidatRequest },
                 createCandidatRequest));
         }

@@ -1,4 +1,4 @@
-namespace PlanificationEntretien.infrastructure.controller;
+namespace PlanificationEntretien.application;
 
 public record CreateRecruteurRequest()
 {

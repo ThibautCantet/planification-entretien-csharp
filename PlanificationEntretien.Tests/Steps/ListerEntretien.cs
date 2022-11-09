@@ -13,9 +13,9 @@ namespace PlanificationEntretien.Steps
     [Binding]
     public class ListerEntretien
     {
-        private readonly IEntretienRepository _entretienRepository = new InMemoryEntretienRepository();
-        private IRecruteurRepository _recruteurRepository = new InMemoryRecruteurRepository();
-        private ICandidatRepository _candidatRepository = new InMemoryCandidatRepository();
+        private readonly IEntretienPort _entretienPort = new InMemoryEntretienAdapter();
+        private IRecruteurPort _recruteurPort = new InMemoryRecruteurAdapter();
+        private ICandidatPort _candidatPort = new InMemoryCandidatAdapter();
         private IEnumerable<Entretien> _entretiens;
 
         [Given(@"les recruteurs existants")]
@@ -25,7 +25,7 @@ namespace PlanificationEntretien.Steps
             var recruteurs = table.Rows.Select(row => new Recruteur( values[2], values[1], int.Parse(values[3])));
             foreach (var recruteur in recruteurs)
             {
-                _recruteurRepository.Save(recruteur);
+                _recruteurPort.Save(recruteur);
             }
         }
 
@@ -36,7 +36,7 @@ namespace PlanificationEntretien.Steps
             var candidats = table.Rows.Select(row => new Candidat( values[2], values[1], int.Parse(values[3])));
             foreach (var candidat in candidats)
             {
-                _candidatRepository.Save(candidat);
+                _candidatPort.Save(candidat);
             }
         }
 
@@ -47,14 +47,14 @@ namespace PlanificationEntretien.Steps
             var entretiens = table.Rows.Select(row => BuildEntretien(values, values[1], values[2], values[3]));
             foreach (var entretien in entretiens)
             {
-                _entretienRepository.Save(entretien);
+                _entretienPort.Save(entretien);
             }
         }
 
         private Entretien BuildEntretien(List<string> values, string emailRecruteur, string emailCandidat, string time)
         {
-            var recruteur = _recruteurRepository.FindByEmail(emailRecruteur);
-            var candidat = _candidatRepository.FindByEmail(emailCandidat);
+            var recruteur = _recruteurPort.FindByEmail(emailRecruteur);
+            var candidat = _candidatPort.FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
             return new Entretien(candidat , recruteur, horaire);
         }
@@ -62,7 +62,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on liste les tous les entretiens")]
         public void WhenOnListeLesTousLesEntretiens()
         {
-            var entretienService = new EntretienService(_entretienRepository, null, _candidatRepository, _recruteurRepository);
+            var entretienService = new EntretienService(_entretienPort, null, _candidatPort, _recruteurPort);
             _entretiens = entretienService.ListerEntretiens();
         }
 

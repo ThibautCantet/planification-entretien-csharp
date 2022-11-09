@@ -3,7 +3,7 @@ using PlanificationEntretien.domain;
 
 namespace PlanificationEntretien.infrastructure.memory;
 
-public class InMemoryCandidatRepository : ICandidatRepository
+public class InMemoryCandidatAdapter : ICandidatPort
 {
     private Dictionary<string, Candidat> _candidats = new();
 

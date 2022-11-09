@@ -5,17 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.infrastructure.memory;
 
-namespace PlanificationEntretien.infrastructure.controller;
+namespace PlanificationEntretien.application;
 
 [ApiController]
 [Route("/api/recruteure")]
 public class RecruteurController : ControllerBase
 {
-    private readonly IRecruteurRepository _recruteurRepository;
+    private readonly IRecruteurPort _recruteurPort;
 
-    public RecruteurController(IRecruteurRepository recruteurRepository)
+    public RecruteurController(IRecruteurPort recruteurPort)
     {
-        _recruteurRepository = recruteurRepository;
+        _recruteurPort = recruteurPort;
     }
 
     [HttpPost("")]
@@ -28,7 +28,7 @@ public class RecruteurController : ControllerBase
                                                    && !string.IsNullOrEmpty(createRecruteurRequest.Language)
                                                    && createRecruteurRequest.XP > 0)
         {
-            _recruteurRepository.Save(candidat);
+            _recruteurPort.Save(candidat);
             return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createRecruteurRequest },
                 createRecruteurRequest));
         }

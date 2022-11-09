@@ -2,7 +2,7 @@ using System;
 
 namespace PlanificationEntretien.email;
 
-public interface IEmailService
+public interface IEmailPort
 {
     void EnvoyerUnEmailDeConfirmationAuCandidat(string email, DateTime horaire);
 
