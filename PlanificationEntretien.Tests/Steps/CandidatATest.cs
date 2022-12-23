@@ -9,11 +9,10 @@ using Xunit;
 namespace PlanificationEntretien.Steps
 {
     [Binding]
-    public class CandidatATest
+    public class CandidatATest : ATest
     {
         private Candidat _candidat;
         private CreateCandidatRequest _candidatRequest;
-        private ICandidatPort _candidatPort = new InMemoryCandidatAdapter();
 
         [Given(@"un candidat ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnCandidatAvecAnsDExperiences(string language, string email, string xp)

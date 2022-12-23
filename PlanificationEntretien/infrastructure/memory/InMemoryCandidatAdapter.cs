@@ -20,7 +20,7 @@ public class InMemoryCandidatAdapter : ICandidatPort
 
     public void Save(Candidat candidat)
     {
-        _candidats.Add(candidat.Email, ToInMemoryCandidat(candidat));
+        _candidats.TryAdd(candidat.Email, ToInMemoryCandidat(candidat));
     }
 
     internal static InMemoryCandidat ToInMemoryCandidat(Candidat candidat)

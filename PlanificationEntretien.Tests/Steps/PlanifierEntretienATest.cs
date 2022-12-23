@@ -10,16 +10,13 @@ using Xunit;
 namespace PlanificationEntretien.Steps
 {
     [Binding]
-    public class PlanifierEntretienATest
+    public class PlanifierEntretienATest : ATest
     {
         private Candidat _candidat;
         private DateTime _disponibiliteDuCandidat;
         private Recruteur _recruteur;
         private DateTime _dateDeDisponibiliteDuRecruteur;
         private PlanifierEntretien _planifierEntretien;
-        private readonly IEntretienPort _entretienPort = new InMemoryEntretienAdapter();
-        private readonly ICandidatPort _candidatPort = new InMemoryCandidatAdapter();
-        private readonly IRecruteurPort _recruteurPort = new InMemoryRecruteurAdapter();
         private readonly IEmailPort _emailPort = new FakeEmailAdapter();
 
         private Boolean _resultatPlanificationEntretien;

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain;
@@ -10,11 +11,15 @@ namespace PlanificationEntretien.application;
 public class RecruteurController : ControllerBase
 {
     private readonly CreerRecruteur _creerRecruteur;
+    private readonly ListerRecruteurExperimente _listerRecruteurExperimente;
 
-    public RecruteurController(CreerRecruteur creerRecruteur)
+    public RecruteurController(CreerRecruteur creerRecruteur, ListerRecruteurExperimente listerRecruteurExperimente)
     {
         _creerRecruteur = creerRecruteur;
+        _listerRecruteurExperimente = listerRecruteurExperimente;
     }
+
+    public record RecruteurCreationDto(string email);
 
     [HttpPost("")]
     public Task<IActionResult> Create([FromBody] CreateRecruteurRequest createRecruteurRequest)
@@ -28,5 +33,14 @@ public class RecruteurController : ControllerBase
                 createRecruteurRequest));
         }
         return Task.FromResult<IActionResult>(BadRequest());
+    }
+
+    [HttpGet("")]
+    public Task<IActionResult> ListerExperimentes()
+    {
+        var recruteurs = _listerRecruteurExperimente.Execute()
+            .Select(r => new RecruteurExperimenteResponse(r.Email, r.Language, r.ExperienceEnAnnees))
+            .ToList();
+        return Task.FromResult<IActionResult>(Ok(recruteurs));
     }
 }

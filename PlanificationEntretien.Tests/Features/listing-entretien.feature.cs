@@ -115,9 +115,14 @@ namespace PlanificationEntretien.Features
                             "xp"});
                 table1.AddRow(new string[] {
                             "1",
-                            "recruteur@soat.fr",
+                            "recruteur1@soat.fr",
                             "Java",
                             "10"});
+                table1.AddRow(new string[] {
+                            "2",
+                            "recruteur2@soat.fr",
+                            "C#",
+                            "11"});
 #line 5
         testRunner.Given("les recruteurs existants", ((string)(null)), table1, "Etant donné ");
 #line hidden
@@ -128,10 +133,20 @@ namespace PlanificationEntretien.Features
                             "xp"});
                 table2.AddRow(new string[] {
                             "1",
-                            "candidat@mail.com",
+                            "candidat1@mail.com",
                             "Java",
                             "5"});
-#line 8
+                table2.AddRow(new string[] {
+                            "2",
+                            "candidat2@mail.com",
+                            "Java",
+                            "7"});
+                table2.AddRow(new string[] {
+                            "3",
+                            "candidat3@mail.com",
+                            "C#",
+                            "2"});
+#line 9
         testRunner.And("les candidats existants", ((string)(null)), table2, "Et ");
 #line hidden
                 TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -141,13 +156,23 @@ namespace PlanificationEntretien.Features
                             "horaire"});
                 table3.AddRow(new string[] {
                             "1",
-                            "recruteur@soat.fr",
-                            "candidat@mail.com",
+                            "recruteur1@soat.fr",
+                            "candidat1@mail.com",
                             "16/04/2019 15:00"});
-#line 11
+                table3.AddRow(new string[] {
+                            "2",
+                            "recruteur1@soat.fr",
+                            "candidat2@mail.com",
+                            "17/04/2019 15:00"});
+                table3.AddRow(new string[] {
+                            "3",
+                            "recruteur2@soat.fr",
+                            "candidat3@mail.com",
+                            "17/04/2019 15:00"});
+#line 14
         testRunner.And("les entretiens existants", ((string)(null)), table3, "Et ");
 #line hidden
-#line 14
+#line 19
         testRunner.When("on liste les tous les entretiens", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
                 TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -158,11 +183,23 @@ namespace PlanificationEntretien.Features
                             "horaire"});
                 table4.AddRow(new string[] {
                             "1",
-                            "recruteur@soat.fr",
-                            "candidat@mail.com",
+                            "recruteur1@soat.fr",
+                            "candidat1@mail.com",
                             "Java",
                             "16/04/2019 15:00"});
-#line 15
+                table4.AddRow(new string[] {
+                            "2",
+                            "recruteur1@soat.fr",
+                            "candidat2@mail.com",
+                            "Java",
+                            "17/04/2019 15:00"});
+                table4.AddRow(new string[] {
+                            "3",
+                            "recruteur2@soat.fr",
+                            "candidat3@mail.com",
+                            "C#",
+                            "17/04/2019 15:00"});
+#line 20
         testRunner.Then("on récupères les entretiens suivants", ((string)(null)), table4, "Alors ");
 #line hidden
             }

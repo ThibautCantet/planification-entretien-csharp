@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using PlanificationEntretien.application;
 using PlanificationEntretien.domain;
-using PlanificationEntretien.infrastructure.memory;
 using uc = PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -11,18 +13,15 @@ using Xunit;
 namespace PlanificationEntretien.Steps
 {
     [Binding]
-    public class ListerEntretien
+    public class ListerEntretien : ATest
     {
-        private readonly IEntretienPort _entretienPort = new InMemoryEntretienAdapter();
-        private IRecruteurPort _recruteurPort = new InMemoryRecruteurAdapter();
-        private ICandidatPort _candidatPort = new InMemoryCandidatAdapter();
+   
         private IEnumerable<IEntretien> _entretiens;
 
         [Given(@"les recruteurs existants")]
         public void GivenLesRecruteursExistants(Table table)
         {
-            var values = new List<string>(table.Rows[0].Values);
-            var recruteurs = table.Rows.Select(row => new Recruteur( values[2], values[1], int.Parse(values[3])));
+            var recruteurs = table.Rows.Select(row => RecruteurATest.BuildRecruteur(row));
             foreach (var recruteur in recruteurs)
             {
                 _recruteurPort.Save(recruteur);
@@ -32,8 +31,7 @@ namespace PlanificationEntretien.Steps
         [Given(@"les candidats existants")]
         public void GivenLesCandidatsExistants(Table table)
         {
-            var values = new List<string>(table.Rows[0].Values);
-            var candidats = table.Rows.Select(row => new Candidat( values[2], values[1], int.Parse(values[3])));
+            var candidats = table.Rows.Select(row => new Candidat( row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
             foreach (var candidat in candidats)
             {
                 _candidatPort.Save(candidat);
@@ -43,15 +41,14 @@ namespace PlanificationEntretien.Steps
         [Given(@"les entretiens existants")]
         public void GivenLesEntretiensExistants(Table table)
         {
-            var values = new List<string>(table.Rows[0].Values);
-            var entretiens = table.Rows.Select(row => BuildEntretien(values, values[1], values[2], values[3]));
+            var entretiens = table.Rows.Select(row => BuildEntretien(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3]));
             foreach (var entretien in entretiens)
             {
                 _entretienPort.Save(entretien);
             }
         }
 
-        private Entretien BuildEntretien(List<string> values, string emailRecruteur, string emailCandidat, string time)
+        private Entretien BuildEntretien(string emailRecruteur, string emailCandidat, string time)
         {
             var recruteur = _recruteurPort.FindByEmail(emailRecruteur);
             var candidat = _candidatPort.FindByEmail(emailCandidat);
@@ -69,8 +66,7 @@ namespace PlanificationEntretien.Steps
         [Then(@"on récupères les entretiens suivants")]
         public void ThenOnRecuperesLesEntretiensSuivants(Table table)
         {
-            var values = new List<string>(table.Rows[0].Values);
-            var entretiens = table.Rows.Select(row => BuildEntretien(values, values[1], values[2], values[4]));
+            var entretiens = table.Rows.Select(row => BuildEntretien(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4]));
             Assert.Equal(_entretiens, entretiens);
         }
     }

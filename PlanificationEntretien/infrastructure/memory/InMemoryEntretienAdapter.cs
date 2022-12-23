@@ -26,7 +26,7 @@ public class InMemoryEntretienAdapter : IEntretienPort
 
     public void Save(Entretien entretien)
     {
-        _entretiens.Add(entretien.Candidat, new InMemoryEntretien(InMemoryCandidatAdapter.ToInMemoryCandidat(entretien.Candidat),
+        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(InMemoryCandidatAdapter.ToInMemoryCandidat(entretien.Candidat),
             InMemoryRecruteurAdapter.ToInMemoryRecruteur(entretien.Recruteur), entretien.Horaire));
     }
 

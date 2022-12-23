@@ -1,16 +1,17 @@
 using System.Collections.Generic;
+using System.Linq;
 using PlanificationEntretien.domain;
 
 namespace PlanificationEntretien.infrastructure.memory;
 
 public class InMemoryRecruteurAdapter : IRecruteurPort
 {
-    private Dictionary<string, InMemoryRecruteur> _candidats = new();
+    private Dictionary<string, InMemoryRecruteur> _recruteurs = new();
 
     public Recruteur FindByEmail(string email)
     {
         InMemoryRecruteur value;
-        _candidats.TryGetValue(email, out value);
+        _recruteurs.TryGetValue(email, out value);
         if (value == null)
         {
             return null;
@@ -18,9 +19,16 @@ public class InMemoryRecruteurAdapter : IRecruteurPort
         return ToRecruteur(value);
     }
 
-    public void Save(Recruteur candidat)
+    public void Save(Recruteur recruteur)
     {
-        _candidats.Add(candidat.Email, ToInMemoryRecruteur(candidat));
+        _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur));
+    }
+
+    public List<Recruteur> FindAll()
+    {
+        return _recruteurs.Values
+            .Select(r => new Recruteur(r.Language, r.Email, r.ExperienceEnAnnees))
+            .ToList();
     }
 
     internal static Recruteur ToRecruteur(InMemoryRecruteur? value)
@@ -28,8 +36,8 @@ public class InMemoryRecruteurAdapter : IRecruteurPort
         return new Recruteur(value.Language, value.Email, value.ExperienceEnAnnees);
     }
 
-    internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur candidat)
+    internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur recruteur)
     {
-        return new InMemoryRecruteur(candidat.Language, candidat.Email, candidat.ExperienceEnAnnees);
+        return new InMemoryRecruteur(recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
     }
 }
