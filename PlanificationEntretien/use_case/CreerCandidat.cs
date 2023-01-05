@@ -6,11 +6,11 @@ namespace PlanificationEntretien.use_case;
 
 public class CreerCandidat
 {
-    private readonly ICandidatPort _candidatPort;
+    private readonly ICandidatRepository _candidatRepository;
 
-    public CreerCandidat(ICandidatPort candidatPort)
+    public CreerCandidat(ICandidatRepository candidatRepository)
     {
-        _candidatPort = candidatPort;
+        _candidatRepository = candidatRepository;
     }
 
     public bool Execute(Candidat candidat)
@@ -19,7 +19,7 @@ public class CreerCandidat
                                                   && !string.IsNullOrEmpty(candidat.Language)
                                                   && candidat.ExperienceEnAnnees > 0)
         {
-            _candidatPort.Save(candidat);
+            _candidatRepository.Save(candidat);
             return true;
         }
 

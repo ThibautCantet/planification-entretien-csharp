@@ -2,7 +2,7 @@ using System;
 
 namespace PlanificationEntretien.email;
 
-public class FakeEmailAdapter : IEmailPort
+public class FakeEmailService : IEmailService
 {
     private bool _unEmailDeConfirmationAEteEnvoyeAuCandidat;
     private bool _unEmailDeConfirmationAEteEnvoyeAuRecruteur;

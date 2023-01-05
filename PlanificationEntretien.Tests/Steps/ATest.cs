@@ -1,11 +1,11 @@
 using PlanificationEntretien.domain;
-using PlanificationEntretien.infrastructure.memory;
+using PlanificationEntretien.infrastructure.repository;
 
 namespace PlanificationEntretien.Steps;
 
 public abstract class ATest
 {
-    protected IEntretienPort _entretienPort = new InMemoryEntretienAdapter();
-    protected IRecruteurPort _recruteurPort = new InMemoryRecruteurAdapter();
-    protected ICandidatPort _candidatPort = new InMemoryCandidatAdapter();
+    protected IEntretienRepository EntretienRepository = new InMemoryEntretienRepository();
+    protected IRecruteurRepository RecruteurRepository = new InMemoryRecruteurRepository();
+    protected ICandidatRepository CandidatRepository = new InMemoryCandidatRepository();
 }

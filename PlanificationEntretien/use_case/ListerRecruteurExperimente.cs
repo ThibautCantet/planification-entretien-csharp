@@ -6,16 +6,16 @@ namespace PlanificationEntretien.use_case;
 
 public class ListerRecruteurExperimente
 {
-    private readonly IRecruteurPort _recruteurPort;
+    private readonly IRecruteurRepository _recruteurRepository;
     
-    public ListerRecruteurExperimente(IRecruteurPort recruteurPort)
+    public ListerRecruteurExperimente(IRecruteurRepository recruteurRepository)
     {
-        _recruteurPort = recruteurPort;
+        _recruteurRepository = recruteurRepository;
     }
 
     public List<Recruteur> Execute()
     {
-        List<Recruteur> recruteurs = _recruteurPort.FindAll()
+        List<Recruteur> recruteurs = _recruteurRepository.FindAll()
             .Where(r => r.ExperienceEnAnnees >= 10)
             .ToList();
 

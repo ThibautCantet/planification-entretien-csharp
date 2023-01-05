@@ -1,6 +1,6 @@
 using System;
 
-namespace PlanificationEntretien.application;
+namespace PlanificationEntretien.infrastructure.controller;
 
 public class CreateEntretienRequest
 {

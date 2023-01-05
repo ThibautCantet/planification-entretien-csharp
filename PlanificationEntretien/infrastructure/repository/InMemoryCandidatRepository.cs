@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using PlanificationEntretien.domain;
 
-namespace PlanificationEntretien.infrastructure.memory;
+namespace PlanificationEntretien.infrastructure.repository;
 
-public class InMemoryCandidatAdapter : ICandidatPort
+public class InMemoryCandidatRepository : ICandidatRepository
 {
     private Dictionary<string, InMemoryCandidat> _candidats = new();
 

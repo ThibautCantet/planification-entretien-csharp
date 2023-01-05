@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.use_case;
 
-namespace PlanificationEntretien.application;
+namespace PlanificationEntretien.infrastructure.controller;
 
 [ApiController]
 [Route("/api/recruteure")]

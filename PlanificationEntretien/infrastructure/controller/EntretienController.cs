@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.use_case;
 
-namespace PlanificationEntretien.application;
+namespace PlanificationEntretien.infrastructure.controller;
 
 [ApiController]
 [Route("/api/entretien")]

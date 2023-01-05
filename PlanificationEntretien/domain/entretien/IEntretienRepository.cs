@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PlanificationEntretien.domain;
 
-public interface IEntretienPort
+public interface IEntretienRepository
 {
     Entretien FindByCandidat(Candidat candidat);
     void Save(Entretien entretien);

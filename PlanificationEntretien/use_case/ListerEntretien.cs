@@ -5,15 +5,15 @@ namespace PlanificationEntretien.use_case;
 
 public class ListerEntretien
 {
-    private readonly IEntretienPort _entretienPort;
+    private readonly IEntretienRepository _entretienRepository;
 
-    public ListerEntretien(IEntretienPort entretienPort)
+    public ListerEntretien(IEntretienRepository entretienRepository)
     {
-        _entretienPort = entretienPort;
+        _entretienRepository = entretienRepository;
     }
     
     public IEnumerable<IEntretien> Execute()
     {
-        return _entretienPort.FindAll();
+        return _entretienRepository.FindAll();
     }
 }

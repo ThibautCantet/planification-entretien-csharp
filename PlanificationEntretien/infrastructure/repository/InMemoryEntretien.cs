@@ -1,7 +1,7 @@
 using System;
 using PlanificationEntretien.domain;
 
-namespace PlanificationEntretien.infrastructure.memory;
+namespace PlanificationEntretien.infrastructure.repository;
 
 public record InMemoryEntretien()
 {

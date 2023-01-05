@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.application;
+using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.domain;
 using uc = PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
@@ -24,7 +24,7 @@ namespace PlanificationEntretien.Steps
             var recruteurs = table.Rows.Select(row => RecruteurATest.BuildRecruteur(row));
             foreach (var recruteur in recruteurs)
             {
-                _recruteurPort.Save(recruteur);
+                RecruteurRepository.Save(recruteur);
             }
         }
 
@@ -34,7 +34,7 @@ namespace PlanificationEntretien.Steps
             var candidats = table.Rows.Select(row => new Candidat( row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
             foreach (var candidat in candidats)
             {
-                _candidatPort.Save(candidat);
+                CandidatRepository.Save(candidat);
             }
         }
 
@@ -44,14 +44,14 @@ namespace PlanificationEntretien.Steps
             var entretiens = table.Rows.Select(row => BuildEntretien(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3]));
             foreach (var entretien in entretiens)
             {
-                _entretienPort.Save(entretien);
+                EntretienRepository.Save(entretien);
             }
         }
 
         private Entretien BuildEntretien(string emailRecruteur, string emailCandidat, string time)
         {
-            var recruteur = _recruteurPort.FindByEmail(emailRecruteur);
-            var candidat = _candidatPort.FindByEmail(emailCandidat);
+            var recruteur = RecruteurRepository.FindByEmail(emailRecruteur);
+            var candidat = CandidatRepository.FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
             return new Entretien(candidat , recruteur, horaire);
         }
@@ -59,7 +59,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on liste les tous les entretiens")]
         public void WhenOnListeLesTousLesEntretiens()
         {
-            var entretienService = new uc.ListerEntretien(_entretienPort);
+            var entretienService = new uc.ListerEntretien(EntretienRepository);
             _entretiens = entretienService.Execute();
         }
 

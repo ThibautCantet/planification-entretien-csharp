@@ -1,4 +1,4 @@
-namespace PlanificationEntretien.infrastructure.memory;
+namespace PlanificationEntretien.infrastructure.repository;
 
 public record InMemoryCandidat
 {  

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PlanificationEntretien.domain;
 
-public interface IRecruteurPort
+public interface IRecruteurRepository
 {
     Recruteur FindByEmail(string email);
     void Save(Recruteur recruteur);

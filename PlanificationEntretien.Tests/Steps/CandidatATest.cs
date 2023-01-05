@@ -1,7 +1,7 @@
 using System;
-using PlanificationEntretien.application;
+using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.domain;
-using PlanificationEntretien.infrastructure.memory;
+using PlanificationEntretien.infrastructure.repository;
 using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -25,7 +25,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente d'enregistrer le candidat")]
         public void WhenOnTenteDenregistrerLeCandidat()
         {
-            var creerCandidat = new CreerCandidat(_candidatPort);
+            var creerCandidat = new CreerCandidat(CandidatRepository);
             var candidatController = new CandidatController(creerCandidat);
             candidatController.Create(_candidatRequest);
         }
@@ -33,14 +33,14 @@ namespace PlanificationEntretien.Steps
         [Then(@"le candidat est correctement enregistré avec ses informations ""(.*)"", ""(.*)"" et ""(.*)"" ans d’expériences")]
         public void ThenLeCandidatEstCorrectementEnregistreAvecSesInformationsEtAnsDExperiences(string java, string p1, string p2)
         {
-            var candidat = _candidatPort.FindByEmail(_candidat.Email);
+            var candidat = CandidatRepository.FindByEmail(_candidat.Email);
             Assert.Equal(_candidat, candidat);
         }
 
         [Then(@"le candidat n'est pas enregistré")]
         public void ThenLeCandidatNestPasEnregistre()
         {
-            var candidat = _candidatPort.FindByEmail(_candidat.Email);
+            var candidat = CandidatRepository.FindByEmail(_candidat.Email);
             Assert.Null(candidat);
         }
     }

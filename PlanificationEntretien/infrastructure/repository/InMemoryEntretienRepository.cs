@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using PlanificationEntretien.domain;
 
-namespace PlanificationEntretien.infrastructure.memory;
+namespace PlanificationEntretien.infrastructure.repository;
 
-public class InMemoryEntretienAdapter : IEntretienPort
+public class InMemoryEntretienRepository : IEntretienRepository
 {
     private Dictionary<Candidat, InMemoryEntretien> _entretiens = new();
 
@@ -21,13 +21,13 @@ public class InMemoryEntretienAdapter : IEntretienPort
 
     private static Entretien ToEntretien(InMemoryEntretien? value)
     {
-        return new Entretien( InMemoryCandidatAdapter.ToCandidat(value.Candidat), InMemoryRecruteurAdapter.ToRecruteur(value.Recruteur), value.Horaire);
+        return new Entretien( InMemoryCandidatRepository.ToCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
     }
 
     public void Save(Entretien entretien)
     {
-        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(InMemoryCandidatAdapter.ToInMemoryCandidat(entretien.Candidat),
-            InMemoryRecruteurAdapter.ToInMemoryRecruteur(entretien.Recruteur), entretien.Horaire));
+        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(InMemoryCandidatRepository.ToInMemoryCandidat(entretien.Candidat),
+            InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.Recruteur), entretien.Horaire));
     }
 
     public IEnumerable<Entretien> FindAll()
