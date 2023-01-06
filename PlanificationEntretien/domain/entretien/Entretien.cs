@@ -1,6 +1,8 @@
 using System;
+using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.recruteur;
 
-namespace PlanificationEntretien.domain;
+namespace PlanificationEntretien.domain.entretien;
 
 public interface IEntretien
 {

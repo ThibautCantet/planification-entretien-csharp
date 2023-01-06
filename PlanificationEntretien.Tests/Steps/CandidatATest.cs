@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.infrastructure.controller;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;

@@ -1,7 +1,9 @@
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.entretien;
+using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.email;
 using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.use_case;

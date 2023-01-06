@@ -1,6 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.use_case;
 
 namespace PlanificationEntretien.infrastructure.controller;

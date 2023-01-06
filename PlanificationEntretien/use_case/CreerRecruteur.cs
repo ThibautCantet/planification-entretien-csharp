@@ -1,5 +1,5 @@
 using System;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.use_case;
 
