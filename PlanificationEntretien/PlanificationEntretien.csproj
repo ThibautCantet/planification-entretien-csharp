@@ -8,6 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="domain\candidat" />
+      <Folder Include="domain\entretien" />
+      <Folder Include="domain\recruteur" />
       <Folder Include="infrastructure" />
       <Folder Include="obj\Debug\netcoreapp3.1" />
     </ItemGroup>

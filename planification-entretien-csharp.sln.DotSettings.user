@@ -2,7 +2,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=03a6cae5_002Dace6_002D4771_002Dbb02_002D85853099fac7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Features #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;ProjectFolder&gt;F07ED85B-F88D-432E-A924-5DC5A9A6EF26/d:Features&lt;/ProjectFolder&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0e49df6b_002D1a86_002D473f_002D91a3_002D65f509adeab5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Features" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0e49df6b_002D1a86_002D473f_002D91a3_002D65f509adeab5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Features" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;ProjectFolder&gt;F07ED85B-F88D-432E-A924-5DC5A9A6EF26/d:Features&lt;/ProjectFolder&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9c6a09aa_002Dc185_002D4a52_002D86eb_002Df52a5a1b5885/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ListerLesEntretiensChezSoatFeature #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
@@ -35,6 +35,6 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=da49020a_002Da8d0_002D4b4e_002D822c_002D54ef6d57de8c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Lister les entretiens déjà planifiés" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;ProjectFolder&gt;F07ED85B-F88D-432E-A924-5DC5A9A6EF26/d:Features&lt;/ProjectFolder&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fa0bf526_002Ddc43_002D4cfa_002Dafa2_002D7cd02e55ac50/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Features #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fa0bf526_002Ddc43_002D4cfa_002Dafa2_002D7cd02e55ac50/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Features #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;ProjectFolder&gt;F07ED85B-F88D-432E-A924-5DC5A9A6EF26/d:Features&lt;/ProjectFolder&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
