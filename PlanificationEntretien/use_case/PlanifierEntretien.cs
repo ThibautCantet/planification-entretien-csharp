@@ -7,24 +7,17 @@ namespace PlanificationEntretien.use_case;
 public class PlanifierEntretien
 {
     private readonly IEntretienRepository _entretienRepository;
-    private readonly ICandidatRepository _candidatRepository;
-    private readonly IRecruteurRepository _recruteurRepository;
     private readonly IEmailService _emailService;
 
-    public PlanifierEntretien(IEntretienRepository entretienRepository, IEmailService emailService,
-        ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository)
+    public PlanifierEntretien(IEntretienRepository entretienRepository, IEmailService emailService)
     {
         _entretienRepository = entretienRepository;
         _emailService = emailService;
-        _candidatRepository = candidatRepository;
-        _recruteurRepository = recruteurRepository;
     }
 
-    public Boolean Execute(string emailCandidat, DateTime disponibiliteDuCandidat,
-        string emailRecruteur, DateTime dateDeDisponibiliteDuRecruteur)
+    public Boolean Execute(Candidat candidat, DateTime disponibiliteDuCandidat,
+        Recruteur recruteur, DateTime dateDeDisponibiliteDuRecruteur)
     {
-        var candidat = _candidatRepository.FindByEmail(emailCandidat);
-        var recruteur = _recruteurRepository.FindByEmail(emailRecruteur);
         if (candidat.Language.Equals(recruteur.Language)
             && candidat.ExperienceEnAnnees < recruteur.ExperienceEnAnnees
             && disponibiliteDuCandidat.Equals(dateDeDisponibiliteDuRecruteur))
