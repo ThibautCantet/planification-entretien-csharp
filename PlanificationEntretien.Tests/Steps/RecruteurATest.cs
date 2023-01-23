@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.domain;
-using PlanificationEntretien.infrastructure.repository;
 using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -17,7 +16,6 @@ namespace PlanificationEntretien.Steps
     {
         private CreateRecruteurRequest _createRecruteurRequest;
         private string _emailRecruteur;
-        private Recruteur _recruteur;
         private IActionResult _recruteurs;
 
         [Given(@"un recruteur ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]

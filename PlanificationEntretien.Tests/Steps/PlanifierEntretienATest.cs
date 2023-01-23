@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using PlanificationEntretien.domain;
-using PlanificationEntretien.infrastructure.repository;
 using PlanificationEntretien.email;
 using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;

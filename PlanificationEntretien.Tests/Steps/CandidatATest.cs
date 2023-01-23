@@ -1,7 +1,6 @@
 using System;
 using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.domain;
-using PlanificationEntretien.infrastructure.repository;
 using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -11,14 +10,14 @@ namespace PlanificationEntretien.Steps
     [Binding]
     public class CandidatATest : ATest
     {
-        private Candidat _candidat;
+        private string _emailCandidat;
         private CreateCandidatRequest _candidatRequest;
 
         [Given(@"un candidat ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnCandidatAvecAnsDExperiences(string language, string email, string xp)
         {
-            int? value = String.IsNullOrEmpty(xp) ? null : Int32.Parse(xp);
-            _candidat = new Candidat(language, email, value);
+            int? value = String.IsNullOrEmpty(xp) ? 0 : Int32.Parse(xp);
+            _emailCandidat = email;
             _candidatRequest = new CreateCandidatRequest(language, email, value);
         }
 
@@ -31,16 +30,16 @@ namespace PlanificationEntretien.Steps
         }
 
         [Then(@"le candidat est correctement enregistré avec ses informations ""(.*)"", ""(.*)"" et ""(.*)"" ans d’expériences")]
-        public void ThenLeCandidatEstCorrectementEnregistreAvecSesInformationsEtAnsDExperiences(string java, string p1, string p2)
+        public void ThenLeCandidatEstCorrectementEnregistreAvecSesInformationsEtAnsDExperiences(string java, string email, string xp)
         {
-            var candidat = CandidatRepository.FindByEmail(_candidat.Email);
-            Assert.Equal(_candidat, candidat);
+            var candidat = CandidatRepository.FindByEmail(_emailCandidat);
+            Assert.Equal(candidat,  new Candidat(java, email, int.Parse(xp)));
         }
 
         [Then(@"le candidat n'est pas enregistré")]
         public void ThenLeCandidatNestPasEnregistre()
         {
-            var candidat = CandidatRepository.FindByEmail(_candidat.Email);
+            var candidat = CandidatRepository.FindByEmail(_emailCandidat);
             Assert.Null(candidat);
         }
     }

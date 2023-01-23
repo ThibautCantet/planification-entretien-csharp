@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain;
 using PlanificationEntretien.use_case;
 
 namespace PlanificationEntretien.infrastructure.controller;
@@ -24,10 +23,9 @@ public class RecruteurController : ControllerBase
     [HttpPost("")]
     public Task<IActionResult> Create([FromBody] CreateRecruteurRequest createRecruteurRequest)
     {
-        var recruteur = new Recruteur(createRecruteurRequest.Language,
-            createRecruteurRequest.Email,
-            createRecruteurRequest.XP);
-        if (_creerRecruteur.Execute(recruteur))
+        if (_creerRecruteur.Execute(createRecruteurRequest.Language,
+                createRecruteurRequest.Email,
+                createRecruteurRequest.XP))
         {
             return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createRecruteurRequest },
                 createRecruteurRequest));

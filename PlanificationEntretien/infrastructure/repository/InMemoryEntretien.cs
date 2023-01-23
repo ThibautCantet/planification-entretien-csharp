@@ -1,5 +1,4 @@
 using System;
-using PlanificationEntretien.domain;
 
 namespace PlanificationEntretien.infrastructure.repository;
 

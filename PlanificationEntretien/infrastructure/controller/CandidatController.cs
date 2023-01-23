@@ -19,10 +19,9 @@ public class CandidatController : ControllerBase
     [HttpPost("")]
     public Task<IActionResult> Create([FromBody] CreateCandidatRequest createCandidatRequest)
     {
-        var candidat = new Candidat(createCandidatRequest.Language,
-            createCandidatRequest.Email,
-            createCandidatRequest.XP);
-        if (_creerCandidat.Execute(candidat)) {
+        if (_creerCandidat.Execute(createCandidatRequest.Language,
+                createCandidatRequest.Email,
+                createCandidatRequest.XP)) {
             return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createCandidatRequest },
                 createCandidatRequest));
         }

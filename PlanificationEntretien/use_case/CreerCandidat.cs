@@ -1,5 +1,4 @@
 using System;
-using System.Net.Mail;
 using PlanificationEntretien.domain;
 
 namespace PlanificationEntretien.use_case;
@@ -13,29 +12,17 @@ public class CreerCandidat
         _candidatRepository = candidatRepository;
     }
 
-    public bool Execute(Candidat candidat)
-    {
-        if (!string.IsNullOrEmpty(candidat.Email) && IsValid(candidat.Email)
-                                                  && !string.IsNullOrEmpty(candidat.Language)
-                                                  && candidat.ExperienceEnAnnees > 0)
-        {
-            _candidatRepository.Save(candidat);
-            return true;
-        }
-
-        return false;
-    }
-
-
-    private static bool IsValid(string email)
+    public bool Execute(String language, String email, int? experienceEnAnnees)
     {
         try
         {
-            new MailAddress(email);
-
+            var candidat = new Candidat(language,
+                email,
+                experienceEnAnnees);
+            _candidatRepository.Save(candidat);
             return true;
         }
-        catch (FormatException)
+        catch (ArgumentException)
         {
             return false;
         }
