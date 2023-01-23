@@ -14,7 +14,7 @@ On n'a plus besoin de toutes les règles de validation lors de l'instanciation.
 
 ### Question 2 :
 
-Que constatez-vous avec dépendances ?
+Que constatez-vous avec les dépendances ?
 
 ### Réponse 2 :
 
