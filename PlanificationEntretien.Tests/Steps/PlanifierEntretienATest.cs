@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain.candidat;
+using Candidat = PlanificationEntretien.domain.candidat.Candidat;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.email;
@@ -74,7 +74,14 @@ namespace PlanificationEntretien.Steps
             Assert.NotEqual(0, createEntretienResponse.EntretienId);
 
             Entretien entretien = EntretienRepository.FindById(createEntretienResponse.EntretienId);
-            Entretien expectedEntretien = Entretien.of(entretien.Id, _candidat, _recruteur, _disponibiliteDuCandidat);
+            Entretien expectedEntretien = Entretien.of(
+                entretien.Id,
+                new domain.entretien.Candidat(
+                    _candidat.Id,
+                    _candidat.Language,
+                    _candidat.Email,
+                    _candidat.ExperienceEnAnnees),
+                _recruteur, _disponibiliteDuCandidat);
             Assert.Equal(expectedEntretien, entretien);
         }
 
@@ -92,7 +99,7 @@ namespace PlanificationEntretien.Steps
         [Then(@"L’entretien n'est pas planifié")]
         public void ThenLEntretienNestPasPlanifie()
         {
-            Entretien entretien = EntretienRepository.FindByCandidat(_candidat);
+            Entretien entretien = EntretienRepository.FindByCandidat(_candidat.Email);
             Assert.Null(entretien);
         }
 

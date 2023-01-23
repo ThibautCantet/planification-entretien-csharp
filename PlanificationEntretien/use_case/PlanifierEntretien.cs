@@ -1,5 +1,4 @@
 using System;
-using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.domain.recruteur;
 

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain.candidat;
+using Candidat = PlanificationEntretien.domain.candidat.Candidat;
+using entretientCandidat = PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.infrastructure.controller;
 using uc = PlanificationEntretien.use_case;
@@ -30,7 +31,8 @@ namespace PlanificationEntretien.Steps
         [Given(@"les candidats existants")]
         public void GivenLesCandidatsExistants(Table table)
         {
-            var candidats = table.Rows.Select(row => new Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
+            var candidats = table.Rows.Select(row =>
+                new Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
             foreach (var candidat in candidats)
             {
                 CandidatRepository.Save(candidat);
@@ -40,7 +42,8 @@ namespace PlanificationEntretien.Steps
         [Given(@"les entretiens existants")]
         public void GivenLesEntretiensExistants(Table table)
         {
-            var entretiens = table.Rows.Select(row => BuildEntretien(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3]));
+            var entretiens = table.Rows.Select(row =>
+                BuildEntretien(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3]));
             foreach (var entretien in entretiens)
             {
                 EntretienRepository.Save(entretien);
@@ -52,7 +55,15 @@ namespace PlanificationEntretien.Steps
             var recruteur = RecruteurRepository.FindByEmail(emailRecruteur);
             var candidat = CandidatRepository.FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
-            return Entretien.of(id, candidat , recruteur, horaire);
+            return Entretien.of(
+                id,
+                new entretientCandidat.Candidat(
+                    candidat.Id,
+                    candidat.Language,
+                    candidat.Email,
+                    candidat.ExperienceEnAnnees),
+                recruteur,
+                horaire);
         }
 
         [When(@"on liste les tous les entretiens")]
@@ -67,9 +78,8 @@ namespace PlanificationEntretien.Steps
         public void ThenOnRecuperesLesEntretiensSuivants(Table table)
         {
             var okResult = Assert.IsType<OkObjectResult>(_listerEntretientActionResult);
-            List<EntretienResponse> entretiensResponse = Assert.IsType<List<EntretienResponse>>(okResult.Value);
-
-            var entretiens = table.Rows.Select(row => BuildEntretienResponse(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4]));
+            List<EntretienResponse> entretiensResponse = Assert.IsType<List<EntretienResponse>>(okResult.Value);var entretiens = table.Rows.Select(row =>
+                BuildEntretienResponse(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4]));
             Assert.Equal(entretiensResponse, entretiens);
         }
         

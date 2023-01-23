@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.entretien;
 
 namespace PlanificationEntretien.infrastructure.repository;
@@ -15,10 +14,9 @@ public class InMemoryEntretienRepository : IEntretienRepository
         return inMemoryEntretien != null ? ToEntretien(inMemoryEntretien) : null;
     }
 
-    public Entretien FindByCandidat(Candidat candidat)
+    public Entretien FindByCandidat(string candidatEmail)
     {
-        InMemoryEntretien value;
-        _entretiens.TryGetValue(candidat, out value);
+        InMemoryEntretien value = _entretiens.Values.FirstOrDefault(e => e.Candidat.Email == candidatEmail);
         if (value == null)
         {
             return null;
@@ -28,13 +26,13 @@ public class InMemoryEntretienRepository : IEntretienRepository
 
     private static Entretien ToEntretien(InMemoryEntretien? value)
     {
-        return Entretien.of( value.Id, InMemoryCandidatRepository.ToCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
+        return Entretien.of( value.Id, InMemoryCandidatRepository.ToEntretienCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
     }
 
     public int Save(Entretien entretien)
     {
         var newId = _entretiens.Count + 1;
-        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(newId, InMemoryCandidatRepository.ToInMemoryCandidat(entretien.Candidat),
+        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(newId, InMemoryCandidatRepository.ToInMemoryEntretienCandidat(entretien.Candidat),
             InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.Recruteur), entretien.Horaire));
         return newId;
     }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.use_case;
+using Candidat = PlanificationEntretien.domain.entretien.Candidat;
 
 namespace PlanificationEntretien.infrastructure.controller;
 
@@ -30,7 +31,9 @@ public class EntretienController : ControllerBase
     {
         var candidat = _candidatRepository.FindById(createOfferRequest.IdCandidat);
         var recruteur = _recruteurRepository.FindById(createOfferRequest.IdRecruteur);
-        var entretienId = _planifierEntretien.Execute(candidat, createOfferRequest.DisponibiliteCandidat,
+        var entretienId = _planifierEntretien.Execute(
+            new Candidat(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees),
+            createOfferRequest.DisponibiliteCandidat,
             recruteur, createOfferRequest.DisponibiliteRecruteur);
         if (entretienId > 0)
         {

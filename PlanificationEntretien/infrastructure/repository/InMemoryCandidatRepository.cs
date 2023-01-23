@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using PlanificationEntretien.domain.candidat;
+using entretienCandidat = PlanificationEntretien.domain.entretien;
 
 namespace PlanificationEntretien.infrastructure.repository;
 
@@ -33,17 +34,23 @@ public class InMemoryCandidatRepository : ICandidatRepository
         return newId;
     }
 
-    internal static InMemoryCandidat ToInMemoryCandidat(Candidat candidat)
-    {
-        return new InMemoryCandidat(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees);
-    }
     internal static InMemoryCandidat ToInMemoryCandidat(Candidat candidat, int idCandidat)
     {
         return new InMemoryCandidat(idCandidat, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees);
+    }
+    
+    internal static InMemoryCandidat ToInMemoryEntretienCandidat(entretienCandidat.Candidat candidat)
+    {
+        return new InMemoryCandidat(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees);
     }
 
     internal static Candidat ToCandidat(InMemoryCandidat? value)
     {
         return new Candidat(value.id, value.Language, value.Email, value.ExperienceEnAnnees);
+    }
+    
+    internal static entretienCandidat.Candidat ToEntretienCandidat(InMemoryCandidat? value)
+    {
+        return new entretienCandidat.Candidat(value.id, value.Language, value.Email, value.ExperienceEnAnnees);
     }
 }
