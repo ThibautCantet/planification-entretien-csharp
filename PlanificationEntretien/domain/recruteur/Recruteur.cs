@@ -1,5 +1,4 @@
 using System;
-using System.Net.Mail;
 
 namespace PlanificationEntretien.domain.recruteur;
 
@@ -8,43 +7,28 @@ public class Recruteur : IEquatable<Recruteur>
     private readonly int MINIMUM_XP_REQUISE = 2;
     public int Id { get; }
     public string Language { get; }
-    public string Email { get; }
+    private RecruteurEmail _recruteurEmail;
+    public string Email => _recruteurEmail.Adresse;
     public int ExperienceEnAnnees { get; }
 
     public Recruteur(int id, string language, string email, int? experienceEnAnnees)
     {
-        if (string.IsNullOrEmpty(email) || !IsValid(email)
-                                        || !email.EndsWith("soat.fr")
-                                        || string.IsNullOrEmpty(language)
-                                        || experienceEnAnnees == null
-                                        || experienceEnAnnees <= MINIMUM_XP_REQUISE)
+        if (string.IsNullOrEmpty(language)
+            || experienceEnAnnees == null
+            || experienceEnAnnees <= MINIMUM_XP_REQUISE)
         {
             throw new ArgumentException();
         }
 
         Id = id;
         Language = language;
-        Email = email;
+        _recruteurEmail = new RecruteurEmail(email);
         ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
     }
 
     public Recruteur(string language, string email, int? experienceEnAnnees) : this(0, language, email,
         experienceEnAnnees)
     {
-    }
-
-    private static bool IsValid(string email)
-    {
-        try
-        {
-            new MailAddress(email);
-
-            return true;
-        }
-        catch (FormatException)
-        {
-            return false;
-        }
     }
 
     public bool Equals(Recruteur other)
