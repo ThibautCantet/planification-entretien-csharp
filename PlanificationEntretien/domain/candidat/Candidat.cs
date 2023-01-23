@@ -8,13 +8,12 @@ public class Candidat : IEquatable<Candidat>
     public string Language { get; }
     private CandidatEmail _candidatEmail;
     public string Email => _candidatEmail.Adresse;
-    public int ExperienceEnAnnees { get; }
+    private readonly Experience _experience;
+    public int ExperienceEnAnnees => _experience.Annee;
 
     public Candidat(int id, string language, string email, int? experienceEnAnnees)
     {
-        if (string.IsNullOrEmpty(language)
-            || experienceEnAnnees == null
-            || experienceEnAnnees <= 0)
+        if (string.IsNullOrEmpty(language))
         {
             throw new ArgumentException();
         }
@@ -22,7 +21,7 @@ public class Candidat : IEquatable<Candidat>
         Id = id;
         Language = language;
         _candidatEmail = new CandidatEmail(email);
-        ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
+        _experience = new Experience(experienceEnAnnees);
     }
 
     public Candidat(string language, string email, int? experienceEnAnnees) : this(0, language, email, experienceEnAnnees)

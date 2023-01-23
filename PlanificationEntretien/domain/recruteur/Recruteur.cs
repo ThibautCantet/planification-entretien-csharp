@@ -4,18 +4,16 @@ namespace PlanificationEntretien.domain.recruteur;
 
 public class Recruteur : IEquatable<Recruteur>
 {
-    private readonly int MINIMUM_XP_REQUISE = 2;
     public int Id { get; }
     public string Language { get; }
     private RecruteurEmail _recruteurEmail;
     public string Email => _recruteurEmail.Adresse;
-    public int ExperienceEnAnnees { get; }
+    private Experience _experience;
+    public int ExperienceEnAnnees => _experience.Annee;
 
     public Recruteur(int id, string language, string email, int? experienceEnAnnees)
     {
-        if (string.IsNullOrEmpty(language)
-            || experienceEnAnnees == null
-            || experienceEnAnnees <= MINIMUM_XP_REQUISE)
+        if (string.IsNullOrEmpty(language))
         {
             throw new ArgumentException();
         }
@@ -23,7 +21,7 @@ public class Recruteur : IEquatable<Recruteur>
         Id = id;
         Language = language;
         _recruteurEmail = new RecruteurEmail(email);
-        ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
+        _experience = new Experience(experienceEnAnnees.GetValueOrDefault(-1));
     }
 
     public Recruteur(string language, string email, int? experienceEnAnnees) : this(0, language, email,
