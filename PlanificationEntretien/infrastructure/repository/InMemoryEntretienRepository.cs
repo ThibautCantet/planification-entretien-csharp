@@ -26,14 +26,14 @@ public class InMemoryEntretienRepository : IEntretienRepository
 
     private static Entretien ToEntretien(InMemoryEntretien? value)
     {
-        return Entretien.of( value.Id, InMemoryCandidatRepository.ToEntretienCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
+        return Entretien.of( value.Id, InMemoryCandidatRepository.ToEntretienCandidat(value.Candidat), InMemoryRecruteurRepository.ToEntretienRecruteur(value.Recruteur), value.Horaire);
     }
 
     public int Save(Entretien entretien)
     {
         var newId = _entretiens.Count + 1;
         _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(newId, InMemoryCandidatRepository.ToInMemoryEntretienCandidat(entretien.Candidat),
-            InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.Recruteur), entretien.Horaire));
+            InMemoryRecruteurRepository.ToInMemoryEntretienRecruteur(entretien.Recruteur), entretien.Horaire));
         return newId;
     }
 

@@ -2,8 +2,8 @@ using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Candidat = PlanificationEntretien.domain.candidat.Candidat;
+using Recruteur = PlanificationEntretien.domain.recruteur.Recruteur;
 using PlanificationEntretien.domain.entretien;
-using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.email;
 using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.use_case;
@@ -81,7 +81,12 @@ namespace PlanificationEntretien.Steps
                     _candidat.Language,
                     _candidat.Email,
                     _candidat.ExperienceEnAnnees),
-                _recruteur, _disponibiliteDuCandidat);
+                new domain.entretien.Recruteur(
+                    _recruteur.Id,
+                    _recruteur.Language,
+                    _recruteur.Email,
+                    _recruteur.ExperienceEnAnnees),
+                _disponibiliteDuCandidat);
             Assert.Equal(expectedEntretien, entretien);
         }
 

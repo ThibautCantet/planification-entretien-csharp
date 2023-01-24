@@ -1,5 +1,4 @@
 using System;
-using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.domain.entretien;
 

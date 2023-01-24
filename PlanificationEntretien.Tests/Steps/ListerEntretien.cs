@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Candidat = PlanificationEntretien.domain.candidat.Candidat;
 using entretientCandidat = PlanificationEntretien.domain.entretien;
+using Recruteur = PlanificationEntretien.domain.entretien.Recruteur;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.infrastructure.controller;
 using uc = PlanificationEntretien.use_case;
@@ -62,7 +63,11 @@ namespace PlanificationEntretien.Steps
                     candidat.Language,
                     candidat.Email,
                     candidat.ExperienceEnAnnees),
-                recruteur,
+                new Recruteur(
+                    recruteur.Id,
+                    recruteur.Language,
+                    recruteur.Email,
+                    recruteur.ExperienceEnAnnees),
                 horaire);
         }
 

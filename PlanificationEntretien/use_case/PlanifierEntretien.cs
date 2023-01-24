@@ -1,6 +1,5 @@
 using System;
 using PlanificationEntretien.domain.entretien;
-using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.use_case;
 

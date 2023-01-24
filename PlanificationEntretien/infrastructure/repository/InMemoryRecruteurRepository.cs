@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using PlanificationEntretien.domain.recruteur;
+using entretienRecruteur = PlanificationEntretien.domain.entretien;
 
 namespace PlanificationEntretien.infrastructure.repository;
 
@@ -48,14 +49,19 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
     {
         return new Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees);
     }
-
-    internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur recruteur)
-    {
-        return new InMemoryRecruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
-    }
     
+    internal static entretienRecruteur.Recruteur ToEntretienRecruteur(InMemoryRecruteur? value)
+    {
+        return new entretienRecruteur.Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees.Value);
+    }
+
     internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur recruteur, int idRecruteur)
     {
         return new InMemoryRecruteur(idRecruteur, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
+    }
+
+    internal static InMemoryRecruteur ToInMemoryEntretienRecruteur(entretienRecruteur.Recruteur recruteur)
+    {
+        return new InMemoryRecruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
     }
 }

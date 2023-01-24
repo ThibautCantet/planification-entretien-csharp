@@ -4,6 +4,7 @@ using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.use_case;
 using Candidat = PlanificationEntretien.domain.entretien.Candidat;
+using Recruteur = PlanificationEntretien.domain.entretien.Recruteur;
 
 namespace PlanificationEntretien.infrastructure.controller;
 
@@ -34,7 +35,8 @@ public class EntretienController : ControllerBase
         var entretienId = _planifierEntretien.Execute(
             new Candidat(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees),
             createOfferRequest.DisponibiliteCandidat,
-            recruteur, createOfferRequest.DisponibiliteRecruteur);
+            new Recruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees),
+            createOfferRequest.DisponibiliteRecruteur);
         if (entretienId > 0)
         {
             var response = new CreateEntretienResponse(entretienId, candidat.Email, recruteur.Email,
