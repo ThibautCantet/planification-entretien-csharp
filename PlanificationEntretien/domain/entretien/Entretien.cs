@@ -30,9 +30,7 @@ public class Entretien : IEquatable<Entretien>, IEntretien
 
     public bool Planifier(DateTime disponibiliteDuCandidat, DateTime disponibiliteDuRecruteur)
     {
-        var planifiable = Candidat.Language.Equals(Recruteur.Language)
-                          && Candidat.ExperienceEnAnnees < Recruteur.ExperienceEnAnnees
-                          && disponibiliteDuCandidat.Equals(disponibiliteDuRecruteur);
+        var planifiable = Recruteur.EstCompatible(Candidat) && disponibiliteDuCandidat.Equals(disponibiliteDuRecruteur);
         if (planifiable)
         {
             Horaire = disponibiliteDuCandidat;

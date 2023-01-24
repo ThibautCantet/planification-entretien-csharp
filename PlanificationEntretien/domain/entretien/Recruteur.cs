@@ -5,9 +5,7 @@ namespace PlanificationEntretien.domain.entretien;
 public class Recruteur
 {
     public int Id { get; }
-    public string Language { get; }
-    public string Email { get; }
-    public int ExperienceEnAnnees { get; }
+    private Profil _profil;
 
     public Recruteur(
         int id,
@@ -16,14 +14,22 @@ public class Recruteur
         int experienceEnAnnees)
     {
         Id = id;
-        Language = language;
         Email = email;
-        ExperienceEnAnnees = experienceEnAnnees;
+        _profil = new Profil(language, experienceEnAnnees);
+    }
+
+    public string Language => _profil.Language;
+    public string Email { get; }
+    public int ExperienceEnAnnees => _profil.ExperienceEnAnnees;
+
+    public bool EstCompatible(Candidat candidat)
+    {
+        return _profil.EstCompatible(candidat.Profil);
     }
 
     protected bool Equals(Recruteur other)
     {
-        return Id == other.Id && Language == other.Language && Email == other.Email && ExperienceEnAnnees == other.ExperienceEnAnnees;
+        return _profil.Equals(other._profil) && Id == other.Id && Email == other.Email;
     }
 
     public override bool Equals(object? obj)
@@ -36,6 +42,6 @@ public class Recruteur
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Language, Email, ExperienceEnAnnees);
+        return HashCode.Combine(_profil, Id, Email);
     }
 }

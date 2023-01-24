@@ -5,9 +5,7 @@ namespace PlanificationEntretien.domain.entretien;
 public class Candidat
 {
     public int Id { get; }
-    public string Language { get; }
-    public string Email { get; }
-    public int ExperienceEnAnnees { get; }
+    public Profil Profil { get; }
 
     public Candidat(
         int id,
@@ -16,14 +14,17 @@ public class Candidat
         int experienceEnAnnees)
     {
         Id = id;
-        Language = language;
         Email = email;
-        ExperienceEnAnnees = experienceEnAnnees;
+        Profil = new Profil(language, experienceEnAnnees);
     }
+
+    public string Language => Profil.Language;
+    public string Email { get; }
+    public int ExperienceEnAnnees => Profil.ExperienceEnAnnees;
 
     protected bool Equals(Candidat other)
     {
-        return Id == other.Id && Language == other.Language && Email == other.Email && ExperienceEnAnnees == other.ExperienceEnAnnees;
+        return Id == other.Id && Profil.Equals(other.Profil) && Email == other.Email;
     }
 
     public override bool Equals(object? obj)
@@ -36,6 +37,6 @@ public class Candidat
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Language, Email, ExperienceEnAnnees);
+        return HashCode.Combine(Id, Profil, Email);
     }
 }
