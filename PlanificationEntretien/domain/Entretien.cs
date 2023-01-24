@@ -13,15 +13,30 @@ public class Entretien : IEquatable<Entretien>, IEntretien
 {
     public Candidat Candidat { get; }
     public Recruteur Recruteur { get; }
-    public DateTime Horaire { get; }
+    public DateTime Horaire { get; private set; }
 
-    public Entretien(Candidat candidat, Recruteur recruteur, DateTime horaire)
+    private Entretien(Candidat candidat, Recruteur recruteur, DateTime horaire)
     {
         Candidat = candidat;
         Recruteur = recruteur;
         Horaire = horaire;
     }
 
+    public Entretien(Candidat candidat, Recruteur recruteur) : this(candidat, recruteur, DateTime.MinValue)
+    {
+    }
+
+    public bool Planifier(DateTime disponibiliteDuCandidat, DateTime disponibiliteDuRecruteur)
+    {
+        var planifiable = Candidat.Language.Equals(Recruteur.Language)
+                          && Candidat.ExperienceEnAnnees < Recruteur.ExperienceEnAnnees
+                          && disponibiliteDuCandidat.Equals(disponibiliteDuRecruteur);
+        if (planifiable)
+        {
+            Horaire = disponibiliteDuCandidat;
+        }
+        return planifiable;
+    }
 
     public bool Equals(Entretien other)
     {

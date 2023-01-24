@@ -16,16 +16,14 @@ public class PlanifierEntretien
     }
 
     public Boolean Execute(Candidat candidat, DateTime disponibiliteDuCandidat,
-        Recruteur recruteur, DateTime dateDeDisponibiliteDuRecruteur)
+        Recruteur recruteur, DateTime disponibiliteDuRecruteur)
     {
-        if (candidat.Language.Equals(recruteur.Language)
-            && candidat.ExperienceEnAnnees < recruteur.ExperienceEnAnnees
-            && disponibiliteDuCandidat.Equals(dateDeDisponibiliteDuRecruteur))
+        var entretien = new Entretien(candidat, recruteur);
+        if (entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur))
         {
-            Entretien entretien = new Entretien(candidat, recruteur, dateDeDisponibiliteDuRecruteur);
             _entretienRepository.Save(entretien);
-            _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidat.Email, dateDeDisponibiliteDuRecruteur);
-            _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteur.Email, dateDeDisponibiliteDuRecruteur);
+            _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidat.Email, disponibiliteDuRecruteur);
+            _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteur.Email, disponibiliteDuRecruteur);
             return true;
         }
 

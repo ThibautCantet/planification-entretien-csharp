@@ -21,7 +21,7 @@ public class InMemoryEntretienRepository : IEntretienRepository
 
     private static Entretien ToEntretien(InMemoryEntretien? value)
     {
-        return new Entretien( InMemoryCandidatRepository.ToCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
+        return Entretien.of(InMemoryCandidatRepository.ToCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
     }
 
     public void Save(Entretien entretien)
