@@ -42,9 +42,8 @@ namespace PlanificationEntretien.Steps
             Assert.Equal(createCandidatResponse.xp, _candidatRequest.Xp);
             Assert.NotEqual(0, createCandidatResponse.Id);
             
-            var candidat = CandidatRepository.FindByEmail(_emailCandidat);
-            Assert.Equal(candidat,  new Candidat(java, email, int.Parse(xp)));
-            Assert.NotEqual(0, candidat.Id);
+            var candidat = CandidatRepository.FindById(createCandidatResponse.Id);
+            Assert.Equal(candidat,  new Candidat(createCandidatResponse.Id, java, email, int.Parse(xp)));
         }
 
         [Then(@"le candidat n'est pas enregistré")]

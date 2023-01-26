@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using PlanificationEntretien.domain;
 
 namespace PlanificationEntretien.infrastructure.repository;
@@ -6,6 +7,12 @@ namespace PlanificationEntretien.infrastructure.repository;
 public class InMemoryCandidatRepository : ICandidatRepository
 {
     private Dictionary<string, InMemoryCandidat> _candidats = new();
+
+    public Candidat FindById(int id)
+    {
+        var inMemoryCandidat = _candidats.Values.FirstOrDefault(candidat => candidat.id == id);
+        return inMemoryCandidat != null ? ToCandidat(inMemoryCandidat) : null;
+    }
 
     public Candidat FindByEmail(string email)
     {

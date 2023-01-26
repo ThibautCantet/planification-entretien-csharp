@@ -27,7 +27,8 @@ namespace PlanificationEntretien.Steps
             string experienceInYears, string date, string time)
         {
             _candidat = new Candidat(language, email, Int32.Parse(experienceInYears));
-            CandidatRepository.Save(_candidat);
+            var saveCandidatId = CandidatRepository.Save(_candidat);
+            _candidat = new Candidat(saveCandidatId, _candidat.Language, _candidat.Email, _candidat.ExperienceEnAnnees);
             _disponibiliteDuCandidat =
                 DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
         }
@@ -49,7 +50,7 @@ namespace PlanificationEntretien.Steps
             var entretienController =
                 new EntretienController(_planifierEntretien, CandidatRepository, RecruteurRepository);
 
-            _createEntretienResponse = entretienController.Create(new CreateEntretienRequest(_candidat.Email,
+            _createEntretienResponse = entretienController.Create(new CreateEntretienRequest(_candidat.Id,
                 _recruteur.Email,
                 _disponibiliteDuCandidat,
                 _dateDeDisponibiliteDuRecruteur)) as CreatedAtActionResult;
