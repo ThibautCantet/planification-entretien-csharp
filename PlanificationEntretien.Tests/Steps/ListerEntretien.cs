@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain;
+using PlanificationEntretien.infrastructure.controller;
 using uc = PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -12,8 +14,7 @@ namespace PlanificationEntretien.Steps
     [Binding]
     public class ListerEntretien : ATest
     {
-   
-        private IEnumerable<IEntretien> _entretiens;
+        private IActionResult _listerEntretientActionResult;
 
         [Given(@"les recruteurs existants")]
         public void GivenLesRecruteursExistants(Table table)
@@ -56,15 +57,25 @@ namespace PlanificationEntretien.Steps
         [When(@"on liste les tous les entretiens")]
         public void WhenOnListeLesTousLesEntretiens()
         {
-            var entretienService = new uc.ListerEntretien(EntretienRepository);
-            _entretiens = entretienService.Execute();
+            var listerEntretien = new uc.ListerEntretien(EntretienRepository);
+            var entretienController = new EntretienController(null, listerEntretien, CandidatRepository, RecruteurRepository);
+            _listerEntretientActionResult = entretienController.Lister();
         }
 
         [Then(@"on récupères les entretiens suivants")]
         public void ThenOnRecuperesLesEntretiensSuivants(Table table)
         {
-            var entretiens = table.Rows.Select(row => BuildEntretien(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4]));
-            Assert.Equal(_entretiens, entretiens);
+            var okResult = Assert.IsType<OkObjectResult>(_listerEntretientActionResult);
+            List<EntretienResponse> entretiensResponse = Assert.IsType<List<EntretienResponse>>(okResult.Value);
+
+            var entretiens = table.Rows.Select(row => BuildEntretienResponse(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4]));
+            Assert.Equal(entretiensResponse, entretiens);
+        }
+        
+        private EntretienResponse BuildEntretienResponse(string emailRecruteur, string emailCandidat, string time)
+        {
+            var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
+            return new EntretienResponse(emailCandidat, emailRecruteur, horaire);
         }
     }
 }
