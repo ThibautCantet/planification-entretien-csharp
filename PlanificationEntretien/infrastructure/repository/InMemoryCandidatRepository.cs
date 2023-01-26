@@ -18,9 +18,12 @@ public class InMemoryCandidatRepository : ICandidatRepository
         return ToCandidat(value);
     }
 
-    public void Save(Candidat candidat)
+    public int Save(Candidat candidat)
     {
-        _candidats.TryAdd(candidat.Email, ToInMemoryCandidat(candidat,_candidats.Count + 1));
+        var newId = _candidats.Count + 1;
+        _candidats.TryAdd(candidat.Email, ToInMemoryCandidat(candidat,newId));
+
+        return newId;
     }
 
     internal static InMemoryCandidat ToInMemoryCandidat(Candidat candidat)

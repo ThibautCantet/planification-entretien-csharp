@@ -1,15 +1,5 @@
 namespace PlanificationEntretien.infrastructure.controller;
 
-public record CreateCandidatRequest()
+public record CreateCandidatRequest(string Language, string Email, int? Xp) 
 {
-    public CreateCandidatRequest(string language, string email, int? xp) : this()
-    {
-        Language = language;
-        Email = email;
-        XP = xp;
-    }
-
-    public string Language { get; }
-    public string Email { get; }
-    public int? XP { get; }
 }

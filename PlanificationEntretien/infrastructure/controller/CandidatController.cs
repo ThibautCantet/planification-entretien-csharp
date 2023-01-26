@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain;
 using PlanificationEntretien.use_case;
 
 namespace PlanificationEntretien.infrastructure.controller;
@@ -17,14 +15,20 @@ public class CandidatController : ControllerBase
     }
 
     [HttpPost("")]
-    public Task<IActionResult> Create([FromBody] CreateCandidatRequest createCandidatRequest)
+    public ActionResult Create([FromBody] CreateCandidatRequest createCandidatRequest)
     {
-        if (_creerCandidat.Execute(createCandidatRequest.Language,
+        var newId = _creerCandidat.Execute(createCandidatRequest.Language,
+            createCandidatRequest.Email,
+            createCandidatRequest.Xp);
+        if (newId > 0)
+        {
+            var response = new CreateCandidatResponse(newId,
+                createCandidatRequest.Language,
                 createCandidatRequest.Email,
-                createCandidatRequest.XP)) {
-            return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createCandidatRequest },
-                createCandidatRequest));
+                createCandidatRequest.Xp.Value);
+            return CreatedAtAction("Create", new { id = createCandidatRequest },
+                response);
         }
-        return Task.FromResult<IActionResult>(BadRequest());
+        return BadRequest();
     }
 }
