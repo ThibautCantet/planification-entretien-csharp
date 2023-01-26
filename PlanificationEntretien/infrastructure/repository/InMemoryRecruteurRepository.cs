@@ -19,10 +19,12 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
         return ToRecruteur(value);
     }
 
-    public void Save(Recruteur recruteur)
+    public int Save(Recruteur recruteur)
     {
         var newId = _recruteurs.Count + 1;
         _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur, newId));
+        
+        return newId;
     }
 
     public List<Recruteur> FindAll()

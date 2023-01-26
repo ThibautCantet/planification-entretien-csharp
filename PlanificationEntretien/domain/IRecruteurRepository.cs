@@ -5,6 +5,6 @@ namespace PlanificationEntretien.domain;
 public interface IRecruteurRepository
 {
     Recruteur FindByEmail(string email);
-    void Save(Recruteur recruteur);
+    int Save(Recruteur recruteur);
     List<Recruteur> FindAll();
 }

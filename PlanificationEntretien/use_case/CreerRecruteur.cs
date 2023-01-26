@@ -12,19 +12,18 @@ public class CreerRecruteur
         _recruteurRepository = recruteurRepository;
     }
 
-    public bool Execute(String language, String email, int? experienceEnAnnees)
+    public int Execute(String language, String email, int? experienceEnAnnees)
     {
         try
         {
             var recruteur = new Recruteur(language,
                 email,
                 experienceEnAnnees);
-            _recruteurRepository.Save(recruteur);
-            return true;
+            return _recruteurRepository.Save(recruteur);
         }
         catch (ArgumentException)
         {
-            return false;
+            return -1;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace PlanificationEntretien.Steps
         private CreateRecruteurRequest _createRecruteurRequest;
         private string _emailRecruteur;
         private IActionResult _recruteurs;
+        private CreatedAtActionResult _actionResult;
 
         [Given(@"un recruteur ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnRecruteurAvecAnsDExperiences(string language, string email, string xp)
@@ -32,12 +33,20 @@ namespace PlanificationEntretien.Steps
             var creerRecruteur = new CreerRecruteur(RecruteurRepository);
             var listerRecruteurExperimente = new ListerRecruteurExperimente(RecruteurRepository);
             var recruteurController = new RecruteurController(creerRecruteur, listerRecruteurExperimente);
-            recruteurController.Create(_createRecruteurRequest);
+            _actionResult = recruteurController.Create(_createRecruteurRequest) as CreatedAtActionResult;
         }
 
         [Then(@"le recruteur est correctement enregistré avec ses informations ""(.*)"", ""(.*)"" et ""(.*)"" ans d’expériences")]
         public void ThenLeRecruteurEstCorrectementEnregistreAvecSesInformationsEtAnsDExperiences(string java, string email, string xp)
         {
+            Assert.IsType<CreatedAtActionResult>(_actionResult);
+            Assert.IsType<CreateRecruteurResponse>(_actionResult.Value);
+            var createRecruteurResponse = _actionResult.Value as CreateRecruteurResponse;
+            Assert.Equal(createRecruteurResponse.language, _createRecruteurRequest.Language);
+            Assert.Equal(createRecruteurResponse.email, _createRecruteurRequest.Email);
+            Assert.Equal(createRecruteurResponse.xp, _createRecruteurRequest.XP);
+            Assert.NotEqual(0, createRecruteurResponse.Id);
+
             var recruteur = RecruteurRepository.FindByEmail(_emailRecruteur);
             Assert.Equal(recruteur, new Recruteur(java, email, int.Parse(xp)));
             Assert.NotEqual(0, recruteur.Id);

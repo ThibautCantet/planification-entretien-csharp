@@ -21,16 +21,23 @@ public class RecruteurController : ControllerBase
     public record RecruteurCreationDto(string email);
 
     [HttpPost("")]
-    public Task<IActionResult> Create([FromBody] CreateRecruteurRequest createRecruteurRequest)
+    public ActionResult Create([FromBody] CreateRecruteurRequest createRecruteurRequest)
     {
-        if (_creerRecruteur.Execute(createRecruteurRequest.Language,
-                createRecruteurRequest.Email,
-                createRecruteurRequest.XP))
+        var idRecruteur = _creerRecruteur.Execute(createRecruteurRequest.Language,
+            createRecruteurRequest.Email,
+            createRecruteurRequest.XP);
+        
+        if (idRecruteur > 0)
         {
-            return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createRecruteurRequest },
-                createRecruteurRequest));
+            var response = new CreateRecruteurResponse(idRecruteur, 
+                createRecruteurRequest.Language,
+                createRecruteurRequest.Email,
+                createRecruteurRequest.XP.Value);
+            
+            return CreatedAtAction("Create", new { id = idRecruteur },
+                response);
         }
-        return Task.FromResult<IActionResult>(BadRequest());
+        return BadRequest();
     }
 
     [HttpGet("")]
