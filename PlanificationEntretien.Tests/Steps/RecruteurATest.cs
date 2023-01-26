@@ -40,6 +40,7 @@ namespace PlanificationEntretien.Steps
         {
             var recruteur = RecruteurRepository.FindByEmail(_emailRecruteur);
             Assert.Equal(recruteur, new Recruteur(java, email, int.Parse(xp)));
+            Assert.NotEqual(0, recruteur.Id);
         }
 
         [Then(@"le recruteur n'est pas enregistré")]

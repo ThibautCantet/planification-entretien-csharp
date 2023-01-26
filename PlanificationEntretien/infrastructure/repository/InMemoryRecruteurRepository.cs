@@ -21,7 +21,8 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
 
     public void Save(Recruteur recruteur)
     {
-        _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur));
+        var newId = _recruteurs.Count + 1;
+        _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur, newId));
     }
 
     public List<Recruteur> FindAll()
@@ -33,11 +34,16 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
 
     internal static Recruteur ToRecruteur(InMemoryRecruteur? value)
     {
-        return new Recruteur(value.Language, value.Email, value.ExperienceEnAnnees);
+        return new Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees);
     }
 
     internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur recruteur)
     {
-        return new InMemoryRecruteur(recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
+        return new InMemoryRecruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
+    }
+    
+    internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur recruteur, int idRecruteur)
+    {
+        return new InMemoryRecruteur(idRecruteur, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
     }
 }

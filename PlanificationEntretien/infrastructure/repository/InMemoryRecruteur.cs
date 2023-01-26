@@ -1,15 +1,5 @@
 namespace PlanificationEntretien.infrastructure.repository;
 
-public record InMemoryRecruteur
+public record InMemoryRecruteur(int Id, string Language, string Email, int? ExperienceEnAnnees)
 {
-    public string Language { get; }
-    public string Email { get; }
-    public int ExperienceEnAnnees { get; }
-
-    public InMemoryRecruteur(string language, string email, int? experienceEnAnnees)
-    {
-        Language = language;
-        Email = email;
-        ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
-    }
 }
