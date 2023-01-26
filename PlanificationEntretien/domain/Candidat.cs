@@ -5,11 +5,12 @@ namespace PlanificationEntretien.domain;
 
 public class Candidat : IEquatable<Candidat>
 {
+    public int Id { get; }
     public string Language { get; }
     public string Email { get; }
     public int ExperienceEnAnnees { get; }
 
-    public Candidat(string language, string email, int? experienceEnAnnees)
+    public Candidat(int id, string language, string email, int? experienceEnAnnees)
     {
         if (string.IsNullOrEmpty(email) || !IsValid(email)
                                         || email.EndsWith("soat.fr")
@@ -20,9 +21,14 @@ public class Candidat : IEquatable<Candidat>
             throw new ArgumentException();
         }
 
+        Id = id;
         Language = language;
         Email = email;
         ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
+    }
+
+    public Candidat(string language, string email, int? experienceEnAnnees) : this(0, language, email, experienceEnAnnees)
+    {
     }
 
     private static bool IsValid(string email)

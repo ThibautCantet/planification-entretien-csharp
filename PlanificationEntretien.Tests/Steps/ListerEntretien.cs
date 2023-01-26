@@ -28,7 +28,7 @@ namespace PlanificationEntretien.Steps
         [Given(@"les candidats existants")]
         public void GivenLesCandidatsExistants(Table table)
         {
-            var candidats = table.Rows.Select(row => new Candidat( row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
+            var candidats = table.Rows.Select(row => new Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
             foreach (var candidat in candidats)
             {
                 CandidatRepository.Save(candidat);
