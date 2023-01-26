@@ -8,6 +8,16 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
 {
     private Dictionary<string, InMemoryRecruteur> _recruteurs = new();
 
+    public Recruteur FindById(int id)
+    {
+        var recruteur = _recruteurs.Values.FirstOrDefault(r => r.Id == id);
+        if (recruteur == null)
+        {
+            return null;
+        }
+        return ToRecruteur(recruteur);
+    }
+
     public Recruteur FindByEmail(string email)
     {
         InMemoryRecruteur value;

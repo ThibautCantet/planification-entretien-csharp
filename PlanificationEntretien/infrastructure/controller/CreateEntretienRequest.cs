@@ -2,6 +2,6 @@ using System;
 
 namespace PlanificationEntretien.infrastructure.controller;
 
-public record CreateEntretienRequest(int IdCandidat, string? EmailRecruteur, DateTime DisponibiliteCandidat, DateTime DisponibiliteRecruteur)
+public record CreateEntretienRequest(int IdCandidat, int IdRecruteur, DateTime DisponibiliteCandidat, DateTime DisponibiliteRecruteur)
 {
 }

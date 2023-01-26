@@ -37,7 +37,7 @@ namespace PlanificationEntretien.Steps
         }
 
         [Then(@"le recruteur est correctement enregistré avec ses informations ""(.*)"", ""(.*)"" et ""(.*)"" ans d’expériences")]
-        public void ThenLeRecruteurEstCorrectementEnregistreAvecSesInformationsEtAnsDExperiences(string java, string email, string xp)
+        public void ThenLeRecruteurEstCorrectementEnregistreAvecSesInformationsEtAnsDExperiences(string techno, string email, string xp)
         {
             Assert.IsType<CreatedAtActionResult>(_actionResult);
             Assert.IsType<CreateRecruteurResponse>(_actionResult.Value);
@@ -47,9 +47,8 @@ namespace PlanificationEntretien.Steps
             Assert.Equal(createRecruteurResponse.xp, _createRecruteurRequest.XP);
             Assert.NotEqual(0, createRecruteurResponse.Id);
 
-            var recruteur = RecruteurRepository.FindByEmail(_emailRecruteur);
-            Assert.Equal(recruteur, new Recruteur(java, email, int.Parse(xp)));
-            Assert.NotEqual(0, recruteur.Id);
+            var recruteur = RecruteurRepository.FindById(createRecruteurResponse.Id);
+            Assert.Equal(recruteur, new Recruteur(createRecruteurResponse.Id, techno, email, int.Parse(xp)));
         }
 
         [Then(@"le recruteur n'est pas enregistré")]

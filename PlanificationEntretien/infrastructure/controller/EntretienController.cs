@@ -24,12 +24,12 @@ public class EntretienController : ControllerBase
     public ActionResult Create([FromBody] CreateEntretienRequest createOfferRequest)
     {
         var candidat = _candidatRepository.FindById(createOfferRequest.IdCandidat);
-        var recruteur = _recruteurRepository.FindByEmail(createOfferRequest.EmailRecruteur);
+        var recruteur = _recruteurRepository.FindById(createOfferRequest.IdRecruteur);
         var result = _planifierEntretien.Execute(candidat, createOfferRequest.DisponibiliteCandidat,
             recruteur, createOfferRequest.DisponibiliteRecruteur);
         if (result)
         {
-            var response = new CreateEntretienResponse(candidat.Email, createOfferRequest.EmailRecruteur,
+            var response = new CreateEntretienResponse(candidat.Email, recruteur.Email,
                 createOfferRequest.DisponibiliteCandidat);
             return CreatedAtAction("Create", new {id= createOfferRequest}, response);
         }
