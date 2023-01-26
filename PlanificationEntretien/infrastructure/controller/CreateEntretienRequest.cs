@@ -12,9 +12,9 @@ public class CreateEntretienRequest
         DisponibiliteRecruteur = disponibiliteRecruteur;
     }
 
-    public DateTime DisponibiliteCandidat { get; init; }
-    public DateTime DisponibiliteRecruteur { get; init; }
-    public string? EmailCandidat { get; init; }
-    public string? EmailRecruteur { get; init; }
+    public DateTime DisponibiliteCandidat { get; }
+    public DateTime DisponibiliteRecruteur { get; }
+    public string? EmailCandidat { get; }
+    public string? EmailRecruteur { get; }
  
 }

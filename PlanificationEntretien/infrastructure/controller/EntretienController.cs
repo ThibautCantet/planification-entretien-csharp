@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.use_case;
@@ -21,8 +20,8 @@ public class EntretienController : ControllerBase
     }
 
     
-    [HttpPost("")]
-    public Task<IActionResult> Create([FromBody] CreateEntretienRequest createOfferRequest)
+    [HttpPost]
+    public ActionResult Create([FromBody] CreateEntretienRequest createOfferRequest)
     {
         var candidat = _candidatRepository.FindByEmail(createOfferRequest.EmailCandidat);
         var recruteur = _recruteurRepository.FindByEmail(createOfferRequest.EmailRecruteur);
@@ -30,8 +29,10 @@ public class EntretienController : ControllerBase
             recruteur, createOfferRequest.DisponibiliteRecruteur);
         if (result)
         {
-            return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createOfferRequest }, createOfferRequest));
+            var response = new CreateEntretienResponse(createOfferRequest.EmailCandidat, createOfferRequest.EmailRecruteur,
+                createOfferRequest.DisponibiliteCandidat);
+            return CreatedAtAction("Create", new {id= createOfferRequest}, response);
         }
-        return Task.FromResult<IActionResult>(BadRequest());
+        return BadRequest();
     }
 }

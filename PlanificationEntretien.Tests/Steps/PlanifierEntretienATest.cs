@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.email;
 using PlanificationEntretien.infrastructure.controller;
@@ -19,6 +19,7 @@ namespace PlanificationEntretien.Steps
         private DateTime _dateDeDisponibiliteDuRecruteur;
         private PlanifierEntretien _planifierEntretien;
         private readonly IEmailService _emailService = new FakeEmailService();
+        private CreatedAtActionResult _createEntretienResponse;
 
         [Given(
             @"un candidat ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences qui est disponible ""(.*)"" à ""(.*)""")]
@@ -48,15 +49,22 @@ namespace PlanificationEntretien.Steps
             var entretienController =
                 new EntretienController(_planifierEntretien, CandidatRepository, RecruteurRepository);
 
-            entretienController.Create(new CreateEntretienRequest(_candidat.Email,
+            _createEntretienResponse = entretienController.Create(new CreateEntretienRequest(_candidat.Email,
                 _recruteur.Email,
                 _disponibiliteDuCandidat,
-                _dateDeDisponibiliteDuRecruteur));
+                _dateDeDisponibiliteDuRecruteur)) as CreatedAtActionResult;
         }
 
         [Then(@"L’entretien est planifié")]
         public void ThenLEntretienEstPlanifie()
         {
+            Assert.IsType<CreatedAtActionResult>(_createEntretienResponse);
+            Assert.IsType<CreateEntretienResponse>(_createEntretienResponse.Value);
+            var createEntretienRequest = _createEntretienResponse.Value as CreateEntretienResponse;
+            Assert.Equal(createEntretienRequest.EmailCandidat, _candidat.Email);
+            Assert.Equal(createEntretienRequest.EmailRecruteur, _recruteur.Email);
+            Assert.Equal(createEntretienRequest.Horaire, _disponibiliteDuCandidat);
+            
             Entretien entretien = EntretienRepository.FindByCandidat(_candidat);
             Entretien expectedEntretien = Entretien.of(_candidat, _recruteur, _disponibiliteDuCandidat);
             Assert.Equal(expectedEntretien, entretien);
