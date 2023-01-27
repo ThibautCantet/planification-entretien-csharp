@@ -2,18 +2,10 @@ using System;
 
 namespace PlanificationEntretien.infrastructure.repository;
 
-public record InMemoryEntretien()
+public record InMemoryEntretien(
+    int Id,
+    InMemoryCandidat Candidat,
+    InMemoryRecruteur Recruteur,
+    DateTime Horaire)
 {
-    
-    public int Id { get; }
-    public InMemoryCandidat Candidat { get; }
-    public InMemoryRecruteur Recruteur { get; }
-    public DateTime Horaire { get; }
-
-    public InMemoryEntretien(InMemoryCandidat candidat, InMemoryRecruteur recruteur, DateTime horaire) : this()
-    {
-        Candidat = candidat;
-        Recruteur = recruteur;
-        Horaire = horaire;
-    }
 }

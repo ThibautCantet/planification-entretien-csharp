@@ -29,11 +29,11 @@ public class EntretienController : ControllerBase
     {
         var candidat = _candidatRepository.FindById(createOfferRequest.IdCandidat);
         var recruteur = _recruteurRepository.FindById(createOfferRequest.IdRecruteur);
-        var result = _planifierEntretien.Execute(candidat, createOfferRequest.DisponibiliteCandidat,
+        var entretienId = _planifierEntretien.Execute(candidat, createOfferRequest.DisponibiliteCandidat,
             recruteur, createOfferRequest.DisponibiliteRecruteur);
-        if (result)
+        if (entretienId > 0)
         {
-            var response = new CreateEntretienResponse(candidat.Email, recruteur.Email,
+            var response = new CreateEntretienResponse(entretienId, candidat.Email, recruteur.Email,
                 createOfferRequest.DisponibiliteCandidat);
             return CreatedAtAction("Create", new {id= createOfferRequest}, response);
         }

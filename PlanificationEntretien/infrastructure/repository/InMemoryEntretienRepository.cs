@@ -24,10 +24,12 @@ public class InMemoryEntretienRepository : IEntretienRepository
         return Entretien.of(InMemoryCandidatRepository.ToCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
     }
 
-    public void Save(Entretien entretien)
+    public int Save(Entretien entretien)
     {
-        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(InMemoryCandidatRepository.ToInMemoryCandidat(entretien.Candidat),
+        var newId = _entretiens.Count + 1;
+        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien( newId, InMemoryCandidatRepository.ToInMemoryCandidat(entretien.Candidat),
             InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.Recruteur), entretien.Horaire));
+        return newId;
     }
 
     public IEnumerable<Entretien> FindAll()

@@ -15,18 +15,18 @@ public class PlanifierEntretien
         _emailService = emailService;
     }
 
-    public Boolean Execute(Candidat candidat, DateTime disponibiliteDuCandidat,
+    public int Execute(Candidat candidat, DateTime disponibiliteDuCandidat,
         Recruteur recruteur, DateTime disponibiliteDuRecruteur)
     {
         var entretien = new Entretien(candidat, recruteur);
         if (entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur))
         {
-            _entretienRepository.Save(entretien);
+            var entretienId = _entretienRepository.Save(entretien);
             _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidat.Email, disponibiliteDuRecruteur);
             _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteur.Email, disponibiliteDuRecruteur);
-            return true;
+            return entretienId;
         }
 
-        return false;
+        return -1;
     }
 }
