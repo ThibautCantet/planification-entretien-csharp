@@ -39,19 +39,19 @@ namespace PlanificationEntretien.Steps
         [Given(@"les entretiens existants")]
         public void GivenLesEntretiensExistants(Table table)
         {
-            var entretiens = table.Rows.Select(row => BuildEntretien(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3]));
+            var entretiens = table.Rows.Select(row => BuildEntretien(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3]));
             foreach (var entretien in entretiens)
             {
                 EntretienRepository.Save(entretien);
             }
         }
 
-        private Entretien BuildEntretien(string emailRecruteur, string emailCandidat, string time)
+        private Entretien BuildEntretien(int id, string emailRecruteur, string emailCandidat, string time)
         {
             var recruteur = RecruteurRepository.FindByEmail(emailRecruteur);
             var candidat = CandidatRepository.FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
-            return Entretien.of(candidat , recruteur, horaire);
+            return Entretien.of(id, candidat , recruteur, horaire);
         }
 
         [When(@"on liste les tous les entretiens")]

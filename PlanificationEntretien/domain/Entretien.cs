@@ -11,18 +11,20 @@ public interface IEntretien
 
 public class Entretien : IEquatable<Entretien>, IEntretien
 {
+    public int Id { get; }
     public Candidat Candidat { get; }
     public Recruteur Recruteur { get; }
     public DateTime Horaire { get; private set; }
 
-    private Entretien(Candidat candidat, Recruteur recruteur, DateTime horaire)
+    private Entretien(int id, Candidat candidat, Recruteur recruteur, DateTime horaire)
     {
+        Id = id;
         Candidat = candidat;
         Recruteur = recruteur;
         Horaire = horaire;
     }
 
-    public Entretien(Candidat candidat, Recruteur recruteur) : this(candidat, recruteur, DateTime.MinValue)
+    public Entretien(Candidat candidat, Recruteur recruteur) : this(-1, candidat, recruteur, DateTime.MinValue)
     {
     }
 
@@ -38,14 +40,14 @@ public class Entretien : IEquatable<Entretien>, IEntretien
         return planifiable;
     }
 
-    public bool Equals(Entretien other)
+    public bool Equals(Entretien? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return Equals(Candidat, other.Candidat) && Equals(Recruteur, other.Recruteur) && Equals(Horaire, other.Horaire);
+        return Id == other.Id && Candidat.Equals(other.Candidat) && Recruteur.Equals(other.Recruteur) && Horaire.Equals(other.Horaire);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
@@ -55,11 +57,11 @@ public class Entretien : IEquatable<Entretien>, IEntretien
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Candidat, Recruteur, Horaire);
+        return HashCode.Combine(Id, Candidat, Recruteur, Horaire);
     }
 
-    public static Entretien of(Candidat candidat, Recruteur recruteur, DateTime horaire)
+    public static Entretien of(int id, Candidat candidat, Recruteur recruteur, DateTime horaire)
     {
-        return new Entretien(candidat, recruteur, horaire);
+        return new Entretien(id, candidat, recruteur, horaire);
     }
 }

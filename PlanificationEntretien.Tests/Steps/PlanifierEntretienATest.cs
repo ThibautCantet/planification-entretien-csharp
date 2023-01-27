@@ -71,8 +71,8 @@ namespace PlanificationEntretien.Steps
             var createEntretienResponse = _createEntretienResponse.Value as CreateEntretienResponse;
             Assert.NotEqual(0, createEntretienResponse.EntretienId);
 
-            Entretien entretien = EntretienRepository.FindByCandidat(_candidat);
-            Entretien expectedEntretien = Entretien.of(_candidat, _recruteur, _disponibiliteDuCandidat);
+            Entretien entretien = EntretienRepository.FindById(createEntretienResponse.EntretienId);
+            Entretien expectedEntretien = Entretien.of(entretien.Id, _candidat, _recruteur, _disponibiliteDuCandidat);
             Assert.Equal(expectedEntretien, entretien);
         }
 

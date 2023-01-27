@@ -8,6 +8,12 @@ public class InMemoryEntretienRepository : IEntretienRepository
 {
     private Dictionary<Candidat, InMemoryEntretien> _entretiens = new();
 
+    public Entretien FindById(int id)
+    {
+        var inMemoryEntretien = _entretiens.Values.FirstOrDefault(entretien => entretien.Id == id);
+        return inMemoryEntretien != null ? ToEntretien(inMemoryEntretien) : null;
+    }
+
     public Entretien FindByCandidat(Candidat candidat)
     {
         InMemoryEntretien value;
@@ -21,13 +27,13 @@ public class InMemoryEntretienRepository : IEntretienRepository
 
     private static Entretien ToEntretien(InMemoryEntretien? value)
     {
-        return Entretien.of(InMemoryCandidatRepository.ToCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
+        return Entretien.of( value.Id, InMemoryCandidatRepository.ToCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
     }
 
     public int Save(Entretien entretien)
     {
         var newId = _entretiens.Count + 1;
-        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien( newId, InMemoryCandidatRepository.ToInMemoryCandidat(entretien.Candidat),
+        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(newId, InMemoryCandidatRepository.ToInMemoryCandidat(entretien.Candidat),
             InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.Recruteur), entretien.Horaire));
         return newId;
     }
