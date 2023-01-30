@@ -5,7 +5,8 @@ namespace PlanificationEntretien.domain.recruteur;
 public class Recruteur : IEquatable<Recruteur>
 {
     public int Id { get; }
-    public string Language { get; }
+    public string Language => _language.Nom;
+    private readonly Langage _language;
     private RecruteurEmail _recruteurEmail;
     public string Email => _recruteurEmail.Adresse;
     private Experience _experience;
@@ -19,7 +20,7 @@ public class Recruteur : IEquatable<Recruteur>
         }
 
         Id = id;
-        Language = language;
+        _language = new Langage(language);
         _recruteurEmail = new RecruteurEmail(email);
         _experience = new Experience(experienceEnAnnees.GetValueOrDefault(-1));
     }

@@ -5,7 +5,8 @@ namespace PlanificationEntretien.domain.candidat;
 public class Candidat : IEquatable<Candidat>
 {
     public int Id { get; }
-    public string Language { get; }
+    private readonly Langage _language;
+    public string Language => _language.Nom;
     private CandidatEmail _candidatEmail;
     public string Email => _candidatEmail.Adresse;
     private readonly Experience _experience;
@@ -13,13 +14,8 @@ public class Candidat : IEquatable<Candidat>
 
     public Candidat(int id, string language, string email, int? experienceEnAnnees)
     {
-        if (string.IsNullOrEmpty(language))
-        {
-            throw new ArgumentException();
-        }
-
         Id = id;
-        Language = language;
+        _language = new Langage(language);
         _candidatEmail = new CandidatEmail(email);
         _experience = new Experience(experienceEnAnnees);
     }
