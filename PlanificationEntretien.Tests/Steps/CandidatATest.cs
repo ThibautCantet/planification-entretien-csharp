@@ -1,5 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+using Planification_Entretien.domain_service.candidat;
 using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.application_service.candidat;
@@ -26,7 +27,8 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente d'enregistrer le candidat")]
         public void WhenOnTenteDenregistrerLeCandidat()
         {
-            var creerCandidat = new CreerCandidat(CandidatRepository);
+            var candidatFactory = new CandidatFactory();
+            var creerCandidat = new CreerCandidat(CandidatRepository, candidatFactory);
             var candidatController = new CandidatController(creerCandidat);
             _actionResult = candidatController.Create(_candidatRequest) as CreatedAtActionResult;
         }

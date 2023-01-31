@@ -28,15 +28,19 @@ public class InMemoryCandidatRepository : ICandidatRepository
 
     public int Save(Candidat candidat)
     {
-        var newId = _candidats.Count + 1;
-        _candidats.TryAdd(candidat.Email, ToInMemoryCandidat(candidat,newId));
+        _candidats.TryAdd(candidat.Email, ToInMemoryCandidat(candidat));
 
-        return newId;
+        return candidat.Id;
     }
 
-    internal static InMemoryCandidat ToInMemoryCandidat(Candidat candidat, int idCandidat)
+    public int Next()
     {
-        return new InMemoryCandidat(idCandidat, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees);
+        return _candidats.Count + 1;
+    }
+
+    internal static InMemoryCandidat ToInMemoryCandidat(Candidat candidat)
+    {
+        return new InMemoryCandidat(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees);
     }
     
     internal static InMemoryCandidat ToInMemoryEntretienCandidat(entretienCandidat.Candidat candidat)

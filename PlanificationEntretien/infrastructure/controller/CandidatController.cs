@@ -1,5 +1,7 @@
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.application_service.candidat;
+using PlanificationEntretien.domain.candidat;
 
 namespace PlanificationEntretien.infrastructure.controller;
 
@@ -17,18 +19,21 @@ public class CandidatController : ControllerBase
     [HttpPost("")]
     public ActionResult Create([FromBody] CreateCandidatRequest createCandidatRequest)
     {
-        var newId = _creerCandidat.Execute(createCandidatRequest.Language,
+        var events = _creerCandidat.Execute(createCandidatRequest.Language,
             createCandidatRequest.Email,
             createCandidatRequest.Xp);
-        if (newId > 0)
+        if (events.All(evt => evt.GetType() != typeof(CandidatCrée)))
         {
-            var response = new CreateCandidatResponse(newId,
-                createCandidatRequest.Language,
-                createCandidatRequest.Email,
-                createCandidatRequest.Xp.Value);
-            return CreatedAtAction("Create", new { id = createCandidatRequest },
-                response);
+            return BadRequest();
         }
-        return BadRequest();
+
+        var candidatCrée = events
+            .FirstOrDefault(evt => evt.GetType() == typeof(CandidatCrée)) as CandidatCrée;
+        var response = new CreateCandidatResponse(candidatCrée.Id,
+            createCandidatRequest.Language,
+            createCandidatRequest.Email,
+            createCandidatRequest.Xp.Value);
+        return CreatedAtAction("Create", new { id = createCandidatRequest },
+            response);
     }
 }

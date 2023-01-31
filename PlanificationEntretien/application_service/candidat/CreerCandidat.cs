@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using Planification_Entretien.domain;
+using Planification_Entretien.domain_service.candidat;
 using PlanificationEntretien.domain.candidat;
 
 namespace PlanificationEntretien.application_service.candidat;
@@ -6,24 +9,28 @@ namespace PlanificationEntretien.application_service.candidat;
 public class CreerCandidat
 {
     private readonly ICandidatRepository _candidatRepository;
+    private readonly CandidatFactory _candidatFactory;
 
-    public CreerCandidat(ICandidatRepository candidatRepository)
+    public CreerCandidat(ICandidatRepository candidatRepository, CandidatFactory candidatFactory)
     {
         _candidatRepository = candidatRepository;
+        _candidatFactory = candidatFactory;
     }
 
-    public int Execute(String language, String email, int? experienceEnAnnees)
+    public IEnumerable<Event> Execute(string language, string email, int? experienceEnAnnees)
     {
-        try
+        var candidatId = _candidatRepository.Next();
+        var eventCandidatResult = _candidatFactory.Create(candidatId, language, email, experienceEnAnnees);
+
+        var candidatCrée = eventCandidatResult.Event as CandidatCrée;
+        if (candidatCrée != null)
         {
-            var candidat = new Candidat(language,
-                email,
-                experienceEnAnnees);
-            return _candidatRepository.Save(candidat);
+            _candidatRepository.Save(eventCandidatResult.Value);
         }
-        catch (ArgumentException)
-        {
-            return -1;
-        }
+
+        var events = new List<Event>();
+        events.Add(eventCandidatResult.Event);
+        
+        return events;
     }
 }
