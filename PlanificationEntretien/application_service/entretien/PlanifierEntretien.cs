@@ -7,11 +7,13 @@ public class PlanifierEntretien
 {
     private readonly IEntretienRepository _entretienRepository;
     private readonly IEmailService _emailService;
+    private readonly MessageBus _messageBus;
 
-    public PlanifierEntretien(IEntretienRepository entretienRepository, IEmailService emailService)
+    public PlanifierEntretien(IEntretienRepository entretienRepository, IEmailService emailService, MessageBus messageBus)
     {
         _entretienRepository = entretienRepository;
         _emailService = emailService;
+        _messageBus = messageBus;
     }
 
     public int Execute(Candidat candidat, DateTime disponibiliteDuCandidat,
@@ -23,6 +25,8 @@ public class PlanifierEntretien
             var entretienId = _entretienRepository.Save(entretien);
             _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidat.Email, disponibiliteDuRecruteur);
             _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteur.Email, disponibiliteDuRecruteur);
+            _messageBus.Send(new EntretienCréé(entretien.Id, recruteur.Id));
+
             return entretienId;
         }
 

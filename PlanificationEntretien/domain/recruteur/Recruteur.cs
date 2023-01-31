@@ -11,8 +11,9 @@ public class Recruteur : IEquatable<Recruteur>
     public string Email => _recruteurEmail.Adresse;
     private Experience _experience;
     public int ExperienceEnAnnees => _experience.Annee;
+    public bool EstDisponible { get; private set; }
 
-    public Recruteur(int id, string language, string email, int? experienceEnAnnees)
+    public Recruteur(int id, string language, string email, int? experienceEnAnnees, bool estDisponible)
     {
         if (string.IsNullOrEmpty(language))
         {
@@ -23,11 +24,22 @@ public class Recruteur : IEquatable<Recruteur>
         _language = new Langage(language);
         _recruteurEmail = new RecruteurEmail(email);
         _experience = new Experience(experienceEnAnnees.GetValueOrDefault(-1));
+        EstDisponible = estDisponible;
     }
 
     public Recruteur(string language, string email, int? experienceEnAnnees) : this(0, language, email,
-        experienceEnAnnees)
+        experienceEnAnnees, true)
     {
+    }
+    
+    public Recruteur(int id, string language, string email, int? experienceEnAnnees) : this(id, language, email,
+        experienceEnAnnees, true)
+    {
+    }
+
+    public void RendreIndisponible()
+    {
+        EstDisponible = false;
     }
 
     public bool Equals(Recruteur other)

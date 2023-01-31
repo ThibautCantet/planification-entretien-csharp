@@ -1,12 +1,14 @@
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
+using PlanificationEntretien.application_service;
 using Candidat = PlanificationEntretien.domain.candidat.Candidat;
 using Recruteur = PlanificationEntretien.domain.recruteur.Recruteur;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.email;
 using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.application_service.entretien;
+using PlanificationEntretien.application_service.recruteur;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -22,6 +24,7 @@ namespace PlanificationEntretien.Steps
         private PlanifierEntretien _planifierEntretien;
         private readonly IEmailService _emailService = new FakeEmailService();
         private CreatedAtActionResult _createEntretienResponse;
+        private MessageBus _messageBus = new ();
 
         [Given(
             @"un candidat ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences qui est disponible ""(.*)"" à ""(.*)""")]
@@ -51,7 +54,8 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            _planifierEntretien = new PlanifierEntretien(EntretienRepository, _emailService);
+            var _entretienCréeListener = new EntretienCréeListener(RecruteurRepository, _messageBus);
+            _planifierEntretien = new PlanifierEntretien(EntretienRepository, _emailService, _messageBus);
             var entretienController =
                 new EntretienController(_planifierEntretien, null, null, CandidatRepository, RecruteurRepository);
 
@@ -120,6 +124,14 @@ namespace PlanificationEntretien.Steps
             Assert.False(
                 ((FakeEmailService)_emailService).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_recruteur.Email,
                     _disponibiliteDuCandidat));
+        }
+
+        [Then(@"le recruteur ""(.*)"" n'est plus disponible")]
+        public void ThenLeRecruteurNestPlusDisponible(string email)
+        {
+            var recruteur = RecruteurRepository.FindByEmail(email);
+
+            Assert.False(recruteur.EstDisponible);
         }
     }
 }

@@ -32,22 +32,33 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
 
     public int Save(Recruteur recruteur)
     {
-        var newId = _recruteurs.Count + 1;
-        _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur, newId));
-        
-        return newId;
+        if (recruteur.Id == 0)
+        {
+            var newId = _recruteurs.Count + 1;
+            _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur, newId));
+
+            return newId;
+        }
+
+        _recruteurs.Remove(recruteur.Email);
+        if (_recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur)))
+        {
+            return recruteur.Id;
+        }
+
+        return -1;
     }
 
     public List<Recruteur> FindAll()
     {
         return _recruteurs.Values
-            .Select(r => new Recruteur(r.Language, r.Email, r.ExperienceEnAnnees))
+            .Select(r => new Recruteur(r.Id, r.Language, r.Email, r.ExperienceEnAnnees, r.EstDisponible))
             .ToList();
     }
 
     internal static Recruteur ToRecruteur(InMemoryRecruteur? value)
     {
-        return new Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees);
+        return new Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees, value.EstDisponible);
     }
     
     internal static entretienRecruteur.Recruteur ToEntretienRecruteur(InMemoryRecruteur? value)
@@ -55,13 +66,18 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
         return new entretienRecruteur.Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees.Value);
     }
 
+    internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur recruteur)
+    {
+        return ToInMemoryRecruteur(recruteur, recruteur.Id);
+    }
+
     internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur recruteur, int idRecruteur)
     {
-        return new InMemoryRecruteur(idRecruteur, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
+        return new InMemoryRecruteur(idRecruteur, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees, recruteur.EstDisponible);
     }
 
     internal static InMemoryRecruteur ToInMemoryEntretienRecruteur(entretienRecruteur.Recruteur recruteur)
     {
-        return new InMemoryRecruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
+        return new InMemoryRecruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees, true);
     }
 }
