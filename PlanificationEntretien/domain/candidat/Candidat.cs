@@ -4,7 +4,8 @@ namespace PlanificationEntretien.domain.candidat;
 
 public class Candidat : IEquatable<Candidat>
 {
-    public int Id { get; }
+    private readonly CandidatId _id;
+    public int Id => _id.Valeur;
     private readonly Langage _language;
     public string Language => _language.Nom;
     private CandidatEmail _candidatEmail;
@@ -14,14 +15,10 @@ public class Candidat : IEquatable<Candidat>
 
     public Candidat(int id, string language, string email, int? experienceEnAnnees)
     {
-        Id = id;
+        _id = new CandidatId(id);
         _language = new Langage(language);
         _candidatEmail = new CandidatEmail(email);
         _experience = new Experience(experienceEnAnnees);
-    }
-
-    public Candidat(string language, string email, int? experienceEnAnnees) : this(0, language, email, experienceEnAnnees)
-    {
     }
 
     public bool Equals(Candidat? other)

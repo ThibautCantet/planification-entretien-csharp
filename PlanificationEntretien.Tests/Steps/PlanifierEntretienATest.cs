@@ -28,7 +28,8 @@ namespace PlanificationEntretien.Steps
         public void GivenUnCandidatAvecAnsDExperiencesQuiEstDisponibleA(string language, string email,
             string experienceInYears, string date, string time)
         {
-            _candidat = new Candidat(language, email, Int32.Parse(experienceInYears));
+            var id = CandidatRepository.Next();
+            _candidat = new Candidat(id, language, email, Int32.Parse(experienceInYears));
             var saveCandidatId = CandidatRepository.Save(_candidat);
             _candidat = new Candidat(saveCandidatId, _candidat.Language, _candidat.Email, _candidat.ExperienceEnAnnees);
             _disponibiliteDuCandidat =
