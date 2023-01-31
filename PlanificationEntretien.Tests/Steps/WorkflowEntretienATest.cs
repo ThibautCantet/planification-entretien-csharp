@@ -63,7 +63,7 @@ namespace PlanificationEntretien.Steps
         [Then(@"on récupères les entretiens suivants en base")]
         public void ThenOnRecuperesLesEntretiensSuivantsEnBase(Table table)
         {
-            Assert.IsType<OkResult>(_validateEntretienResponse);
+            Assert.IsType<OkObjectResult>(_validateEntretienResponse);
 
             var entretien = EntretienRepository.FindById(_entretienId);
             var entretiens = table.Rows.Select(row =>
