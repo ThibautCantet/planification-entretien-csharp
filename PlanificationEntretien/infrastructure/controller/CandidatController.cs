@@ -27,6 +27,11 @@ public class CandidatController : ControllerBase
             return BadRequest();
         }
 
+        if (events.Any(evt => evt.GetType() == typeof(CandidatNonSauvegardé)))
+        {
+            return Problem();
+        }
+
         var candidatCrée = events
             .FirstOrDefault(evt => evt.GetType() == typeof(CandidatCrée)) as CandidatCrée;
         var response = new CreateCandidatResponse(candidatCrée.Id,
