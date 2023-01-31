@@ -1,27 +1,21 @@
 using Planification_Entretien.domain;
 using PlanificationEntretien.domain.entretien;
-using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.application_service.recruteur;
 
 public class EntretienCréeListener : Listener
 {
-    private readonly IRecruteurRepository _recruteurRepository;
+    private readonly RendreRecruteurIndisponible _rendreRendreRecruteurIndisponible;
     private readonly MessageBus _messageBus;
 
-    public EntretienCréeListener(IRecruteurRepository recruteurRepository, MessageBus messageBus) {
-        _recruteurRepository = recruteurRepository;
+    public EntretienCréeListener(RendreRecruteurIndisponible rendreRecruteurIndisponible, MessageBus messageBus) {
+        _rendreRendreRecruteurIndisponible = rendreRecruteurIndisponible;
         _messageBus = messageBus;
         _messageBus.Subscribe(this);
     }
 
     public void OnMessage(Event entretienCréé)
     {
-        var recruteur = _recruteurRepository.FindById((entretienCréé as EntretienCréé)!.RecruteurId);
-        if (recruteur != null) 
-        {
-            recruteur.RendreIndisponible();
-            _recruteurRepository.Save(recruteur);
-        }
+        _rendreRendreRecruteurIndisponible.Execute((entretienCréé as EntretienCréé)!.RecruteurId);
     }
 }

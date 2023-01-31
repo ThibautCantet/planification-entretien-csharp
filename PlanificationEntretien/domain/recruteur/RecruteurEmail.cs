@@ -4,7 +4,7 @@ using System.Net.Mail;
 namespace PlanificationEntretien.domain.recruteur;
 
 record RecruteurEmail() {
-    private static readonly string EMAIL_REGEX = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
+    private static readonly string EMAIL_REGEX = "^[\\w-_rendreRecruteurIndisponible.+]*[\\w-_rendreRecruteurIndisponible.]@([\\w]+\\.)+[\\w]+[\\w]$";
 
     public RecruteurEmail(string adresse) : this() {
         if (!IsValid(adresse) || !adresse.EndsWith("soat.fr")) {

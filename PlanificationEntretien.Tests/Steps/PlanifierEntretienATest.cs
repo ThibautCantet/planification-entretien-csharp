@@ -54,7 +54,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            var _entretienCréeListener = new EntretienCréeListener(RecruteurRepository, _messageBus);
+            var _entretienCréeListener = new EntretienCréeListener(new RendreRecruteurIndisponible(RecruteurRepository), _messageBus);
             _planifierEntretien = new PlanifierEntretien(EntretienRepository, _emailService, _messageBus);
             var entretienController =
                 new EntretienController(_planifierEntretien, null, null, CandidatRepository, RecruteurRepository);
