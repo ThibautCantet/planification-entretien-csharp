@@ -71,3 +71,8 @@ public class EntretienCréeListener : Listener
 ### Question
 
 Quels sont les intérêts de passer par des domain events ?
+
+### Réponse
+
+- Découplage
+- Open Close Principle
