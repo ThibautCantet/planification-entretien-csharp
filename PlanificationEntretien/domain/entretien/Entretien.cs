@@ -17,7 +17,8 @@ public class Entretien : IEquatable<Entretien>, IEntretien
     public Recruteur Recruteur { get; }
     public DateTime Horaire { get; private set; }
 
-    public Status Status { get; }
+    public Status Status { get; private set; }
+
     private Entretien(int id, Candidat candidat, Recruteur recruteur, DateTime horaire)
     {
         Id = id;
@@ -38,6 +39,11 @@ public class Entretien : IEquatable<Entretien>, IEntretien
             Horaire = disponibiliteDuCandidat;
         }
         return planifiable;
+    }
+
+    public void Valider()
+    {
+        Status = Status.VALIDEE;
     }
 
     public bool Equals(Entretien? other)

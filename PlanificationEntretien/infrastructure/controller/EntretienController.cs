@@ -16,14 +16,16 @@ public class EntretienController : ControllerBase
     private readonly ICandidatRepository _candidatRepository;
     private readonly IRecruteurRepository _recruteurRepository;
     private readonly ListerEntretien _listerEntretien;
+    private readonly ValiderEntretien _validerEntretien;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretien listerEntretien,
+    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretien listerEntretien, ValiderEntretien validerEntretien,
         ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository)
     {
         _planifierEntretien = planifierEntretien;
         _candidatRepository = candidatRepository;
         _recruteurRepository = recruteurRepository;
         _listerEntretien = listerEntretien;
+        _validerEntretien = validerEntretien;
     }
 
     
@@ -55,5 +57,15 @@ public class EntretienController : ControllerBase
                 entretien.Status))
             .ToList();
         return Ok(entretiens);
+    }
+
+    public IActionResult Valider(int id)
+    {
+        if (_validerEntretien.Execute(id))
+        {
+            return Ok();
+        }
+
+        return null;
     }
 }

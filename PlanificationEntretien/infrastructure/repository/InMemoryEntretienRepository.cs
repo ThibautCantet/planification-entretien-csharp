@@ -36,14 +36,33 @@ public class InMemoryEntretienRepository : IEntretienRepository
 
     public int Save(Entretien entretien)
     {
-        var newId = _entretiens.Count + 1;
-        _entretiens.TryAdd(entretien.Candidat,
-            new InMemoryEntretien(newId,
-                InMemoryCandidatRepository.ToInMemoryEntretienCandidat(entretien.Candidat),
-                InMemoryRecruteurRepository.ToInMemoryEntretienRecruteur(entretien.Recruteur), 
-                entretien.Horaire,
-                entretien.Status));
-        return newId;
+        if (_entretiens.ContainsKey(entretien.Candidat))
+        {
+            _entretiens.TryAdd(entretien.Candidat,
+                toInMemoryEntretien(entretien));
+            return entretien.Id;
+        }
+        else
+        {
+            var newId = _entretiens.Count + 1;
+            _entretiens.TryAdd(entretien.Candidat,
+                toInMemoryEntretien(entretien, newId));
+            return newId;
+        }
+    }
+
+    private static InMemoryEntretien toInMemoryEntretien(Entretien entretien)
+    {
+        return toInMemoryEntretien(entretien, entretien.Id);
+    }
+
+    private static InMemoryEntretien toInMemoryEntretien(Entretien entretien, int newId)
+    {
+        return new InMemoryEntretien(newId,
+            InMemoryCandidatRepository.ToInMemoryEntretienCandidat(entretien.Candidat),
+            InMemoryRecruteurRepository.ToInMemoryEntretienRecruteur(entretien.Recruteur), 
+            entretien.Horaire,
+            entretien.Status);
     }
 
     public IEnumerable<Entretien> FindAll()

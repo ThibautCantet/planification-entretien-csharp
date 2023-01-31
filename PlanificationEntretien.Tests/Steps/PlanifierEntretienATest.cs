@@ -52,7 +52,7 @@ namespace PlanificationEntretien.Steps
         {
             _planifierEntretien = new PlanifierEntretien(EntretienRepository, _emailService);
             var entretienController =
-                new EntretienController(_planifierEntretien, null, CandidatRepository, RecruteurRepository);
+                new EntretienController(_planifierEntretien, null, null, CandidatRepository, RecruteurRepository);
 
             _createEntretienResponse = entretienController.Create(new CreateEntretienRequest(_candidat.Id,
                 _recruteur.Id,

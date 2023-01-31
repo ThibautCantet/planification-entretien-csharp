@@ -6,7 +6,12 @@
   &lt;ProjectFolder&gt;F07ED85B-F88D-432E-A924-5DC5A9A6EF26/d:Features&lt;/ProjectFolder&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7cbea6a6_002D0340_002D4879_002Db16a_002D31eec071630f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Features #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;ProjectFolder&gt;F07ED85B-F88D-432E-A924-5DC5A9A6EF26/d:Features&lt;/ProjectFolder&gt;
+  &lt;Or&gt;
+    &lt;ProjectFolder&gt;F07ED85B-F88D-432E-A924-5DC5A9A6EF26/d:Features&lt;/ProjectFolder&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;xUnit::F07ED85B-F88D-432E-A924-5DC5A9A6EF26::net6.0::PlanificationEntretien.Features.WorkflowDunEntretienDeRecrutementChezSoatFeature&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+  &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9c6a09aa_002Dc185_002D4a52_002D86eb_002Df52a5a1b5885/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ListerLesEntretiensChezSoatFeature #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Or&gt;
