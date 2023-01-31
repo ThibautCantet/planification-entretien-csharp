@@ -20,7 +20,7 @@ appeler avant l'instanciation d'un nouveau candidat.
 
 Ajouter une interface `Event` dans à la racine de `domain` :
 
-````java
+````C#
 public interface Event
 {
 }
@@ -29,14 +29,10 @@ public interface Event
 Ajouter 2 classes `CandidatCrée` et `CandidatNonCrée` pour gérer le cas passant et les cas d'erreur lors de la création
 de `candidat`.
 
-```java
-public record CandidatCrée(int value) : Event
-{
-}
+```C#
+public record CandidatCrée(int value) : Event;
 
-public record CandidatNonCrée() : Event
-{
-}
+public record CandidatNonCrée() : Event;
 ```
 
 ### Etape 5.5 : ajout d'une factory pour créer les candidats
@@ -44,7 +40,7 @@ public record CandidatNonCrée() : Event
 Ajouter une classe `Result` dans le sous-domaine `candidat` pour encapsuler le domaine event généré par la `factory` et
 la nouvelle instance créée.
 
-```java
+```C#
 public record Result<T>(Event Event, T Value);
 ```
 
@@ -52,7 +48,7 @@ public record Result<T>(Event Event, T Value);
 
 Créer une classe `CandidatFactory` qui encapsule les invariants et retourne une instance de `Result`.
 
-```java
+```C#
 public class CandidatFactory
 {
     public Result<Candidat> Create(int candidatId, String language, String email, int? experienceEnAnnees) {
@@ -66,7 +62,7 @@ public class CandidatFactory
 Changer la signature de `CreerCandidat` pour que la méthode `Execute` retourne une liste d'`Event` générés par le use
 case :
 
-```java
+```C#
 public IEnumerable<Event> Execute(string language, string email, int? experienceEnAnnees)
 ```
 
@@ -77,3 +73,32 @@ Regrouper les use cases dans le package `application_service`.
 ### Question
 
 Qu'est-ce que cela change que le use case retourne une liste d'`Event` ?
+
+### Réponse
+
+Dans le `EntretienController`, il faut détecter les `Event` retournés par le use case pour savoir quel retour http
+faire :
+
+```C#
+var events = _creerCandidat.Execute(createCandidatRequest.Language,
+    createCandidatRequest.Email,
+    createCandidatRequest.Xp);
+if (events.All(evt => evt.GetType() != typeof(CandidatCrée)))
+{
+    return BadRequest();
+}
+
+if (events.Any(evt => evt.GetType() == typeof(CandidatNonSauvegardé)))
+{
+    return Problem();
+}
+
+var candidatCrée = events
+    .FirstOrDefault(evt => evt.GetType() == typeof(CandidatCrée)) as CandidatCrée;
+var response = new CreateCandidatResponse(candidatCrée.Id,
+    createCandidatRequest.Language,
+    createCandidatRequest.Email,
+    createCandidatRequest.Xp.Value);
+return CreatedAtAction("Create", new { id = createCandidatRequest },
+    response);
+```
