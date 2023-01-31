@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.recruteur;
-using PlanificationEntretien.use_case;
+using PlanificationEntretien.application_service.entretien;
 using Candidat = PlanificationEntretien.domain.entretien.Candidat;
 using Recruteur = PlanificationEntretien.domain.entretien.Recruteur;
 

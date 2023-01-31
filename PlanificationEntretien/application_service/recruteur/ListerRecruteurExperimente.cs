@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PlanificationEntretien.domain.recruteur;
 
-namespace PlanificationEntretien.use_case;
+namespace PlanificationEntretien.application_service.recruteur;
 
 public class ListerRecruteurExperimente
 {

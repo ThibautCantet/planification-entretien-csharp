@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.infrastructure.controller;
-using PlanificationEntretien.use_case;
+using PlanificationEntretien.application_service.entretien;
 using TechTalk.SpecFlow;
 using Xunit;
 using candidat = PlanificationEntretien.domain.candidat;
@@ -63,7 +63,7 @@ namespace PlanificationEntretien.Steps
         [Then(@"on récupères les entretiens suivants en base")]
         public void ThenOnRecuperesLesEntretiensSuivantsEnBase(Table table)
         {
-            Assert.IsType<OkObjectResult>(_validateEntretienResponse);
+            Assert.IsType<OkResult>(_validateEntretienResponse);
 
             var entretien = EntretienRepository.FindById(_entretienId);
             var entretiens = table.Rows.Select(row =>

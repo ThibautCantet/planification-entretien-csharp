@@ -8,7 +8,7 @@ using entretientCandidat = PlanificationEntretien.domain.entretien;
 using Recruteur = PlanificationEntretien.domain.entretien.Recruteur;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.infrastructure.controller;
-using uc = PlanificationEntretien.use_case;
+using uc = PlanificationEntretien.application_service.entretien;
 using TechTalk.SpecFlow;
 using Xunit;
 

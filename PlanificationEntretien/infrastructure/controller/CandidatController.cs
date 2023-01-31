@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.use_case;
+using PlanificationEntretien.application_service.candidat;
 
 namespace PlanificationEntretien.infrastructure.controller;
 

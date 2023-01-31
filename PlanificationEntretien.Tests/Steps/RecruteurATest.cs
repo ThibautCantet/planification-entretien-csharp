@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.infrastructure.controller;
 using PlanificationEntretien.domain.recruteur;
-using PlanificationEntretien.use_case;
+using PlanificationEntretien.application_service.recruteur;
 using TechTalk.SpecFlow;
 using Xunit;
 

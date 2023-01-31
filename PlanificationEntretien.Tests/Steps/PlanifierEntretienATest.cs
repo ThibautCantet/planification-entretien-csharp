@@ -6,7 +6,7 @@ using Recruteur = PlanificationEntretien.domain.recruteur.Recruteur;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.email;
 using PlanificationEntretien.infrastructure.controller;
-using PlanificationEntretien.use_case;
+using PlanificationEntretien.application_service.entretien;
 using TechTalk.SpecFlow;
 using Xunit;
 

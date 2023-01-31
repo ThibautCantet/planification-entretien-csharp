@@ -1,7 +1,7 @@
 using System;
 using PlanificationEntretien.domain.entretien;
 
-namespace PlanificationEntretien.use_case;
+namespace PlanificationEntretien.application_service.entretien;
 
 public class PlanifierEntretien
 {

@@ -1,7 +1,7 @@
 using System;
 using PlanificationEntretien.domain.candidat;
 
-namespace PlanificationEntretien.use_case;
+namespace PlanificationEntretien.application_service.candidat;
 
 public class CreerCandidat
 {
