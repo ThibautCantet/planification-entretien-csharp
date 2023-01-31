@@ -7,6 +7,7 @@ public interface IEntretien
     Candidat Candidat { get; }
     Recruteur Recruteur { get; }
     DateTime Horaire { get; }
+    Status Status { get; }
 }
 
 public class Entretien : IEquatable<Entretien>, IEntretien
@@ -16,6 +17,7 @@ public class Entretien : IEquatable<Entretien>, IEntretien
     public Recruteur Recruteur { get; }
     public DateTime Horaire { get; private set; }
 
+    public Status Status { get; }
     private Entretien(int id, Candidat candidat, Recruteur recruteur, DateTime horaire)
     {
         Id = id;
@@ -58,7 +60,7 @@ public class Entretien : IEquatable<Entretien>, IEntretien
         return HashCode.Combine(Id, Candidat, Recruteur, Horaire);
     }
 
-    public static Entretien of(int id, Candidat candidat, Recruteur recruteur, DateTime horaire)
+    public static Entretien of(int id, Candidat candidat, Recruteur recruteur, DateTime horaire, Status statusValue)
     {
         return new Entretien(id, candidat, recruteur, horaire);
     }

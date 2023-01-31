@@ -153,22 +153,26 @@ namespace PlanificationEntretien.Features
                             "id",
                             "recruteur",
                             "candidat",
-                            "horaire"});
+                            "horaire",
+                            "status"});
                 table3.AddRow(new string[] {
                             "1",
                             "recruteur1@soat.fr",
                             "candidat1@mail.com",
-                            "16/04/2019 15:00"});
+                            "16/04/2019 15:00",
+                            "PLANIFIE"});
                 table3.AddRow(new string[] {
                             "2",
                             "recruteur1@soat.fr",
                             "candidat2@mail.com",
-                            "17/04/2019 15:00"});
+                            "17/04/2019 15:00",
+                            "PLANIFIE"});
                 table3.AddRow(new string[] {
                             "3",
                             "recruteur2@soat.fr",
                             "candidat3@mail.com",
-                            "17/04/2019 15:00"});
+                            "17/04/2019 15:00",
+                            "PLANIFIE"});
 #line 14
         testRunner.And("les entretiens existants", ((string)(null)), table3, "Et ");
 #line hidden
@@ -180,25 +184,29 @@ namespace PlanificationEntretien.Features
                             "recruteur",
                             "candidat",
                             "language",
-                            "horaire"});
+                            "horaire",
+                            "status"});
                 table4.AddRow(new string[] {
                             "1",
                             "recruteur1@soat.fr",
                             "candidat1@mail.com",
                             "Java",
-                            "16/04/2019 15:00"});
+                            "16/04/2019 15:00",
+                            "PLANIFIE"});
                 table4.AddRow(new string[] {
                             "2",
                             "recruteur1@soat.fr",
                             "candidat2@mail.com",
                             "Java",
-                            "17/04/2019 15:00"});
+                            "17/04/2019 15:00",
+                            "PLANIFIE"});
                 table4.AddRow(new string[] {
                             "3",
                             "recruteur2@soat.fr",
                             "candidat3@mail.com",
                             "C#",
-                            "17/04/2019 15:00"});
+                            "17/04/2019 15:00",
+                            "PLANIFIE"});
 #line 20
         testRunner.Then("on récupères les entretiens suivants", ((string)(null)), table4, "Alors ");
 #line hidden

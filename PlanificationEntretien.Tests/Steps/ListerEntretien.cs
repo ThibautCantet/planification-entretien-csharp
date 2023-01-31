@@ -44,18 +44,19 @@ namespace PlanificationEntretien.Steps
         public void GivenLesEntretiensExistants(Table table)
         {
             var entretiens = table.Rows.Select(row =>
-                BuildEntretien(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3]));
+                BuildEntretien(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3], row.Values.ToList()[4]));
             foreach (var entretien in entretiens)
             {
                 EntretienRepository.Save(entretien);
             }
         }
 
-        private Entretien BuildEntretien(int id, string emailRecruteur, string emailCandidat, string time)
+        private Entretien BuildEntretien(int id, string emailRecruteur, string emailCandidat, string time, string status)
         {
             var recruteur = RecruteurRepository.FindByEmail(emailRecruteur);
             var candidat = CandidatRepository.FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
+            Status.TryParse<Status>(status, out var statusValue);
             return Entretien.of(
                 id,
                 new entretientCandidat.Candidat(
@@ -68,7 +69,8 @@ namespace PlanificationEntretien.Steps
                     recruteur.Language,
                     recruteur.Email,
                     recruteur.ExperienceEnAnnees),
-                horaire);
+                horaire,
+                statusValue);
         }
 
         [When(@"on liste les tous les entretiens")]
@@ -83,15 +85,18 @@ namespace PlanificationEntretien.Steps
         public void ThenOnRecuperesLesEntretiensSuivants(Table table)
         {
             var okResult = Assert.IsType<OkObjectResult>(_listerEntretientActionResult);
-            List<EntretienResponse> entretiensResponse = Assert.IsType<List<EntretienResponse>>(okResult.Value);var entretiens = table.Rows.Select(row =>
-                BuildEntretienResponse(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4]));
+            List<EntretienResponse> entretiensResponse = Assert.IsType<List<EntretienResponse>>(okResult.Value);
+            
+            var entretiens = table.Rows.Select(row =>
+                BuildEntretienResponse(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4], row.Values.ToList()[5]));
             Assert.Equal(entretiensResponse, entretiens);
         }
         
-        private EntretienResponse BuildEntretienResponse(string emailRecruteur, string emailCandidat, string time)
+        private EntretienResponse BuildEntretienResponse(string emailRecruteur, string emailCandidat, string time, string status)
         {
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
-            return new EntretienResponse(emailCandidat, emailRecruteur, horaire);
+            Status.TryParse<Status>(status, out var statusValue);
+            return new EntretienResponse(emailCandidat, emailRecruteur, horaire, statusValue);
         }
     }
 }

@@ -60,8 +60,8 @@ namespace PlanificationEntretien.Steps
                 _dateDeDisponibiliteDuRecruteur)) as CreatedAtActionResult;
         }
 
-        [Then(@"L’entretien est planifié")]
-        public void ThenLEntretienEstPlanifie()
+        [Then(@"L’entretien est planifié avec un status ""(.*)""")]
+        public void ThenLEntretienEstPlanifie(String status)
         {
             Assert.IsType<CreatedAtActionResult>(_createEntretienResponse);
             Assert.IsType<CreateEntretienResponse>(_createEntretienResponse.Value);
@@ -74,6 +74,7 @@ namespace PlanificationEntretien.Steps
             Assert.NotEqual(0, createEntretienResponse.EntretienId);
 
             Entretien entretien = EntretienRepository.FindById(createEntretienResponse.EntretienId);
+            Status.TryParse<Status>(status, out var statusValue);
             Entretien expectedEntretien = Entretien.of(
                 entretien.Id,
                 new domain.entretien.Candidat(
@@ -86,7 +87,8 @@ namespace PlanificationEntretien.Steps
                     _recruteur.Language,
                     _recruteur.Email,
                     _recruteur.ExperienceEnAnnees),
-                _disponibiliteDuCandidat);
+                _disponibiliteDuCandidat,
+                statusValue);
             Assert.Equal(expectedEntretien, entretien);
         }
 

@@ -21,19 +21,28 @@ public class InMemoryEntretienRepository : IEntretienRepository
         {
             return null;
         }
+
         return ToEntretien(value);
     }
 
     private static Entretien ToEntretien(InMemoryEntretien? value)
     {
-        return Entretien.of( value.Id, InMemoryCandidatRepository.ToEntretienCandidat(value.Candidat), InMemoryRecruteurRepository.ToEntretienRecruteur(value.Recruteur), value.Horaire);
+        return Entretien.of(value.Id, 
+            InMemoryCandidatRepository.ToEntretienCandidat(value.Candidat),
+            InMemoryRecruteurRepository.ToEntretienRecruteur(value.Recruteur), 
+            value.Horaire,
+            value.Status);
     }
 
     public int Save(Entretien entretien)
     {
         var newId = _entretiens.Count + 1;
-        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(newId, InMemoryCandidatRepository.ToInMemoryEntretienCandidat(entretien.Candidat),
-            InMemoryRecruteurRepository.ToInMemoryEntretienRecruteur(entretien.Recruteur), entretien.Horaire));
+        _entretiens.TryAdd(entretien.Candidat,
+            new InMemoryEntretien(newId,
+                InMemoryCandidatRepository.ToInMemoryEntretienCandidat(entretien.Candidat),
+                InMemoryRecruteurRepository.ToInMemoryEntretienRecruteur(entretien.Recruteur), 
+                entretien.Horaire,
+                entretien.Status));
         return newId;
     }
 
