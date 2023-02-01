@@ -2,7 +2,7 @@ using System;
 
 namespace PlanificationEntretien.domain.entretien;
 
-public class Recruteur
+public record Recruteur()
 {
     public int Id { get; }
     private Profil _profil;
@@ -11,7 +11,7 @@ public class Recruteur
         int id,
         string language,
         string email,
-        int experienceEnAnnees)
+        int experienceEnAnnees) : this()
     {
         Id = id;
         Email = email;
@@ -25,23 +25,5 @@ public class Recruteur
     public bool EstCompatible(Candidat candidat)
     {
         return _profil.EstCompatible(candidat.Profil);
-    }
-
-    protected bool Equals(Recruteur other)
-    {
-        return _profil.Equals(other._profil) && Id == other.Id && Email == other.Email;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
-        return Equals((Recruteur)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(_profil, Id, Email);
     }
 }

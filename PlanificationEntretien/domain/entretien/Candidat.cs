@@ -1,9 +1,6 @@
-using System;
-
 namespace PlanificationEntretien.domain.entretien;
 
-public class Candidat
-{
+public record Candidat() {
     public int Id { get; }
     public Profil Profil { get; }
 
@@ -11,7 +8,7 @@ public class Candidat
         int id,
         string language,
         string email,
-        int experienceEnAnnees)
+        int experienceEnAnnees) : this()
     {
         Id = id;
         Email = email;
@@ -21,22 +18,4 @@ public class Candidat
     public string Language => Profil.Language;
     public string Email { get; }
     public int ExperienceEnAnnees => Profil.ExperienceEnAnnees;
-
-    protected bool Equals(Candidat other)
-    {
-        return Id == other.Id && Profil.Equals(other.Profil) && Email == other.Email;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
-        return Equals((Candidat)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Id, Profil, Email);
-    }
 }
