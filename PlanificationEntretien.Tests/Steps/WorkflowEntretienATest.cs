@@ -2,12 +2,12 @@ using System;
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain.entretien;
-using PlanificationEntretien.infrastructure.controller;
-using PlanificationEntretien.application_service.entretien;
+using PlanificationEntretien.entretien.domain;
+using PlanificationEntretien.entretien.infrastructure.controller;
+using PlanificationEntretien.entretien.application_service;
 using TechTalk.SpecFlow;
 using Xunit;
-using candidat = PlanificationEntretien.domain.candidat;
+using candidat = PlanificationEntretien.candidat.domain;
 
 namespace PlanificationEntretien.Steps
 {
@@ -31,7 +31,7 @@ namespace PlanificationEntretien.Steps
         public void GivenLesCandidatsExistantsCiDessous(Table table)
         {
             var candidats = table.Rows.Select(row =>
-                new candidat.Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
+                new candidat.domain.Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
             foreach (var candidat in candidats)
             {
                 CandidatRepository.Save(candidat);

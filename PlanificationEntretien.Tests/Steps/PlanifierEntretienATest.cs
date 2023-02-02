@@ -2,13 +2,12 @@ using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.application_service;
-using Candidat = PlanificationEntretien.domain.candidat.Candidat;
-using Recruteur = PlanificationEntretien.domain.recruteur.Recruteur;
-using PlanificationEntretien.domain.entretien;
-using PlanificationEntretien.email;
-using PlanificationEntretien.infrastructure.controller;
-using PlanificationEntretien.application_service.entretien;
-using PlanificationEntretien.application_service.recruteur;
+using Candidat = PlanificationEntretien.candidat.domain.Candidat;
+using Recruteur = PlanificationEntretien.recruteur.domain.Recruteur;
+using PlanificationEntretien.entretien.domain;
+using PlanificationEntretien.entretien.infrastructure.controller;
+using PlanificationEntretien.entretien.application_service;
+using PlanificationEntretien.entretien.infrastructure;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -82,12 +81,12 @@ namespace PlanificationEntretien.Steps
             Status.TryParse<Status>(status, out var statusValue);
             Entretien expectedEntretien = Entretien.of(
                 entretien.Id,
-                new domain.entretien.Candidat(
+                new entretien.domain.Candidat(
                     _candidat.Id,
                     _candidat.Language,
                     _candidat.Email,
                     _candidat.ExperienceEnAnnees),
-                new domain.entretien.Recruteur(
+                new entretien.domain.Recruteur(
                     _recruteur.Id,
                     _recruteur.Language,
                     _recruteur.Email,

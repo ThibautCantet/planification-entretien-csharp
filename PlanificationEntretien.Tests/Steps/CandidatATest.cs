@@ -1,9 +1,9 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Planification_Entretien.domain_service.candidat;
-using PlanificationEntretien.infrastructure.controller;
-using PlanificationEntretien.domain.candidat;
-using PlanificationEntretien.application_service.candidat;
+using PlanificationEntretien.candidat.domain_service;
+using PlanificationEntretien.candidat.domain;
+using PlanificationEntretien.candidat.application_service;
+using PlanificationEntretien.candidat.infrastructure.controller;
 using TechTalk.SpecFlow;
 using Xunit;
 

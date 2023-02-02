@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.infrastructure.controller;
-using PlanificationEntretien.domain.recruteur;
-using PlanificationEntretien.application_service.recruteur;
+using PlanificationEntretien.recruteur.domain;
+using PlanificationEntretien.recruteur.application_service;
+using PlanificationEntretien.recruteur.infrastructure.controller;
 using TechTalk.SpecFlow;
 using Xunit;
 

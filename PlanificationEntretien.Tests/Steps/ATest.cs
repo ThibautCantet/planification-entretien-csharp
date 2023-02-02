@@ -1,7 +1,9 @@
-using PlanificationEntretien.domain.candidat;
-using PlanificationEntretien.domain.entretien;
-using PlanificationEntretien.domain.recruteur;
-using PlanificationEntretien.infrastructure.repository;
+using PlanificationEntretien.candidat.domain;
+using PlanificationEntretien.candidat.infrastructure.repository;
+using PlanificationEntretien.entretien.domain;
+using PlanificationEntretien.entretien.infrastructure.repository;
+using PlanificationEntretien.recruteur.domain;
+using PlanificationEntretien.recruteur.infrastructure.repository;
 
 namespace PlanificationEntretien.Steps;
 
