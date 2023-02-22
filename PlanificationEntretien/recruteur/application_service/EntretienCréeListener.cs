@@ -6,17 +6,17 @@ namespace PlanificationEntretien.entretien.application_service;
 
 public class EntretienCréeListener : Listener
 {
-    private readonly RendreRecruteurIndisponible _rendreRendreRecruteurIndisponible;
+    private readonly RendreRecruteurIndisponibleCommandHandler _rendreRendreRecruteurIndisponibleCommandHandler;
     private readonly MessageBus _messageBus;
 
-    public EntretienCréeListener(RendreRecruteurIndisponible rendreRecruteurIndisponible, MessageBus messageBus) {
-        _rendreRendreRecruteurIndisponible = rendreRecruteurIndisponible;
+    public EntretienCréeListener(RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler, MessageBus messageBus) {
+        _rendreRendreRecruteurIndisponibleCommandHandler = rendreRecruteurIndisponibleCommandHandler;
         _messageBus = messageBus;
         _messageBus.Subscribe(this);
     }
 
     public void OnMessage(Event entretienCréé)
     {
-        _rendreRendreRecruteurIndisponible.Execute((entretienCréé as EntretienCréé)!.RecruteurId);
+        _rendreRendreRecruteurIndisponibleCommandHandler.Handle((entretienCréé as EntretienCréé)!.RecruteurId);
     }
 }

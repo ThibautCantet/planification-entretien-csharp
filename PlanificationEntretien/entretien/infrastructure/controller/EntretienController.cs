@@ -13,20 +13,20 @@ namespace PlanificationEntretien.entretien.infrastructure.controller;
 [Route("/api/entretien")]
 public class EntretienController : ControllerBase
 {
-    private readonly PlanifierEntretien _planifierEntretien;
+    private readonly PlanifierEntretienCommandHandler _planifierEntretienCommandHandler;
     private readonly ICandidatRepository _candidatRepository;
     private readonly IRecruteurRepository _recruteurRepository;
-    private readonly ListerEntretien _listerEntretien;
-    private readonly ValiderEntretien _validerEntretien;
+    private readonly ListerEntretienQueryHandler _listerEntretienQueryHandler;
+    private readonly ValiderEntretienCommandHandler _validerEntretienCommandHandler;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretien listerEntretien, ValiderEntretien validerEntretien,
+    public EntretienController(PlanifierEntretienCommandHandler planifierEntretienCommandHandler, ListerEntretienQueryHandler listerEntretienQueryHandler, ValiderEntretienCommandHandler validerEntretienCommandHandler,
         ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository)
     {
-        _planifierEntretien = planifierEntretien;
+        _planifierEntretienCommandHandler = planifierEntretienCommandHandler;
         _candidatRepository = candidatRepository;
         _recruteurRepository = recruteurRepository;
-        _listerEntretien = listerEntretien;
-        _validerEntretien = validerEntretien;
+        _listerEntretienQueryHandler = listerEntretienQueryHandler;
+        _validerEntretienCommandHandler = validerEntretienCommandHandler;
     }
 
     
@@ -35,7 +35,7 @@ public class EntretienController : ControllerBase
     {
         var candidat = _candidatRepository.FindById(createOfferRequest.IdCandidat);
         var recruteur = _recruteurRepository.FindById(createOfferRequest.IdRecruteur);
-        var events = _planifierEntretien.Execute(
+        var events = _planifierEntretienCommandHandler.Handle(
             new Candidat(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees),
             createOfferRequest.DisponibiliteCandidat,
             new Recruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees),
@@ -52,7 +52,7 @@ public class EntretienController : ControllerBase
 
     public IActionResult Lister()
     {
-        var entretiens = _listerEntretien.Execute()
+        var entretiens = _listerEntretienQueryHandler.Handle()
             .Select(entretien => new EntretienResponse(entretien.Candidat.Email,
                 entretien.Recruteur.Email,
                 entretien.Horaire,
@@ -63,7 +63,7 @@ public class EntretienController : ControllerBase
 
     public IActionResult Valider(int id)
     {
-        if (_validerEntretien.Execute(id))
+        if (_validerEntretienCommandHandler.Handle(id))
         {
             return Ok();
         }

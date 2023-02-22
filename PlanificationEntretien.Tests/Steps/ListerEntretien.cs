@@ -76,7 +76,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on liste les tous les entretiens")]
         public void WhenOnListeLesTousLesEntretiens()
         {
-            var listerEntretien = new uc.ListerEntretien(EntretienRepository);
+            var listerEntretien = new uc.ListerEntretienQueryHandler(EntretienRepository);
             var entretienController = new EntretienController(null, listerEntretien, null, CandidatRepository, RecruteurRepository);
             _listerEntretientActionResult = entretienController.Lister();
         }

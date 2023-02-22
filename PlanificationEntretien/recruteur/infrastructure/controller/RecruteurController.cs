@@ -9,13 +9,13 @@ namespace PlanificationEntretien.recruteur.infrastructure.controller;
 [Route("/api/recruteure")]
 public class RecruteurController : ControllerBase
 {
-    private readonly CreerRecruteur _creerRecruteur;
-    private readonly ListerRecruteurExperimente _listerRecruteurExperimente;
+    private readonly CreerRecruteurCommandHandler _creerRecruteurCommandHandler;
+    private readonly ListerRecruteurExperimenteQueryHandler _listerRecruteurExperimenteQueryHandler;
 
-    public RecruteurController(CreerRecruteur creerRecruteur, ListerRecruteurExperimente listerRecruteurExperimente)
+    public RecruteurController(CreerRecruteurCommandHandler creerRecruteurCommandHandler, ListerRecruteurExperimenteQueryHandler listerRecruteurExperimenteQueryHandler)
     {
-        _creerRecruteur = creerRecruteur;
-        _listerRecruteurExperimente = listerRecruteurExperimente;
+        _creerRecruteurCommandHandler = creerRecruteurCommandHandler;
+        _listerRecruteurExperimenteQueryHandler = listerRecruteurExperimenteQueryHandler;
     }
 
     public record RecruteurCreationDto(string email);
@@ -23,7 +23,7 @@ public class RecruteurController : ControllerBase
     [HttpPost("")]
     public ActionResult Create([FromBody] CreateRecruteurRequest createRecruteurRequest)
     {
-        var idRecruteur = _creerRecruteur.Execute(createRecruteurRequest.Language,
+        var idRecruteur = _creerRecruteurCommandHandler.Handle(createRecruteurRequest.Language,
             createRecruteurRequest.Email,
             createRecruteurRequest.XP);
         
@@ -43,7 +43,7 @@ public class RecruteurController : ControllerBase
     [HttpGet("")]
     public Task<IActionResult> ListerExperimentes()
     {
-        var recruteurs = _listerRecruteurExperimente.Execute()
+        var recruteurs = _listerRecruteurExperimenteQueryHandler.Handle()
             .Select(r => new RecruteurExperimenteResponse(r.Email, r.Language, r.ExperienceEnAnnees))
             .ToList();
         return Task.FromResult<IActionResult>(Ok(recruteurs));

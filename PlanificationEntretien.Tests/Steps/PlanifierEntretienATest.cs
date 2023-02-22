@@ -20,7 +20,7 @@ namespace PlanificationEntretien.Steps
         private DateTime _disponibiliteDuCandidat;
         private Recruteur _recruteur;
         private DateTime _dateDeDisponibiliteDuRecruteur;
-        private PlanifierEntretien _planifierEntretien;
+        private PlanifierEntretienCommandHandler _planifierEntretienCommandHandler;
         private readonly IEmailService _emailService = new FakeEmailService();
         private CreatedAtActionResult _createEntretienResponse;
         private MessageBus _messageBus = new ();
@@ -53,10 +53,10 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            var _entretienCréeListener = new EntretienCréeListener(new RendreRecruteurIndisponible(RecruteurRepository), _messageBus);
-            _planifierEntretien = new PlanifierEntretien(EntretienRepository, _emailService, _messageBus);
+            var _entretienCréeListener = new EntretienCréeListener(new RendreRecruteurIndisponibleCommandHandler(RecruteurRepository), _messageBus);
+            _planifierEntretienCommandHandler = new PlanifierEntretienCommandHandler(EntretienRepository, _emailService, _messageBus);
             var entretienController =
-                new EntretienController(_planifierEntretien, null, null, CandidatRepository, RecruteurRepository);
+                new EntretienController(_planifierEntretienCommandHandler, null, null, CandidatRepository, RecruteurRepository);
 
             _createEntretienResponse = entretienController.Create(new CreateEntretienRequest(_candidat.Id,
                 _recruteur.Id,

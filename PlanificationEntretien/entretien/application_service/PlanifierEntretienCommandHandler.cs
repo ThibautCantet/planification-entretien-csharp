@@ -6,20 +6,20 @@ using PlanificationEntretien.entretien.domain;
 
 namespace PlanificationEntretien.entretien.application_service;
 
-public class PlanifierEntretien
+public class PlanifierEntretienCommandHandler
 {
     private readonly IEntretienRepository _entretienRepository;
     private readonly IEmailService _emailService;
     private readonly MessageBus _messageBus;
 
-    public PlanifierEntretien(IEntretienRepository entretienRepository, IEmailService emailService, MessageBus messageBus)
+    public PlanifierEntretienCommandHandler(IEntretienRepository entretienRepository, IEmailService emailService, MessageBus messageBus)
     {
         _entretienRepository = entretienRepository;
         _emailService = emailService;
         _messageBus = messageBus;
     }
 
-    public IEnumerable<Event> Execute(Candidat candidat, DateTime disponibiliteDuCandidat,
+    public IEnumerable<Event> Handle(Candidat candidat, DateTime disponibiliteDuCandidat,
         Recruteur recruteur, DateTime disponibiliteDuRecruteur)
     {
         var entretien = new Entretien(candidat, recruteur);

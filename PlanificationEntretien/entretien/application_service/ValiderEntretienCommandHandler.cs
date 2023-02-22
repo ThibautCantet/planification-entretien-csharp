@@ -2,16 +2,16 @@ using PlanificationEntretien.entretien.domain;
 
 namespace PlanificationEntretien.entretien.application_service;
 
-public class ValiderEntretien
+public class ValiderEntretienCommandHandler
 {
     private readonly IEntretienRepository _entretienRepository;
 
-    public ValiderEntretien(IEntretienRepository entretienRepository)
+    public ValiderEntretienCommandHandler(IEntretienRepository entretienRepository)
     {
         _entretienRepository = entretienRepository;
     }
 
-    public bool Execute(int id)
+    public bool Handle(int id)
     {
         var entretien = _entretienRepository.FindById(id);
         if (entretien != null)

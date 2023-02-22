@@ -28,7 +28,7 @@ namespace PlanificationEntretien.Steps
         public void WhenOnTenteDenregistrerLeCandidat()
         {
             var candidatFactory = new CandidatFactory();
-            var creerCandidat = new CreerCandidat(CandidatRepository, candidatFactory);
+            var creerCandidat = new CreerCandidatCommandHandler(CandidatRepository, candidatFactory);
             var candidatController = new CandidatController(creerCandidat);
             _actionResult = candidatController.Create(_candidatRequest) as CreatedAtActionResult;
         }

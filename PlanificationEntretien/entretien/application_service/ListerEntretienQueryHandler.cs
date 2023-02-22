@@ -3,16 +3,16 @@ using PlanificationEntretien.entretien.domain;
 
 namespace PlanificationEntretien.entretien.application_service;
 
-public class ListerEntretien
+public class ListerEntretienQueryHandler
 {
     private readonly IEntretienRepository _entretienRepository;
 
-    public ListerEntretien(IEntretienRepository entretienRepository)
+    public ListerEntretienQueryHandler(IEntretienRepository entretienRepository)
     {
         _entretienRepository = entretienRepository;
     }
     
-    public IEnumerable<IEntretien> Execute()
+    public IEnumerable<IEntretien> Handle()
     {
         return _entretienRepository.FindAll();
     }

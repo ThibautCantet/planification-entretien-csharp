@@ -5,18 +5,18 @@ using PlanificationEntretien.candidat.domain;
 
 namespace PlanificationEntretien.candidat.application_service;
 
-public class CreerCandidat
+public class CreerCandidatCommandHandler
 {
     private readonly ICandidatRepository _candidatRepository;
     private readonly CandidatFactory _candidatFactory;
 
-    public CreerCandidat(ICandidatRepository candidatRepository, CandidatFactory candidatFactory)
+    public CreerCandidatCommandHandler(ICandidatRepository candidatRepository, CandidatFactory candidatFactory)
     {
         _candidatRepository = candidatRepository;
         _candidatFactory = candidatFactory;
     }
 
-    public IEnumerable<Event> Execute(string language, string email, int? experienceEnAnnees)
+    public IEnumerable<Event> Handle(string language, string email, int? experienceEnAnnees)
     {
         var candidatId = _candidatRepository.Next();
         var eventCandidatResult = _candidatFactory.Create(candidatId, language, email, experienceEnAnnees);

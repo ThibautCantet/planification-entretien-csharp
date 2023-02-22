@@ -53,7 +53,7 @@ namespace PlanificationEntretien.Steps
         public void WhenOnValideLentretien(int entretienId)
         {
             _entretienId = entretienId;
-            var validerEntretien = new ValiderEntretien(EntretienRepository);
+            var validerEntretien = new ValiderEntretienCommandHandler(EntretienRepository);
             var entretienController =
                 new EntretienController(null, null, validerEntretien, CandidatRepository, RecruteurRepository);
 

@@ -3,16 +3,16 @@ using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.recruteur.application_service;
 
-public class CreerRecruteur
+public class CreerRecruteurCommandHandler
 {
     private readonly IRecruteurRepository _recruteurRepository;
 
-    public CreerRecruteur(IRecruteurRepository recruteurRepository)
+    public CreerRecruteurCommandHandler(IRecruteurRepository recruteurRepository)
     {
         _recruteurRepository = recruteurRepository;
     }
 
-    public int Execute(String language, String email, int? experienceEnAnnees)
+    public int Handle(String language, String email, int? experienceEnAnnees)
     {
         try
         {

@@ -4,16 +4,16 @@ using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.recruteur.application_service;
 
-public class ListerRecruteurExperimente
+public class ListerRecruteurExperimenteQueryHandler
 {
     private readonly IRecruteurRepository _recruteurRepository;
     
-    public ListerRecruteurExperimente(IRecruteurRepository recruteurRepository)
+    public ListerRecruteurExperimenteQueryHandler(IRecruteurRepository recruteurRepository)
     {
         _recruteurRepository = recruteurRepository;
     }
 
-    public List<Recruteur> Execute()
+    public List<Recruteur> Handle()
     {
         List<Recruteur> recruteurs = _recruteurRepository.FindAll()
             .Where(r => r.ExperienceEnAnnees >= 10)

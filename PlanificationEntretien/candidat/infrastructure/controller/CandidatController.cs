@@ -9,17 +9,17 @@ namespace PlanificationEntretien.candidat.infrastructure.controller;
 [Route("/api/candidat")]
 public class CandidatController : ControllerBase
 {
-    private readonly CreerCandidat _creerCandidat;
+    private readonly CreerCandidatCommandHandler _creerCandidatCommandHandler;
 
-    public CandidatController(CreerCandidat creerCandidat)
+    public CandidatController(CreerCandidatCommandHandler creerCandidatCommandHandler)
     {
-        _creerCandidat = creerCandidat;
+        _creerCandidatCommandHandler = creerCandidatCommandHandler;
     }
 
     [HttpPost("")]
     public ActionResult Create([FromBody] CreateCandidatRequest createCandidatRequest)
     {
-        var events = _creerCandidat.Execute(createCandidatRequest.Language,
+        var events = _creerCandidatCommandHandler.Handle(createCandidatRequest.Language,
             createCandidatRequest.Email,
             createCandidatRequest.Xp);
         if (events.All(evt => evt.GetType() != typeof(CandidatCrée)))

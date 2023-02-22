@@ -2,16 +2,16 @@ using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.entretien.application_service;
 
-public class RendreRecruteurIndisponible
+public class RendreRecruteurIndisponibleCommandHandler
 {
     private readonly  IRecruteurRepository _recruteurRepository;
 
-    public RendreRecruteurIndisponible(IRecruteurRepository recruteurRepository)
+    public RendreRecruteurIndisponibleCommandHandler(IRecruteurRepository recruteurRepository)
     {
         _recruteurRepository = recruteurRepository;
     }
 
-    public void Execute(int recruteurId)
+    public void Handle(int recruteurId)
     {
         var recruteur = _recruteurRepository.FindById(recruteurId);
         if (recruteur != null) 
