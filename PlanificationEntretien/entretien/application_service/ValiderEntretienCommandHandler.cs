@@ -11,9 +11,9 @@ public class ValiderEntretienCommandHandler
         _entretienRepository = entretienRepository;
     }
 
-    public bool Handle(int id)
+    public bool Handle(ValiderEntretienCommand command)
     {
-        var entretien = _entretienRepository.FindById(id);
+        var entretien = _entretienRepository.FindById(command.Id);
         if (entretien != null)
         {
             entretien.Valider();

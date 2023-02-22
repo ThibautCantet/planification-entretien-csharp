@@ -23,9 +23,10 @@ public class RecruteurController : ControllerBase
     [HttpPost("")]
     public ActionResult Create([FromBody] CreateRecruteurRequest createRecruteurRequest)
     {
-        var idRecruteur = _creerRecruteurCommandHandler.Handle(createRecruteurRequest.Language,
+        var idRecruteur = _creerRecruteurCommandHandler.Handle(new CreerRecruteurCommand(
+            createRecruteurRequest.Language,
             createRecruteurRequest.Email,
-            createRecruteurRequest.XP);
+            createRecruteurRequest.XP));
         
         if (idRecruteur > 0)
         {
@@ -43,7 +44,7 @@ public class RecruteurController : ControllerBase
     [HttpGet("")]
     public Task<IActionResult> ListerExperimentes()
     {
-        var recruteurs = _listerRecruteurExperimenteQueryHandler.Handle()
+        var recruteurs = _listerRecruteurExperimenteQueryHandler.Handle(new ListerRecruteurExperimenteQuery())
             .Select(r => new RecruteurExperimenteResponse(r.Email, r.Language, r.ExperienceEnAnnees))
             .ToList();
         return Task.FromResult<IActionResult>(Ok(recruteurs));

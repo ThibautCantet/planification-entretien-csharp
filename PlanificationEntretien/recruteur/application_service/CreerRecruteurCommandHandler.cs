@@ -12,13 +12,13 @@ public class CreerRecruteurCommandHandler
         _recruteurRepository = recruteurRepository;
     }
 
-    public int Handle(String language, String email, int? experienceEnAnnees)
+    public int Handle(CreerRecruteurCommand command)
     {
         try
         {
-            var recruteur = new Recruteur(language,
-                email,
-                experienceEnAnnees);
+            var recruteur = new Recruteur(command.Language,
+                command.Email,
+                command.ExperienceEnAnnees);
             return _recruteurRepository.Save(recruteur);
         }
         catch (ArgumentException)

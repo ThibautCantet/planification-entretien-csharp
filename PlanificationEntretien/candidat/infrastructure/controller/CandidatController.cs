@@ -19,9 +19,9 @@ public class CandidatController : ControllerBase
     [HttpPost("")]
     public ActionResult Create([FromBody] CreateCandidatRequest createCandidatRequest)
     {
-        var events = _creerCandidatCommandHandler.Handle(createCandidatRequest.Language,
+        var events = _creerCandidatCommandHandler.Handle(new CreerCandidatCommand(createCandidatRequest.Language,
             createCandidatRequest.Email,
-            createCandidatRequest.Xp);
+            createCandidatRequest.Xp));
         if (events.All(evt => evt.GetType() != typeof(CandidatCrée)))
         {
             return BadRequest();

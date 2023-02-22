@@ -35,11 +35,11 @@ public class EntretienController : ControllerBase
     {
         var candidat = _candidatRepository.FindById(createOfferRequest.IdCandidat);
         var recruteur = _recruteurRepository.FindById(createOfferRequest.IdRecruteur);
-        var events = _planifierEntretienCommandHandler.Handle(
+        var events = _planifierEntretienCommandHandler.Handle(new PlanifierEntretienCommand(
             new Candidat(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees),
             createOfferRequest.DisponibiliteCandidat,
             new Recruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees),
-            createOfferRequest.DisponibiliteRecruteur);
+            createOfferRequest.DisponibiliteRecruteur));
         EntretienCréé entretienCrée = events.FirstOrDefault(e => e.GetType().Equals(typeof(EntretienCréé))) as EntretienCréé;
         if (entretienCrée != null)
         {
@@ -52,7 +52,7 @@ public class EntretienController : ControllerBase
 
     public IActionResult Lister()
     {
-        var entretiens = _listerEntretienQueryHandler.Handle()
+        var entretiens = _listerEntretienQueryHandler.Handle(new ListerEntretienQuery())
             .Select(entretien => new EntretienResponse(entretien.Candidat.Email,
                 entretien.Recruteur.Email,
                 entretien.Horaire,
@@ -63,7 +63,7 @@ public class EntretienController : ControllerBase
 
     public IActionResult Valider(int id)
     {
-        if (_validerEntretienCommandHandler.Handle(id))
+        if (_validerEntretienCommandHandler.Handle(new ValiderEntretienCommand(id)))
         {
             return Ok();
         }

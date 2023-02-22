@@ -1,3 +1,4 @@
+using PlanificationEntretien.recruteur.application_service;
 using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.entretien.application_service;
@@ -11,9 +12,9 @@ public class RendreRecruteurIndisponibleCommandHandler
         _recruteurRepository = recruteurRepository;
     }
 
-    public void Handle(int recruteurId)
+    public void Handle(RendreRecruteurIndisponibleCommand command)
     {
-        var recruteur = _recruteurRepository.FindById(recruteurId);
+        var recruteur = _recruteurRepository.FindById(command.RecruteurId);
         if (recruteur != null) 
         {
             recruteur.RendreIndisponible();

@@ -16,10 +16,10 @@ public class CreerCandidatCommandHandler
         _candidatFactory = candidatFactory;
     }
 
-    public IEnumerable<Event> Handle(string language, string email, int? experienceEnAnnees)
+    public IEnumerable<Event> Handle(CreerCandidatCommand creerCandidatCommand)
     {
         var candidatId = _candidatRepository.Next();
-        var eventCandidatResult = _candidatFactory.Create(candidatId, language, email, experienceEnAnnees);
+        var eventCandidatResult = _candidatFactory.Create(candidatId, creerCandidatCommand.Language, creerCandidatCommand.Email, creerCandidatCommand.ExperienceEnAnnees);
 
         var candidatCrée = eventCandidatResult.Event as CandidatCrée;
         if (candidatCrée != null)

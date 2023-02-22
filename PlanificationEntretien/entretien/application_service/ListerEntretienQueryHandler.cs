@@ -12,7 +12,7 @@ public class ListerEntretienQueryHandler
         _entretienRepository = entretienRepository;
     }
     
-    public IEnumerable<IEntretien> Handle()
+    public IEnumerable<IEntretien> Handle(ListerEntretienQuery query)
     {
         return _entretienRepository.FindAll();
     }

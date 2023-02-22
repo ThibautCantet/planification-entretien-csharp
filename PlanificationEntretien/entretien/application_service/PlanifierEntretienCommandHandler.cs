@@ -19,18 +19,17 @@ public class PlanifierEntretienCommandHandler
         _messageBus = messageBus;
     }
 
-    public IEnumerable<Event> Handle(Candidat candidat, DateTime disponibiliteDuCandidat,
-        Recruteur recruteur, DateTime disponibiliteDuRecruteur)
+    public IEnumerable<Event> Handle(PlanifierEntretienCommand command)
     {
-        var entretien = new Entretien(candidat, recruteur);
-        var resultat = entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        var entretien = new Entretien(command.Candidat, command.Recruteur);
+        var resultat = entretien.Planifier(command.DisponibiliteDuCandidat, command.DisponibiliteDuRecruteur);
         var entretienCréé = resultat as EntretienCréé;
         if (entretienCréé != null)
         {
             var entretienId = _entretienRepository.Save(entretien);
-            _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidat.Email, disponibiliteDuRecruteur);
-            _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteur.Email, disponibiliteDuRecruteur);
-            _messageBus.Send(new EntretienCréé(entretienId, recruteur.Id));
+            _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(command.Candidat.Email, command.DisponibiliteDuRecruteur);
+            _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(command.Recruteur.Email, command.DisponibiliteDuRecruteur);
+            _messageBus.Send(new EntretienCréé(entretienId, command.Recruteur.Id));
             resultat = entretienCréé.UpdateId(entretienId);
         }
 

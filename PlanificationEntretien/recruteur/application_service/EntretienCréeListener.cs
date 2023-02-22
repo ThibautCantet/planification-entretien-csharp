@@ -1,6 +1,7 @@
 using PlanificationEntretien.domain;
 using PlanificationEntretien.application_service;
 using PlanificationEntretien.entretien.domain;
+using PlanificationEntretien.recruteur.application_service;
 
 namespace PlanificationEntretien.entretien.application_service;
 
@@ -17,6 +18,7 @@ public class EntretienCréeListener : Listener
 
     public void OnMessage(Event entretienCréé)
     {
-        _rendreRendreRecruteurIndisponibleCommandHandler.Handle((entretienCréé as EntretienCréé)!.RecruteurId);
+        var recruteurId = (entretienCréé as EntretienCréé)!.RecruteurId;
+        _rendreRendreRecruteurIndisponibleCommandHandler.Handle(new RendreRecruteurIndisponibleCommand(recruteurId));
     }
 }

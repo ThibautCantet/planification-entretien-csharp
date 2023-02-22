@@ -13,7 +13,7 @@ public class ListerRecruteurExperimenteQueryHandler
         _recruteurRepository = recruteurRepository;
     }
 
-    public List<Recruteur> Handle()
+    public List<Recruteur> Handle(ListerRecruteurExperimenteQuery query)
     {
         List<Recruteur> recruteurs = _recruteurRepository.FindAll()
             .Where(r => r.ExperienceEnAnnees >= 10)
