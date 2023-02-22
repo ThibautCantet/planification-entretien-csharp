@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.application_service.entretien;
+using PlanificationEntretien.domain.entretien;
 using Candidat = PlanificationEntretien.domain.entretien.Candidat;
 using Recruteur = PlanificationEntretien.domain.entretien.Recruteur;
 
@@ -34,14 +35,15 @@ public class EntretienController : ControllerBase
     {
         var candidat = _candidatRepository.FindById(createOfferRequest.IdCandidat);
         var recruteur = _recruteurRepository.FindById(createOfferRequest.IdRecruteur);
-        var entretienId = _planifierEntretien.Execute(
+        var events = _planifierEntretien.Execute(
             new Candidat(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees),
             createOfferRequest.DisponibiliteCandidat,
             new Recruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees),
             createOfferRequest.DisponibiliteRecruteur);
-        if (entretienId > 0)
+        EntretienCréé entretienCrée = events.FirstOrDefault(e => e.GetType().Equals(typeof(EntretienCréé))) as EntretienCréé;
+        if (entretienCrée != null)
         {
-            var response = new CreateEntretienResponse(entretienId, candidat.Email, recruteur.Email,
+            var response = new CreateEntretienResponse(entretienCrée.EntretienId, candidat.Email, recruteur.Email,
                 createOfferRequest.DisponibiliteCandidat);
             return CreatedAtAction("Create", new {id= createOfferRequest}, response);
         }

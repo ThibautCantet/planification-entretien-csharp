@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Planification_Entretien.domain;
 using PlanificationEntretien.domain.entretien;
 
 namespace PlanificationEntretien.application_service.entretien;
@@ -16,20 +18,21 @@ public class PlanifierEntretien
         _messageBus = messageBus;
     }
 
-    public int Execute(Candidat candidat, DateTime disponibiliteDuCandidat,
+    public IEnumerable<Event> Execute(Candidat candidat, DateTime disponibiliteDuCandidat,
         Recruteur recruteur, DateTime disponibiliteDuRecruteur)
     {
         var entretien = new Entretien(candidat, recruteur);
-        if (entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur))
+        var resultat = entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur);
+        var entretienCréé = resultat as EntretienCréé;
+        if (entretienCréé != null)
         {
             var entretienId = _entretienRepository.Save(entretien);
             _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidat.Email, disponibiliteDuRecruteur);
             _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteur.Email, disponibiliteDuRecruteur);
-            _messageBus.Send(new EntretienCréé(entretien.Id, recruteur.Id));
-
-            return entretienId;
+            _messageBus.Send(new EntretienCréé(entretienId, recruteur.Id));
+            resultat = entretienCréé.UpdateId(entretienId);
         }
 
-        return -1;
+        return new List<Event> { resultat };
     }
 }

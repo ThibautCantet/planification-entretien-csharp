@@ -1,4 +1,5 @@
 using System;
+using Planification_Entretien.domain;
 
 namespace PlanificationEntretien.domain.entretien;
 
@@ -31,14 +32,15 @@ public class Entretien : IEquatable<Entretien>, IEntretien
     {
     }
 
-    public bool Planifier(DateTime disponibiliteDuCandidat, DateTime disponibiliteDuRecruteur)
+    public Event Planifier(DateTime disponibiliteDuCandidat, DateTime disponibiliteDuRecruteur)
     {
         var planifiable = Recruteur.EstCompatible(Candidat) && disponibiliteDuCandidat.Equals(disponibiliteDuRecruteur);
         if (planifiable)
         {
             Horaire = disponibiliteDuCandidat;
+            return new EntretienCréé(Id, Recruteur.Id);
         }
-        return planifiable;
+        return new EntretienNonCréé();
     }
 
     public void Valider()
