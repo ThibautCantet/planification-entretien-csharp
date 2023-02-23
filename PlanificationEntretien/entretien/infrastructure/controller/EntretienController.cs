@@ -53,10 +53,10 @@ public class EntretienController : ControllerBase
     public IActionResult Lister()
     {
         var entretiens = _listerEntretienQueryHandler.Handle(new ListerEntretienQuery())
-            .Select(entretien => new EntretienResponse(entretien.Candidat.Email,
-                entretien.Recruteur.Email,
-                entretien.Horaire,
-                entretien.Status))
+            .Select(entretien => new EntretienResponse(entretien.EmailCandidat(),
+                entretien.EmailRecruteur(),
+                entretien.Horaire(),
+                entretien.Status()))
             .ToList();
         return Ok(entretiens);
     }
