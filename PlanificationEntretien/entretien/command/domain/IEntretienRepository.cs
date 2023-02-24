@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 
 namespace PlanificationEntretien.entretien.domain
 {
@@ -7,6 +6,5 @@ namespace PlanificationEntretien.entretien.domain
         Entretien FindById(int id);
         Entretien FindByCandidat(string candidatEmail);
         int Save(Entretien entretien);
-        IEnumerable<Entretien> FindAll();
     }
 }

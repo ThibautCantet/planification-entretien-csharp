@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using PlanificationEntretien.entretien.domain;
 using PlanificationEntretien.candidat.infrastructure.repository;
+using PlanificationEntretien.entretien.application_service;
+using PlanificationEntretien.entretien.domain;
 using PlanificationEntretien.recruteur.infrastructure.repository;
 
 namespace PlanificationEntretien.entretien.infrastructure.repository;
 
-public class InMemoryEntretienRepository : IEntretienRepository
+public class InMemoryEntretienRepository : IEntretienRepository, IEntretienDao
 {
     private Dictionary<Candidat, InMemoryEntretien> _entretiens = new();
 
@@ -44,13 +45,11 @@ public class InMemoryEntretienRepository : IEntretienRepository
                 toInMemoryEntretien(entretien));
             return entretien.Id;
         }
-        else
-        {
-            var newId = _entretiens.Count + 1;
-            _entretiens.TryAdd(entretien.Candidat,
-                toInMemoryEntretien(entretien, newId));
-            return newId;
-        }
+
+        var newId = _entretiens.Count + 1;
+        _entretiens.TryAdd(entretien.Candidat,
+            toInMemoryEntretien(entretien, newId));
+        return newId;
     }
 
     private static InMemoryEntretien toInMemoryEntretien(Entretien entretien)
@@ -67,8 +66,9 @@ public class InMemoryEntretienRepository : IEntretienRepository
             entretien.Status);
     }
 
-    public IEnumerable<Entretien> FindAll()
+    public IEnumerable<IEntretien> FindAll()
     {
-        return _entretiens.Values.Select(e => ToEntretien(e)).ToList();
+        return _entretiens.Values;
     }
+
 }

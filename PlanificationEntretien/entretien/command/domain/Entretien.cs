@@ -1,11 +1,10 @@
 using System;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.domain.entretien;
-using PlanificationEntretien.entretien.application_service;
 
 namespace PlanificationEntretien.entretien.domain
 {
-    public class Entretien : IEquatable<Entretien>, IEntretien
+    public class Entretien : IEquatable<Entretien>
     {
         public int Id { get; }
         public Candidat Candidat { get; }
@@ -65,36 +64,6 @@ namespace PlanificationEntretien.entretien.domain
         public static Entretien of(int id, Candidat candidat, Recruteur recruteur, DateTime horaire, Status statusValue)
         {
             return new Entretien(id, candidat, recruteur, horaire);
-        }
-
-        int IEntretien.Id()
-        {
-            return Id;
-        }
-
-        public string EmailCandidat()
-        {
-            return Candidat.Email;
-        }
-
-        public string EmailRecruteur()
-        {
-            return Recruteur.Email;
-        }
-
-        public string Language()
-        {
-            return Recruteur.Language;
-        }
-
-        DateTime IEntretien.Horaire()
-        {
-            return Horaire;
-        }
-
-        Status IEntretien.Status()
-        {
-            return Status;
         }
     }
 }

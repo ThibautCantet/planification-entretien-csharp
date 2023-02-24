@@ -5,15 +5,15 @@ namespace PlanificationEntretien.entretien.application_service;
 
 public class ListerEntretienQueryHandler
 {
-    private readonly IEntretienRepository _entretienRepository;
+    private readonly IEntretienDao _entretienDao;
 
-    public ListerEntretienQueryHandler(IEntretienRepository entretienRepository)
+    public ListerEntretienQueryHandler(IEntretienDao entretienDao)
     {
-        _entretienRepository = entretienRepository;
+        _entretienDao = entretienDao;
     }
     
     public IEnumerable<IEntretien> Handle(ListerEntretienQuery query)
     {
-        return _entretienRepository.FindAll();
+        return _entretienDao.FindAll();
     }
 }
