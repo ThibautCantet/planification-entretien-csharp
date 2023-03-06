@@ -45,7 +45,7 @@ public class RecruteurController : ControllerBase
     public Task<IActionResult> ListerExperimentes()
     {
         var recruteurs = _listerRecruteurExperimenteQueryHandler.Handle(new ListerRecruteurExperimenteQuery())
-            .Select(r => new RecruteurExperimenteResponse(r.Email, r.Language, r.ExperienceEnAnnees))
+            .Select(r => new RecruteurExperimenteResponse(r.Email(), r.Competence()))
             .ToList();
         return Task.FromResult<IActionResult>(Ok(recruteurs));
     }

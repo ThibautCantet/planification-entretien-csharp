@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.recruteur.domain;
 using PlanificationEntretien.recruteur.application_service;
+using PlanificationEntretien.recruteur.application_service.application;
 using PlanificationEntretien.recruteur.infrastructure.controller;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -31,7 +32,7 @@ namespace PlanificationEntretien.Steps
         public void WhenOnTenteDenregistrerLeRecruteur()
         {
             var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository);
-            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler(RecruteurRepository);
+            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler((IRecruteurDao) RecruteurRepository);
             var recruteurController = new RecruteurController(creerRecruteur, listerRecruteurExperimente);
             _actionResult = recruteurController.Create(_createRecruteurRequest) as CreatedAtActionResult;
         }
@@ -62,7 +63,7 @@ namespace PlanificationEntretien.Steps
         public async Task WhenOnListeLesRecruteursExperimentes()
         {
             var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository);
-            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler(RecruteurRepository);
+            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler((IRecruteurDao) RecruteurRepository);
             var recruteurController = new RecruteurController(creerRecruteur, listerRecruteurExperimente);
             _recruteurs = await recruteurController.ListerExperimentes();
         }

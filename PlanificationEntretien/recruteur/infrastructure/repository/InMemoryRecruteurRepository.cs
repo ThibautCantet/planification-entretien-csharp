@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using PlanificationEntretien.recruteur.application_service.application;
 using PlanificationEntretien.recruteur.domain;
 using entretienRecruteur = PlanificationEntretien.entretien.domain;
 
 namespace PlanificationEntretien.recruteur.infrastructure.repository;
 
-public class InMemoryRecruteurRepository : IRecruteurRepository
+public class InMemoryRecruteurRepository : IRecruteurRepository, IRecruteurDao
 {
     private Dictionary<string, InMemoryRecruteur> _recruteurs = new();
 
@@ -52,18 +53,18 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
     public List<Recruteur> FindAll()
     {
         return _recruteurs.Values
-            .Select(r => new Recruteur(r.Id, r.Language, r.Email, r.ExperienceEnAnnees, r.EstDisponible))
+            .Select(r => new Recruteur(r.Id, r.Language, r.RecruteurEmail, r.ExperienceEnAnnees, r.EstDisponible))
             .ToList();
     }
 
     internal static Recruteur ToRecruteur(InMemoryRecruteur? value)
     {
-        return new Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees, value.EstDisponible);
+        return new Recruteur(value.Id, value.Language, value.RecruteurEmail, value.ExperienceEnAnnees, value.EstDisponible);
     }
     
     internal static entretienRecruteur.Recruteur ToEntretienRecruteur(InMemoryRecruteur? value)
     {
-        return new entretienRecruteur.Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees.Value);
+        return new entretienRecruteur.Recruteur(value.Id, value.Language, value.RecruteurEmail, value.ExperienceEnAnnees.Value);
     }
 
     internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur recruteur)
@@ -79,5 +80,12 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
     internal static InMemoryRecruteur ToInMemoryEntretienRecruteur(entretienRecruteur.Recruteur recruteur)
     {
         return new InMemoryRecruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees, true);
+    }
+
+    public List<IRecruteurDetail> Find10AnsExperience()
+    {
+        return new List<IRecruteurDetail>(_recruteurs.Values
+            .Where(r => r.ExperienceEnAnnees >= 10)
+            .ToList());
     }
 }

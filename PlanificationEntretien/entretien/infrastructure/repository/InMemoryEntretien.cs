@@ -25,7 +25,7 @@ public record InMemoryEntretien(
 
     string IEntretien.EmailRecruteur()
     {
-        return Recruteur.Email;
+        return Recruteur.RecruteurEmail;
     }
 
     string IEntretien.Language()

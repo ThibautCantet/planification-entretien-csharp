@@ -1,24 +1,19 @@
 using System.Collections.Generic;
-using System.Linq;
-using PlanificationEntretien.recruteur.domain;
+using PlanificationEntretien.recruteur.application_service.application;
 
 namespace PlanificationEntretien.recruteur.application_service;
 
 public class ListerRecruteurExperimenteQueryHandler
 {
-    private readonly IRecruteurRepository _recruteurRepository;
+    private readonly IRecruteurDao _recruteurDao;
     
-    public ListerRecruteurExperimenteQueryHandler(IRecruteurRepository recruteurRepository)
+    public ListerRecruteurExperimenteQueryHandler(IRecruteurDao recruteurDao)
     {
-        _recruteurRepository = recruteurRepository;
+        _recruteurDao = recruteurDao;
     }
 
-    public List<Recruteur> Handle(ListerRecruteurExperimenteQuery query)
+    public List<IRecruteurDetail> Handle(ListerRecruteurExperimenteQuery query)
     {
-        List<Recruteur> recruteurs = _recruteurRepository.FindAll()
-            .Where(r => r.ExperienceEnAnnees >= 10)
-            .ToList();
-
-        return recruteurs;
+        return _recruteurDao.Find10AnsExperience();
     } 
 }

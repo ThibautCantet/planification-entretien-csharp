@@ -7,11 +7,11 @@ public interface IEntretien
 {
     int Id();
 
-    String EmailCandidat();
+    string EmailCandidat();
 
-    String EmailRecruteur();
+    string EmailRecruteur();
 
-    String Language();
+    string Language();
 
     DateTime Horaire();
 
