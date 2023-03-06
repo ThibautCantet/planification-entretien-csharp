@@ -16,3 +16,7 @@ Séparer modèles du domaine pour la création (`Command`) et de lecture (`Query
 ### Question
 
 Que remarquez-vous dans les `QueryHandler` ?
+
+### Réponse
+
+Il y a des références au package `command` pour les modèles et les `repository`
