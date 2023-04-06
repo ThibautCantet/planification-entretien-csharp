@@ -1,4 +1,5 @@
 using PlanificationEntretien.candidat.infrastructure.repository;
+using PlanificationEntretien.entretien.application_service.infrastructure;
 using PlanificationEntretien.entretien.domain;
 using PlanificationEntretien.entretien.infrastructure.repository;
 using PlanificationEntretien.recruteur.infrastructure.repository;
@@ -8,7 +9,7 @@ namespace PlanificationEntretien.Steps;
 public abstract class ATest
 {
     private InMemoryEntretienRepository _inMemoryEntretienRepository;
-    protected IEntretienRepository EntretienRepository()
+    protected InMemoryEntretienRepository EntretienRepository()
     {
         if (_inMemoryEntretienRepository == null)
         {
@@ -45,5 +46,16 @@ public abstract class ATest
             _inMemoryCandidatRepository = new();
         }
         return _inMemoryCandidatRepository;
+    }
+    
+      
+    private InMemoryEntretienDao _inMemoryEntretienDao;
+    protected InMemoryEntretienDao EntretienDao()
+    {
+        if (_inMemoryEntretienDao == null)
+        {
+            _inMemoryEntretienDao = new InMemoryEntretienDao(EntretienRepository());
+        }
+        return _inMemoryEntretienDao;
     }
 }

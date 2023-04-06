@@ -1,25 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using PlanificationEntretien.candidat.infrastructure.repository;
-using PlanificationEntretien.entretien.application_service;
 using PlanificationEntretien.entretien.domain;
 using PlanificationEntretien.recruteur.infrastructure.repository;
 
 namespace PlanificationEntretien.entretien.infrastructure.repository;
 
-public class InMemoryEntretienRepository : IEntretienRepository, IEntretienDao
+public class InMemoryEntretienRepository : IEntretienRepository
 {
-    private Dictionary<Candidat, InMemoryEntretien> _entretiens = new();
+    internal Dictionary<Candidat, InMemoryEntretien> Entretiens { get; } = new();
 
     public Entretien FindById(int id)
     {
-        var inMemoryEntretien = _entretiens.Values.FirstOrDefault(entretien => entretien.Id == id);
+        var inMemoryEntretien = Entretiens.Values.FirstOrDefault(entretien => entretien.Id == id);
         return inMemoryEntretien != null ? ToEntretien(inMemoryEntretien) : null;
     }
 
     public Entretien FindByCandidat(string candidatEmail)
     {
-        InMemoryEntretien value = _entretiens.Values.FirstOrDefault(e => e.Candidat.Email == candidatEmail);
+        InMemoryEntretien value = Entretiens.Values.FirstOrDefault(e => e.Candidat.Email == candidatEmail);
         if (value == null)
         {
             return null;
@@ -39,15 +38,15 @@ public class InMemoryEntretienRepository : IEntretienRepository, IEntretienDao
 
     public int Save(Entretien entretien)
     {
-        if (_entretiens.ContainsKey(entretien.Candidat))
+        if (Entretiens.ContainsKey(entretien.Candidat))
         {
-            _entretiens.TryAdd(entretien.Candidat,
+            Entretiens.TryAdd(entretien.Candidat,
                 toInMemoryEntretien(entretien));
             return entretien.Id;
         }
 
-        var newId = _entretiens.Count + 1;
-        _entretiens.TryAdd(entretien.Candidat,
+        var newId = Entretiens.Count + 1;
+        Entretiens.TryAdd(entretien.Candidat,
             toInMemoryEntretien(entretien, newId));
         return newId;
     }
@@ -64,11 +63,6 @@ public class InMemoryEntretienRepository : IEntretienRepository, IEntretienDao
             InMemoryRecruteurRepository.ToInMemoryEntretienRecruteur(entretien.Recruteur), 
             entretien.Horaire,
             entretien.Status);
-    }
-
-    public IEnumerable<IEntretien> FindAll()
-    {
-        return _entretiens.Values;
     }
 
 }

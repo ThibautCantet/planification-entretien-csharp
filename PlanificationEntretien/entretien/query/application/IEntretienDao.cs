@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using PlanificationEntretien.entretien.application_service;
 
-namespace PlanificationEntretien.entretien.domain
+namespace PlanificationEntretien.entretien.domain;
+
+public interface IEntretienDao
 {
-    public interface IEntretienDao
-    {
-        IEnumerable<IEntretien> FindAll();
-    }
+    IEnumerable<IEntretien> FindAll();
 }
