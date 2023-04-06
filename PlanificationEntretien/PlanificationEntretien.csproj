@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="candidat\command\infrastructure" />
       <Folder Include="entretien\command\infrastructure" />
       <Folder Include="obj\Debug\netcoreapp3.1" />
       <Folder Include="recruteur\query\infrastructure" />
