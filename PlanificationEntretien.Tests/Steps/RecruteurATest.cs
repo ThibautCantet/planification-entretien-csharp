@@ -31,8 +31,7 @@ namespace PlanificationEntretien.Steps
         public void WhenOnTenteDenregistrerLeRecruteur()
         {
             var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository());
-            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler(RecruteurDao());
-            var recruteurController = new RecruteurController(creerRecruteur, listerRecruteurExperimente);
+            var recruteurController = new RecruteurCommandController(creerRecruteur);
             _actionResult = recruteurController.Create(_createRecruteurRequest) as CreatedAtActionResult;
         }
 
@@ -61,9 +60,8 @@ namespace PlanificationEntretien.Steps
         [When(@"on liste les recruteurs expérimentés")]
         public async Task WhenOnListeLesRecruteursExperimentes()
         {
-            var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository());
             var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler(RecruteurDao());
-            var recruteurController = new RecruteurController(creerRecruteur, listerRecruteurExperimente);
+            var recruteurController = new RecruteurQueryController(listerRecruteurExperimente);
             _recruteurs = await recruteurController.ListerExperimentes();
         }
 

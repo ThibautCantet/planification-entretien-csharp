@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.recruteur.application_service;
 
@@ -7,15 +5,13 @@ namespace PlanificationEntretien.recruteur.infrastructure.controller;
 
 [ApiController]
 [Route("/api/recruteure")]
-public class RecruteurController : ControllerBase
+public class RecruteurCommandController : ControllerBase
 {
     private readonly CreerRecruteurCommandHandler _creerRecruteurCommandHandler;
-    private readonly ListerRecruteurExperimenteQueryHandler _listerRecruteurExperimenteQueryHandler;
 
-    public RecruteurController(CreerRecruteurCommandHandler creerRecruteurCommandHandler, ListerRecruteurExperimenteQueryHandler listerRecruteurExperimenteQueryHandler)
+    public RecruteurCommandController(CreerRecruteurCommandHandler creerRecruteurCommandHandler)
     {
         _creerRecruteurCommandHandler = creerRecruteurCommandHandler;
-        _listerRecruteurExperimenteQueryHandler = listerRecruteurExperimenteQueryHandler;
     }
 
     public record RecruteurCreationDto(string email);
@@ -41,12 +37,4 @@ public class RecruteurController : ControllerBase
         return BadRequest();
     }
 
-    [HttpGet("")]
-    public Task<IActionResult> ListerExperimentes()
-    {
-        var recruteurs = _listerRecruteurExperimenteQueryHandler.Handle(new ListerRecruteurExperimenteQuery())
-            .Select(r => new RecruteurExperimenteResponse(r.Email(), r.Competence()))
-            .ToList();
-        return Task.FromResult<IActionResult>(Ok(recruteurs));
-    }
 }
