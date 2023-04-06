@@ -1,18 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
-using PlanificationEntretien.recruteur.application_service.application;
 using PlanificationEntretien.recruteur.domain;
 using entretienRecruteur = PlanificationEntretien.entretien.domain;
 
 namespace PlanificationEntretien.recruteur.infrastructure.repository;
 
-public class InMemoryRecruteurRepository : IRecruteurRepository, IRecruteurDao
+public class InMemoryRecruteurRepository : IRecruteurRepository
 {
-    private Dictionary<string, InMemoryRecruteur> _recruteurs = new();
+    internal Dictionary<string, InMemoryRecruteur> Recruteurs { get; } = new();
 
     public Recruteur FindById(int id)
     {
-        var recruteur = _recruteurs.Values.FirstOrDefault(r => r.Id == id);
+        var recruteur = Recruteurs.Values.FirstOrDefault(r => r.Id == id);
         if (recruteur == null)
         {
             return null;
@@ -23,7 +22,7 @@ public class InMemoryRecruteurRepository : IRecruteurRepository, IRecruteurDao
     public Recruteur FindByEmail(string email)
     {
         InMemoryRecruteur value;
-        _recruteurs.TryGetValue(email, out value);
+        Recruteurs.TryGetValue(email, out value);
         if (value == null)
         {
             return null;
@@ -35,14 +34,14 @@ public class InMemoryRecruteurRepository : IRecruteurRepository, IRecruteurDao
     {
         if (recruteur.Id == 0)
         {
-            var newId = _recruteurs.Count + 1;
-            _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur, newId));
+            var newId = Recruteurs.Count + 1;
+            Recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur, newId));
 
             return newId;
         }
 
-        _recruteurs.Remove(recruteur.Email);
-        if (_recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur)))
+        Recruteurs.Remove(recruteur.Email);
+        if (Recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur)))
         {
             return recruteur.Id;
         }
@@ -52,7 +51,7 @@ public class InMemoryRecruteurRepository : IRecruteurRepository, IRecruteurDao
 
     public List<Recruteur> FindAll()
     {
-        return _recruteurs.Values
+        return Recruteurs.Values
             .Select(r => new Recruteur(r.Id, r.Language, r.RecruteurEmail, r.ExperienceEnAnnees, r.EstDisponible))
             .ToList();
     }
@@ -82,10 +81,4 @@ public class InMemoryRecruteurRepository : IRecruteurRepository, IRecruteurDao
         return new InMemoryRecruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees, true);
     }
 
-    public List<IRecruteurDetail> Find10AnsExperience()
-    {
-        return new List<IRecruteurDetail>(_recruteurs.Values
-            .Where(r => r.ExperienceEnAnnees >= 10)
-            .ToList());
-    }
 }

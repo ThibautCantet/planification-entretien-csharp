@@ -23,7 +23,7 @@ namespace PlanificationEntretien.Steps
             var recruteurs = table.Rows.Select(row => RecruteurATest.BuildRecruteur(row));
             foreach (var recruteur in recruteurs)
             {
-                RecruteurRepository.Save(recruteur);
+                RecruteurRepository().Save(recruteur);
             }
         }
 
@@ -34,7 +34,7 @@ namespace PlanificationEntretien.Steps
                 new candidat.domain.Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
             foreach (var candidat in candidats)
             {
-                CandidatRepository.Save(candidat);
+                CandidatRepository().Save(candidat);
             }
         }
 
@@ -45,7 +45,7 @@ namespace PlanificationEntretien.Steps
                 BuildEntretien(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3], row.Values.ToList()[4]));
             foreach (var entretien in entretiens)
             {
-                EntretienRepository.Save(entretien);
+                EntretienRepository().Save(entretien);
             }
         }
 
@@ -53,9 +53,9 @@ namespace PlanificationEntretien.Steps
         public void WhenOnValideLentretien(int entretienId)
         {
             _entretienId = entretienId;
-            var validerEntretien = new ValiderEntretienCommandHandler(EntretienRepository);
+            var validerEntretien = new ValiderEntretienCommandHandler(EntretienRepository());
             var entretienController =
-                new EntretienController(null, null, validerEntretien, CandidatRepository, RecruteurRepository);
+                new EntretienController(null, null, validerEntretien, CandidatRepository(), RecruteurRepository());
 
             _validateEntretienResponse = entretienController.Valider(entretienId);
         }
@@ -65,7 +65,7 @@ namespace PlanificationEntretien.Steps
         {
             Assert.IsType<OkResult>(_validateEntretienResponse);
 
-            var entretien = EntretienRepository.FindById(_entretienId);
+            var entretien = EntretienRepository().FindById(_entretienId);
             var entretiens = table.Rows.Select(row =>
                 BuildEntretien(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4], row.Values.ToList()[5]));
             Assert.Equal(entretien, entretiens.First());
@@ -73,8 +73,8 @@ namespace PlanificationEntretien.Steps
 
         private Entretien BuildEntretien(int id, string emailRecruteur, string emailCandidat, string time, string status)
         {
-            var recruteur = RecruteurRepository.FindByEmail(emailRecruteur);
-            var candidat = CandidatRepository.FindByEmail(emailCandidat);
+            var recruteur = RecruteurRepository().FindByEmail(emailRecruteur);
+            var candidat = CandidatRepository().FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
             Status.TryParse<Status>(status, out var statusValue);
             return Entretien.of(

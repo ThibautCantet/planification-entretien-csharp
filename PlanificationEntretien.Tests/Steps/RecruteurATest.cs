@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.recruteur.domain;
 using PlanificationEntretien.recruteur.application_service;
-using PlanificationEntretien.recruteur.application_service.application;
 using PlanificationEntretien.recruteur.infrastructure.controller;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -31,8 +30,8 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente d'enregistrer le recruteur")]
         public void WhenOnTenteDenregistrerLeRecruteur()
         {
-            var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository);
-            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler((IRecruteurDao) RecruteurRepository);
+            var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository());
+            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler(RecruteurDao());
             var recruteurController = new RecruteurController(creerRecruteur, listerRecruteurExperimente);
             _actionResult = recruteurController.Create(_createRecruteurRequest) as CreatedAtActionResult;
         }
@@ -48,22 +47,22 @@ namespace PlanificationEntretien.Steps
             Assert.Equal(createRecruteurResponse.xp, _createRecruteurRequest.XP);
             Assert.NotEqual(0, createRecruteurResponse.Id);
 
-            var recruteur = RecruteurRepository.FindById(createRecruteurResponse.Id);
+            var recruteur = RecruteurRepository().FindById(createRecruteurResponse.Id);
             Assert.Equal(recruteur, new Recruteur(createRecruteurResponse.Id, techno, email, int.Parse(xp)));
         }
 
         [Then(@"le recruteur n'est pas enregistré")]
         public void ThenLeRecruteurNestPasEnregistre()
         {
-            var recruteur = RecruteurRepository.FindByEmail(_emailRecruteur);
+            var recruteur = RecruteurRepository().FindByEmail(_emailRecruteur);
             Assert.Null(recruteur);
         }
         
         [When(@"on liste les recruteurs expérimentés")]
         public async Task WhenOnListeLesRecruteursExperimentes()
         {
-            var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository);
-            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler((IRecruteurDao) RecruteurRepository);
+            var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository());
+            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler(RecruteurDao());
             var recruteurController = new RecruteurController(creerRecruteur, listerRecruteurExperimente);
             _recruteurs = await recruteurController.ListerExperimentes();
         }
@@ -92,7 +91,7 @@ namespace PlanificationEntretien.Steps
             var recruteurs = table.Rows.Select(row => BuildRecruteur(row));
             foreach (var recruteur in recruteurs)
             {
-                RecruteurRepository.Save(recruteur);
+                RecruteurRepository().Save(recruteur);
             }
         }
 

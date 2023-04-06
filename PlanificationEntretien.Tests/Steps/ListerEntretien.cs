@@ -25,7 +25,7 @@ namespace PlanificationEntretien.Steps
             var recruteurs = table.Rows.Select(row => RecruteurATest.BuildRecruteur(row));
             foreach (var recruteur in recruteurs)
             {
-                RecruteurRepository.Save(recruteur);
+                RecruteurRepository().Save(recruteur);
             }
         }
 
@@ -36,7 +36,7 @@ namespace PlanificationEntretien.Steps
                 new Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
             foreach (var candidat in candidats)
             {
-                CandidatRepository.Save(candidat);
+                CandidatRepository().Save(candidat);
             }
         }
 
@@ -47,14 +47,14 @@ namespace PlanificationEntretien.Steps
                 BuildEntretien(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[3], row.Values.ToList()[4]));
             foreach (var entretien in entretiens)
             {
-                EntretienRepository.Save(entretien);
+                EntretienRepository().Save(entretien);
             }
         }
 
         private Entretien BuildEntretien(int id, string emailRecruteur, string emailCandidat, string time, string status)
         {
-            var recruteur = RecruteurRepository.FindByEmail(emailRecruteur);
-            var candidat = CandidatRepository.FindByEmail(emailCandidat);
+            var recruteur = RecruteurRepository().FindByEmail(emailRecruteur);
+            var candidat = CandidatRepository().FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
             Status.TryParse<Status>(status, out var statusValue);
             return Entretien.of(
@@ -76,8 +76,8 @@ namespace PlanificationEntretien.Steps
         [When(@"on liste les tous les entretiens")]
         public void WhenOnListeLesTousLesEntretiens()
         {
-            var listerEntretien = new uc.ListerEntretienQueryHandler((IEntretienDao)EntretienRepository);
-            var entretienController = new EntretienController(null, listerEntretien, null, CandidatRepository, RecruteurRepository);
+            var listerEntretien = new uc.ListerEntretienQueryHandler((IEntretienDao)EntretienRepository());
+            var entretienController = new EntretienController(null, listerEntretien, null, CandidatRepository(), RecruteurRepository());
             _listerEntretientActionResult = entretienController.Lister();
         }
 

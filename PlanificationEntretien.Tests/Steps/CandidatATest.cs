@@ -28,7 +28,7 @@ namespace PlanificationEntretien.Steps
         public void WhenOnTenteDenregistrerLeCandidat()
         {
             var candidatFactory = new CandidatFactory();
-            var creerCandidat = new CreerCandidatCommandHandler(CandidatRepository, candidatFactory);
+            var creerCandidat = new CreerCandidatCommandHandler(CandidatRepository(), candidatFactory);
             var candidatController = new CandidatController(creerCandidat);
             _actionResult = candidatController.Create(_candidatRequest) as CreatedAtActionResult;
         }
@@ -44,14 +44,14 @@ namespace PlanificationEntretien.Steps
             Assert.Equal(createCandidatResponse.xp, _candidatRequest.Xp);
             Assert.NotEqual(0, createCandidatResponse.Id);
             
-            var candidat = CandidatRepository.FindById(createCandidatResponse.Id);
+            var candidat = CandidatRepository().FindById(createCandidatResponse.Id);
             Assert.Equal(candidat,  new Candidat(createCandidatResponse.Id, java, email, int.Parse(xp)));
         }
 
         [Then(@"le candidat n'est pas enregistré")]
         public void ThenLeCandidatNestPasEnregistre()
         {
-            var candidat = CandidatRepository.FindByEmail(_emailCandidat);
+            var candidat = CandidatRepository().FindByEmail(_emailCandidat);
             Assert.Null(candidat);
         }
     }

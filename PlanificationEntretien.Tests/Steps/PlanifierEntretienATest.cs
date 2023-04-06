@@ -30,9 +30,9 @@ namespace PlanificationEntretien.Steps
         public void GivenUnCandidatAvecAnsDExperiencesQuiEstDisponibleA(string language, string email,
             string experienceInYears, string date, string time)
         {
-            var id = CandidatRepository.Next();
+            var id = CandidatRepository().Next();
             _candidat = new Candidat(id, language, email, Int32.Parse(experienceInYears));
-            var saveCandidatId = CandidatRepository.Save(_candidat);
+            var saveCandidatId = CandidatRepository().Save(_candidat);
             _candidat = new Candidat(saveCandidatId, _candidat.Language, _candidat.Email, _candidat.ExperienceEnAnnees);
             _disponibiliteDuCandidat =
                 DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
@@ -43,7 +43,7 @@ namespace PlanificationEntretien.Steps
             string date, string time)
         {
             _recruteur = new Recruteur(language, email, Int32.Parse(experienceInYears));
-            var saveRecruteurId = RecruteurRepository.Save(_recruteur);
+            var saveRecruteurId = RecruteurRepository().Save(_recruteur);
             _recruteur = new Recruteur(saveRecruteurId, _recruteur.Language, _recruteur.Email,
                 _recruteur.ExperienceEnAnnees);
             _dateDeDisponibiliteDuRecruteur =
@@ -53,10 +53,10 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            var _entretienCréeListener = new EntretienCréeListener(new RendreRecruteurIndisponibleCommandHandler(RecruteurRepository), _messageBus);
-            _planifierEntretienCommandHandler = new PlanifierEntretienCommandHandler(EntretienRepository, _emailService, _messageBus);
+            var _entretienCréeListener = new EntretienCréeListener(new RendreRecruteurIndisponibleCommandHandler(RecruteurRepository()), _messageBus);
+            _planifierEntretienCommandHandler = new PlanifierEntretienCommandHandler(EntretienRepository(), _emailService, _messageBus);
             var entretienController =
-                new EntretienController(_planifierEntretienCommandHandler, null, null, CandidatRepository, RecruteurRepository);
+                new EntretienController(_planifierEntretienCommandHandler, null, null, CandidatRepository(), RecruteurRepository());
 
             _createEntretienResponse = entretienController.Create(new CreateEntretienRequest(_candidat.Id,
                 _recruteur.Id,
@@ -77,7 +77,7 @@ namespace PlanificationEntretien.Steps
             var createEntretienResponse = _createEntretienResponse.Value as CreateEntretienResponse;
             Assert.NotEqual(0, createEntretienResponse.EntretienId);
 
-            Entretien entretien = EntretienRepository.FindById(createEntretienResponse.EntretienId);
+            Entretien entretien = EntretienRepository().FindById(createEntretienResponse.EntretienId);
             Status.TryParse<Status>(status, out var statusValue);
             Entretien expectedEntretien = Entretien.of(
                 entretien.Id,
@@ -110,7 +110,7 @@ namespace PlanificationEntretien.Steps
         [Then(@"L’entretien n'est pas planifié")]
         public void ThenLEntretienNestPasPlanifie()
         {
-            Entretien entretien = EntretienRepository.FindByCandidat(_candidat.Email);
+            Entretien entretien = EntretienRepository().FindByCandidat(_candidat.Email);
             Assert.Null(entretien);
         }
 
@@ -128,7 +128,7 @@ namespace PlanificationEntretien.Steps
         [Then(@"le recruteur ""(.*)"" n'est plus disponible")]
         public void ThenLeRecruteurNestPlusDisponible(string email)
         {
-            var recruteur = RecruteurRepository.FindByEmail(email);
+            var recruteur = RecruteurRepository().FindByEmail(email);
 
             Assert.False(recruteur.EstDisponible);
         }

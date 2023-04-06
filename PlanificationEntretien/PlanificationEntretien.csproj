@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <Folder Include="obj\Debug\netcoreapp3.1" />
+      <Folder Include="recruteur\query\infrastructure" />
     </ItemGroup>
 
     <ItemGroup>
