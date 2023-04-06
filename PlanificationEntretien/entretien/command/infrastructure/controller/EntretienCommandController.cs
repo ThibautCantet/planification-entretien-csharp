@@ -11,21 +11,19 @@ namespace PlanificationEntretien.entretien.infrastructure.controller;
 
 [ApiController]
 [Route("/api/entretien")]
-public class EntretienController : ControllerBase
+public class EntretienCommandController : ControllerBase
 {
     private readonly PlanifierEntretienCommandHandler _planifierEntretienCommandHandler;
     private readonly ICandidatRepository _candidatRepository;
     private readonly IRecruteurRepository _recruteurRepository;
-    private readonly ListerEntretienQueryHandler _listerEntretienQueryHandler;
     private readonly ValiderEntretienCommandHandler _validerEntretienCommandHandler;
 
-    public EntretienController(PlanifierEntretienCommandHandler planifierEntretienCommandHandler, ListerEntretienQueryHandler listerEntretienQueryHandler, ValiderEntretienCommandHandler validerEntretienCommandHandler,
+    public EntretienCommandController(PlanifierEntretienCommandHandler planifierEntretienCommandHandler, ValiderEntretienCommandHandler validerEntretienCommandHandler,
         ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository)
     {
         _planifierEntretienCommandHandler = planifierEntretienCommandHandler;
         _candidatRepository = candidatRepository;
         _recruteurRepository = recruteurRepository;
-        _listerEntretienQueryHandler = listerEntretienQueryHandler;
         _validerEntretienCommandHandler = validerEntretienCommandHandler;
     }
 
@@ -48,17 +46,6 @@ public class EntretienController : ControllerBase
             return CreatedAtAction("Create", new {id= createOfferRequest}, response);
         }
         return BadRequest();
-    }
-
-    public IActionResult Lister()
-    {
-        var entretiens = _listerEntretienQueryHandler.Handle(new ListerEntretienQuery())
-            .Select(entretien => new EntretienResponse(entretien.EmailCandidat(),
-                entretien.EmailRecruteur(),
-                entretien.Horaire(),
-                entretien.Status()))
-            .ToList();
-        return Ok(entretiens);
     }
 
     public IActionResult Valider(int id)

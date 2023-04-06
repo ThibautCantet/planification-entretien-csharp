@@ -55,7 +55,7 @@ namespace PlanificationEntretien.Steps
             _entretienId = entretienId;
             var validerEntretien = new ValiderEntretienCommandHandler(EntretienRepository());
             var entretienController =
-                new EntretienController(null, null, validerEntretien, CandidatRepository(), RecruteurRepository());
+                new EntretienCommandController(null, validerEntretien, CandidatRepository(), RecruteurRepository());
 
             _validateEntretienResponse = entretienController.Valider(entretienId);
         }

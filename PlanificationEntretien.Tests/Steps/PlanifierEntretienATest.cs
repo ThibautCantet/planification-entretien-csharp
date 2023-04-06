@@ -56,7 +56,7 @@ namespace PlanificationEntretien.Steps
             var _entretienCréeListener = new EntretienCréeListener(new RendreRecruteurIndisponibleCommandHandler(RecruteurRepository()), _messageBus);
             _planifierEntretienCommandHandler = new PlanifierEntretienCommandHandler(EntretienRepository(), _emailService, _messageBus);
             var entretienController =
-                new EntretienController(_planifierEntretienCommandHandler, null, null, CandidatRepository(), RecruteurRepository());
+                new EntretienCommandController(_planifierEntretienCommandHandler, null, CandidatRepository(), RecruteurRepository());
 
             _createEntretienResponse = entretienController.Create(new CreateEntretienRequest(_candidat.Id,
                 _recruteur.Id,
