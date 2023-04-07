@@ -1,22 +1,19 @@
 using System.Collections.Generic;
-using System.Linq;
 using PlanificationEntretien.recruteur.application_service.application;
 
 namespace PlanificationEntretien.recruteur.infrastructure.repository;
 
 public class InMemoryRecruteurDao : IRecruteurDao
 {
-    private readonly Dictionary<string,InMemoryRecruteur> _recruteurs;
+    private readonly List<RecruteurDetail> _recruteurs = new();
 
-    public InMemoryRecruteurDao(InMemoryRecruteurRepository inMemoryRecruteurRepository)
+    public List<RecruteurDetail> Find10AnsExperience()
     {
-        _recruteurs = inMemoryRecruteurRepository.Recruteurs;
+        return _recruteurs;
     }
 
-    public List<IRecruteurDetail> Find10AnsExperience()
+    public void AddExperimente(RecruteurDetail recruteur)
     {
-        return new List<IRecruteurDetail>(_recruteurs.Values
-            .Where(r => r.ExperienceEnAnnees >= 10)
-            .ToList());
+        _recruteurs.Add(recruteur);
     }
 }

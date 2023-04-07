@@ -4,5 +4,6 @@ namespace PlanificationEntretien.recruteur.application_service.application;
 
 public interface IRecruteurDao
 {
-    List<IRecruteurDetail> Find10AnsExperience();
+    List<RecruteurDetail> Find10AnsExperience();
+    void AddExperimente(RecruteurDetail recruteurDetail);
 }

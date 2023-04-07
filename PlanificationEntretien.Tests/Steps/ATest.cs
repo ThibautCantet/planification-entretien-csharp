@@ -33,7 +33,7 @@ public abstract class ATest
     {
         if (_inMemoryRecruteurDao == null)
         {
-            _inMemoryRecruteurDao = new InMemoryRecruteurDao(RecruteurRepository());
+            _inMemoryRecruteurDao = new InMemoryRecruteurDao();
         }
         return _inMemoryRecruteurDao;
     }

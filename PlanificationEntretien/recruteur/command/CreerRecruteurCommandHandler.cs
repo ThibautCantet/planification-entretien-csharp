@@ -1,4 +1,5 @@
 using System;
+using PlanificationEntretien.application_service;
 using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.recruteur.application_service;
@@ -6,10 +7,12 @@ namespace PlanificationEntretien.recruteur.application_service;
 public class CreerRecruteurCommandHandler
 {
     private readonly IRecruteurRepository _recruteurRepository;
+    private readonly MessageBus _messageBus;
 
-    public CreerRecruteurCommandHandler(IRecruteurRepository recruteurRepository)
+    public CreerRecruteurCommandHandler(IRecruteurRepository recruteurRepository, MessageBus messageBus)
     {
         _recruteurRepository = recruteurRepository;
+        _messageBus = messageBus;
     }
 
     public int Handle(CreerRecruteurCommand command)
@@ -19,7 +22,16 @@ public class CreerRecruteurCommandHandler
             var recruteur = new Recruteur(command.Language,
                 command.Email,
                 command.ExperienceEnAnnees);
-            return _recruteurRepository.Save(recruteur);
+            
+            var savedRecruteurId = _recruteurRepository.Save(recruteur);
+            
+            _messageBus.Send(new RecruteurCrée(savedRecruteurId,
+                command.Language,
+                command.ExperienceEnAnnees.Value,
+                command.Email
+            ));
+
+            return savedRecruteurId;
         }
         catch (ArgumentException)
         {
