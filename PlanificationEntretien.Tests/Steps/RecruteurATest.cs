@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PlanificationEntretien.application_service;
 using PlanificationEntretien.recruteur.domain;
 using PlanificationEntretien.recruteur.application_service;
+using PlanificationEntretien.recruteur.application_service.application;
 using PlanificationEntretien.recruteur.infrastructure.controller;
 using TechTalk.SpecFlow;
 using Xunit;
@@ -18,6 +20,7 @@ namespace PlanificationEntretien.Steps
         private string _emailRecruteur;
         private IActionResult _recruteurs;
         private CreatedAtActionResult _actionResult;
+        private MessageBus _messageBus = new ();
 
         [Given(@"un recruteur ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnRecruteurAvecAnsDExperiences(string language, string email, string xp)
@@ -30,7 +33,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente d'enregistrer le recruteur")]
         public void WhenOnTenteDenregistrerLeRecruteur()
         {
-            var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository());
+            var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository(), _messageBus);
             var recruteurController = new RecruteurCommandController(creerRecruteur);
             _actionResult = recruteurController.Create(_createRecruteurRequest) as CreatedAtActionResult;
         }
@@ -87,9 +90,12 @@ namespace PlanificationEntretien.Steps
         public void GivenLesRecruteursExistants(Table table)
         {
             var recruteurs = table.Rows.Select(row => BuildRecruteur(row));
+            var entretienCréeListener = new RecruteurCréeListener(RecruteurDao(), _messageBus);
+            var creerRecruteurCommandHandler = new CreerRecruteurCommandHandler(RecruteurRepository(), _messageBus);
             foreach (var recruteur in recruteurs)
             {
-                RecruteurRepository().Save(recruteur);
+                creerRecruteurCommandHandler.Handle(new CreerRecruteurCommand(recruteur.Language, recruteur.Email,
+                    recruteur.ExperienceEnAnnees));
             }
         }
 

@@ -12,7 +12,7 @@ public class ListerRecruteurExperimenteQueryHandler
         _recruteurDao = recruteurDao;
     }
 
-    public List<IRecruteurDetail> Handle(ListerRecruteurExperimenteQuery query)
+    public List<RecruteurDetail> Handle(ListerRecruteurExperimenteQuery query)
     {
         return _recruteurDao.Find10AnsExperience();
     } 
