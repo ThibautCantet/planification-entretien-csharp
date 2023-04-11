@@ -21,14 +21,14 @@ public class CommandBusFactory
     private readonly CandidatFactory candidatFactory;
     private readonly IRecruteurRepository recruteurRepository;
 
-    protected List<ICommandHandler> GetCommandHandlers()
+    protected List<ICommandHandler<ICommand>> GetCommandHandlers()
     {
-        return new List<ICommandHandler>
+        return new List<ICommandHandler<ICommand>>
         {
-            new PlanifierEntretienCommandHandler(entretienRepository, emailService, messsageBus),
-            new CreerCandidatCommandHandler(candidatRepository, candidatFactory),
-            new ValiderEntretienCommandHandler(entretienRepository),
-            new CreerRecruteurCommandHandler(recruteurRepository, messsageBus)
+            new PlanifierEntretienCommandHandler(entretienRepository, emailService, messsageBus) as ICommandHandler<ICommand>,
+            new CreerCandidatCommandHandler(candidatRepository, candidatFactory) as ICommandHandler<ICommand>,
+            new ValiderEntretienCommandHandler(entretienRepository) as ICommandHandler<ICommand>,
+            new CreerRecruteurCommandHandler(recruteurRepository, messsageBus) as ICommandHandler<ICommand>
         };
     }
 

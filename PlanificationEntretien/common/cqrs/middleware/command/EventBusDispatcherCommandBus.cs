@@ -1,5 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using com.soat.planification_entretien.common.cqrs.command;
 using PlanificationEntretien.common.cqrs.middleware.evt;
+using PlanificationEntretien.domain;
 
 namespace PlanificationEntretien.common.cqrs.middleware.command;
 
@@ -14,32 +18,32 @@ public class EventBusDispatcherCommandBus : ICommandBus
         this._eventBus = eventBus;
     }
 
-    public CommandResponse Dispatch(ICommand command)
+    public IEnumerable<Event> Dispatch(ICommand command)
     {
-        var commandResponse = _commandBus.Dispatch(command); // Dispatch the command using the wrapped CommandBus
+        var commandEvents = _commandBus.Dispatch(command).ToList(); // Dispatch the command using the wrapped CommandBus
 
-        ICommand eventCommand = PublishEvent(commandResponse); // Publish events from the command response
+        ICommand eventCommand = PublishEvent(commandEvents); // Publish events from the command response
 
         if (eventCommand != null)
         {
-            var dispatch = this.Dispatch(eventCommand); // Dispatch the event command recursively
-            commandResponse.Events().AddRange(dispatch.Events()); // Add events from the event command to the command response
-            return commandResponse;
+            var events = this.Dispatch(eventCommand); // Dispatch the event command recursively
+            commandEvents.AddRange(events); // Add events from the event command to the command response
+            return commandEvents;
         }
 
-        return BuildCommandResponseWithGeneratedEvents(commandResponse); // Add published events from the EventBus to the command response
+        return BuildCommandResponseWithGeneratedEvents(commandEvents); // Add published events from the EventBus to the command response
     }
 
-    private ICommand PublishEvent<R>(R commandResponse) where R : CommandResponse
+    private ICommand PublishEvent(List<Event> events)
     {
         ICommand command = null;
-        commandResponse.Events().ForEach(e => command = _eventBus.Publish(e)); // Publish events to the EventBus and store the event command
+        events.ForEach(e => command = _eventBus.Publish(e)); // Publish events to the EventBus and store the event command
         return command;
     }
 
-    private R BuildCommandResponseWithGeneratedEvents<R>(R dispatchedCommandResponse) where R : CommandResponse
+    private List<Event> BuildCommandResponseWithGeneratedEvents(List<Event> events)
     {
-        dispatchedCommandResponse.Events().AddRange(_eventBus.GetPublishedEvents()); // Add published events from the EventBus to the command response
-        return dispatchedCommandResponse;
+        events.AddRange(_eventBus.GetPublishedEvents()); // Add published events from the EventBus to the command response
+        return events;
     }
 }

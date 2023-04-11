@@ -1,20 +1,22 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using com.soat.planification_entretien.common.cqrs.command;
+using PlanificationEntretien.domain;
 
 namespace PlanificationEntretien.common.cqrs.middleware.command;
 
 public class CommandBusDispatcher : ICommandBus
 {
-    private readonly Dictionary<Type, ICommandHandler> _commandHandlers;
+    private readonly Dictionary<Type, ICommandHandler<ICommand>> _commandHandlers;
 
-    public CommandBusDispatcher(List<ICommandHandler> commandHandlers)
+    public CommandBusDispatcher(List<ICommandHandler<ICommand>> commandHandlers)
     {
         this._commandHandlers = commandHandlers.ToDictionary(handler => handler.ListenTo());
     }
 
-    public CommandResponse Dispatch(ICommand command)
+    public IEnumerable<Event> Dispatch(ICommand command)
     {
         Type commandType = command.GetType();
         if (_commandHandlers.ContainsKey(commandType))
