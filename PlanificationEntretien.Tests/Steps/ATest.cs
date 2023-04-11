@@ -1,6 +1,10 @@
+using PlanificationEntretien.application_service;
+using PlanificationEntretien.candidat.domain_service;
 using PlanificationEntretien.candidat.infrastructure.repository;
+using PlanificationEntretien.common.cqrs.middleware.command;
 using PlanificationEntretien.entretien.application_service.infrastructure;
 using PlanificationEntretien.entretien.domain;
+using PlanificationEntretien.entretien.infrastructure;
 using PlanificationEntretien.entretien.infrastructure.repository;
 using PlanificationEntretien.recruteur.infrastructure.repository;
 
@@ -8,6 +12,21 @@ namespace PlanificationEntretien.Steps;
 
 public abstract class ATest
 {
+    protected readonly IEmailService _emailService = new FakeEmailService();
+    protected MessageBus _messageBus = new ();
+
+    private CommandBusFactory _commandBusFactory;
+    protected CommandBusFactory CommandBusFactory()
+    {
+        if (_commandBusFactory == null)
+        {
+            _commandBusFactory = new(
+                CandidatRepository(),
+                new CandidatFactory());
+        }
+        return _commandBusFactory;
+    }
+ 
     private InMemoryEntretienRepository _inMemoryEntretienRepository;
     protected InMemoryEntretienRepository EntretienRepository()
     {

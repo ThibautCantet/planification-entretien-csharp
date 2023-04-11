@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
+using com.soat.planification_entretien.common.cqrs.command;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.candidat.domain_service;
 using PlanificationEntretien.candidat.domain;
 
 namespace PlanificationEntretien.candidat.application_service;
 
-public class CreerCandidatCommandHandler
+public class CreerCandidatCommandHandler : ICommandHandler<CreerCandidatCommand, CommandResponse>
 {
     private readonly ICandidatRepository _candidatRepository;
     private readonly CandidatFactory _candidatFactory;
@@ -16,7 +18,7 @@ public class CreerCandidatCommandHandler
         _candidatFactory = candidatFactory;
     }
 
-    public IEnumerable<Event> Handle(CreerCandidatCommand creerCandidatCommand)
+    public CommandResponse Handle(CreerCandidatCommand creerCandidatCommand)
     {
         var candidatId = _candidatRepository.Next();
         var eventCandidatResult = _candidatFactory.Create(candidatId, creerCandidatCommand.Language, creerCandidatCommand.Email, creerCandidatCommand.ExperienceEnAnnees);
@@ -30,7 +32,12 @@ public class CreerCandidatCommandHandler
         var events = new List<Event>();
         events.Add(eventCandidatResult.Event);
         
-        return events;
+        return new CommandResponse(events);
+    }
+
+    public Type ListenTo()
+    {
+        return typeof(CreerCandidatCommand);
     }
 
 }

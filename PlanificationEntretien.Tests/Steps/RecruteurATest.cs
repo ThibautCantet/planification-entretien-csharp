@@ -20,7 +20,6 @@ namespace PlanificationEntretien.Steps
         private string _emailRecruteur;
         private IActionResult _recruteurs;
         private CreatedAtActionResult _actionResult;
-        private MessageBus _messageBus = new ();
 
         [Given(@"un recruteur ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnRecruteurAvecAnsDExperiences(string language, string email, string xp)

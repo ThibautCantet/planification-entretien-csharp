@@ -21,9 +21,7 @@ namespace PlanificationEntretien.Steps
         private Recruteur _recruteur;
         private DateTime _dateDeDisponibiliteDuRecruteur;
         private PlanifierEntretienCommandHandler _planifierEntretienCommandHandler;
-        private readonly IEmailService _emailService = new FakeEmailService();
         private CreatedAtActionResult _createEntretienResponse;
-        private MessageBus _messageBus = new ();
 
         [Given(
             @"un candidat ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences qui est disponible ""(.*)"" à ""(.*)""")]
