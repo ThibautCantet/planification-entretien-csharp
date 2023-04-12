@@ -15,7 +15,7 @@ public class CommandBusLogger : ICommandBus
         this._commandBus = commandBus;
     }
     
-    public IEnumerable<Event> Dispatch(ICommand command)
+    public CommandResponse Dispatch(ICommand command)
     {
         Console.WriteLine(command.ToString()); // Log the command before dispatching
         var commandResponse = this._commandBus.Dispatch(command); // Call dispatch on the wrapped CommandBus

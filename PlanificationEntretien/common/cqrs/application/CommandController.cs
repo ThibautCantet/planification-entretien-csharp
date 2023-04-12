@@ -7,7 +7,7 @@ namespace com.soat.planification_entretien.common.cqrs.application
     public abstract class CommandController : ControllerBase
     {
         private ICommandBus _commandBus;
-        private readonly CommandBusFactory _commandBusFactory;
+        protected readonly CommandBusFactory _commandBusFactory;
 
         public CommandController(CommandBusFactory commandBusFactory)
         {

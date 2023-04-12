@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
-using PlanificationEntretien.domain;
 
 namespace com.soat.planification_entretien.common.cqrs.command;
 
 
-public interface ICommandHandler<C>
+public interface ICommandHandler<in C, out R> where C : ICommand where R : CommandResponse
 {
-    IEnumerable<Event> Handle(C command);
+    R Handle(C command);
 
     Type ListenTo();
 }

@@ -4,7 +4,7 @@ public class TestImplementation
 {
     public ICommandHandler<Command> Get()
     {
-        return new MyCommandHandler();
+        return null; //new MyCommandHandler();
     }
 
     public interface ICommandHandler<C> where C : Command

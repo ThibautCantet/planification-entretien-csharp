@@ -24,9 +24,10 @@ public class RecruteurCommandController : ControllerBase
             createRecruteurRequest.Email,
             createRecruteurRequest.XP));
         
-        if (idRecruteur > 0)
+        if (idRecruteur.Events().Count > 0)
         {
-            var response = new CreateRecruteurResponse(idRecruteur, 
+            var response = new CreateRecruteurResponse(
+                0, 
                 createRecruteurRequest.Language,
                 createRecruteurRequest.Email,
                 createRecruteurRequest.XP.Value);

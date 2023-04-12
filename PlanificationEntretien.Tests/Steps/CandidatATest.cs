@@ -29,7 +29,7 @@ namespace PlanificationEntretien.Steps
         {
             var candidatFactory = new CandidatFactory();
             var creerCandidat = new CreerCandidatCommandHandler(CandidatRepository(), candidatFactory);
-            var candidatController = new CandidatController(creerCandidat);
+            var candidatController = new CandidatController(CommandBusFactory());
             _actionResult = candidatController.Create(_candidatRequest) as CreatedAtActionResult;
         }
 

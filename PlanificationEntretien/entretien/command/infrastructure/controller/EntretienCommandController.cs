@@ -38,7 +38,7 @@ public class EntretienCommandController : ControllerBase
             createOfferRequest.DisponibiliteCandidat,
             new Recruteur(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees),
             createOfferRequest.DisponibiliteRecruteur));
-        EntretienCréé entretienCrée = events.FirstOrDefault(e => e.GetType().Equals(typeof(EntretienCréé))) as EntretienCréé;
+        EntretienCréé entretienCrée = events.FindFirst(typeof(EntretienCréé)) as EntretienCréé;
         if (entretienCrée != null)
         {
             var response = new CreateEntretienResponse(entretienCrée.EntretienId, candidat.Email, recruteur.Email,
@@ -50,7 +50,7 @@ public class EntretienCommandController : ControllerBase
 
     public IActionResult Valider(int id)
     {
-        if (_validerEntretienCommandHandler.Handle(new ValiderEntretienCommand(id)))
+        if (_validerEntretienCommandHandler.Handle(new ValiderEntretienCommand(id)) == null)
         {
             return Ok();
         }

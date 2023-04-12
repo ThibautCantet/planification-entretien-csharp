@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using com.soat.planification_entretien.common.cqrs.command;
 using PlanificationEntretien.application_service;
+using PlanificationEntretien.domain;
 using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.recruteur.application_service;
 
-public class CreerRecruteurCommandHandler
+public class CreerRecruteurCommandHandler : ICommandHandler<CreerRecruteurCommand, CommandResponse>
 {
     private readonly IRecruteurRepository _recruteurRepository;
     private readonly MessageBus _messageBus;
@@ -15,7 +18,7 @@ public class CreerRecruteurCommandHandler
         _messageBus = messageBus;
     }
 
-    public int Handle(CreerRecruteurCommand command)
+    public CommandResponse Handle(CreerRecruteurCommand command)
     {
         try
         {
@@ -31,11 +34,16 @@ public class CreerRecruteurCommandHandler
                 command.Email
             ));
 
-            return savedRecruteurId;
+            //return savedRecruteurId;
         }
         catch (ArgumentException)
         {
-            return -1;
         }
+        return new CommandResponse(new List<Event>());
+    }
+
+    public Type ListenTo()
+    {
+        return typeof(CreerRecruteurCommand);
     }
 }

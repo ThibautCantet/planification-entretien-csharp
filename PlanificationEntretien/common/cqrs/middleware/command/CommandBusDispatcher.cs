@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using com.soat.planification_entretien.common.cqrs.command;
@@ -9,14 +8,14 @@ namespace PlanificationEntretien.common.cqrs.middleware.command;
 
 public class CommandBusDispatcher : ICommandBus
 {
-    private readonly Dictionary<Type, ICommandHandler<ICommand>> _commandHandlers;
+    private readonly Dictionary<Type, ICommandHandler<ICommand, CommandResponse>> _commandHandlers;
 
-    public CommandBusDispatcher(List<ICommandHandler<ICommand>> commandHandlers)
+    public CommandBusDispatcher(List<ICommandHandler<ICommand, CommandResponse>> commandHandlers)
     {
         this._commandHandlers = commandHandlers.ToDictionary(handler => handler.ListenTo());
     }
 
-    public IEnumerable<Event> Dispatch(ICommand command)
+    public CommandResponse Dispatch(ICommand command)
     {
         Type commandType = command.GetType();
         if (_commandHandlers.ContainsKey(commandType))

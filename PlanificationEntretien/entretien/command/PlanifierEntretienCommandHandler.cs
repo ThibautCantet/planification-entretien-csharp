@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
+using com.soat.planification_entretien.common.cqrs.command;
 using PlanificationEntretien.application_service;
-using PlanificationEntretien.domain;
 using PlanificationEntretien.entretien.domain;
 
 namespace PlanificationEntretien.entretien.application_service;
 
-public class PlanifierEntretienCommandHandler
+public class PlanifierEntretienCommandHandler : ICommandHandler<PlanifierEntretienCommand, CommandResponse>
 {
     private readonly IEntretienRepository _entretienRepository;
     private readonly IEmailService _emailService;
@@ -19,7 +18,7 @@ public class PlanifierEntretienCommandHandler
         _messageBus = messageBus;
     }
 
-    public IEnumerable<Event> Handle(PlanifierEntretienCommand command)
+    public CommandResponse Handle(PlanifierEntretienCommand command)
     {
         var entretien = new Entretien(command.Candidat, command.Recruteur);
         var resultat = entretien.Planifier(command.DisponibiliteDuCandidat, command.DisponibiliteDuRecruteur);
@@ -33,6 +32,11 @@ public class PlanifierEntretienCommandHandler
             resultat = entretienCréé.UpdateId(entretienId);
         }
 
-        return new List<Event> { resultat };
+        return new CommandResponse(resultat);
+    }
+
+    public Type ListenTo()
+    {
+        return typeof(PlanifierEntretienCommand);
     }
 }

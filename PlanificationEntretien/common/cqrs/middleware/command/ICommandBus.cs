@@ -6,5 +6,5 @@ namespace PlanificationEntretien.common.cqrs.middleware.command;
 
 public interface ICommandBus
 {
-    IEnumerable<Event> Dispatch(ICommand command);
+    CommandResponse Dispatch(ICommand command);
 }

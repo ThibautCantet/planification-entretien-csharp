@@ -14,21 +14,31 @@ namespace PlanificationEntretien.common.cqrs.middleware.command;
 
 public class CommandBusFactory
 {
-    private readonly IEntretienRepository entretienRepository;
-    private readonly IEmailService emailService;
-    private readonly MessageBus messsageBus;
-    private readonly ICandidatRepository candidatRepository;
-    private readonly CandidatFactory candidatFactory;
-    private readonly IRecruteurRepository recruteurRepository;
+    private readonly IEntretienRepository _entretienRepository;
+    private readonly IEmailService _emailService;
+    private readonly MessageBus _messsageBus;
+    private readonly ICandidatRepository _candidatRepository;
+    private readonly CandidatFactory _candidatFactory;
+    private readonly IRecruteurRepository _recruteurRepository;
 
-    protected List<ICommandHandler<ICommand>> GetCommandHandlers()
+    public CommandBusFactory(IEntretienRepository entretienRepository, IEmailService emailService, MessageBus messsageBus, ICandidatRepository candidatRepository, CandidatFactory candidatFactory, IRecruteurRepository recruteurRepository)
     {
-        return new List<ICommandHandler<ICommand>>
+        this._entretienRepository = entretienRepository;
+        this._emailService = emailService;
+        this._messsageBus = messsageBus;
+        this._candidatRepository = candidatRepository;
+        this._candidatFactory = candidatFactory;
+        this._recruteurRepository = recruteurRepository;
+    }
+
+    protected List<ICommandHandler<ICommand, CommandResponse>> GetCommandHandlers()
+    {
+        return new List<ICommandHandler<ICommand, CommandResponse>>
         {
-            new PlanifierEntretienCommandHandler(entretienRepository, emailService, messsageBus) as ICommandHandler<ICommand>,
-            new CreerCandidatCommandHandler(candidatRepository, candidatFactory) as ICommandHandler<ICommand>,
-            new ValiderEntretienCommandHandler(entretienRepository) as ICommandHandler<ICommand>,
-            new CreerRecruteurCommandHandler(recruteurRepository, messsageBus) as ICommandHandler<ICommand>
+            new PlanifierEntretienCommandHandler(_entretienRepository, _emailService, _messsageBus) as ICommandHandler<ICommand, CommandResponse>,
+            new CreerCandidatCommandHandler(_candidatRepository, _candidatFactory) as ICommandHandler<ICommand, CommandResponse>,
+            new ValiderEntretienCommandHandler(_entretienRepository) as ICommandHandler<ICommand, CommandResponse>,
+            new CreerRecruteurCommandHandler(_recruteurRepository, _messsageBus) as ICommandHandler<ICommand, CommandResponse>
         };
     }
 
