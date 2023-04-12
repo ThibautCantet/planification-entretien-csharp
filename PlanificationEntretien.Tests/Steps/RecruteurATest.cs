@@ -32,8 +32,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente d'enregistrer le recruteur")]
         public void WhenOnTenteDenregistrerLeRecruteur()
         {
-            var creerRecruteur = new CreerRecruteurCommandHandler(RecruteurRepository(), _messageBus);
-            var recruteurController = new RecruteurCommandController(creerRecruteur);
+            var recruteurController = new RecruteurCommandController(CommandBusFactory());
             _actionResult = recruteurController.Create(_createRecruteurRequest) as CreatedAtActionResult;
         }
 

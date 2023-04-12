@@ -25,7 +25,8 @@ public abstract class ATest
                 new CandidatFactory(),
                 EntretienRepository(),
                 _emailService,
-                _messageBus);
+                _messageBus,
+                RecruteurRepository());
         }
         return _commandBusFactory;
     }

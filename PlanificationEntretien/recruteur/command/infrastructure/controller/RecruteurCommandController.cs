@@ -1,37 +1,38 @@
+using com.soat.planification_entretien.common.cqrs.application;
 using Microsoft.AspNetCore.Mvc;
+using PlanificationEntretien.common.cqrs.middleware.command;
 using PlanificationEntretien.recruteur.application_service;
+using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.recruteur.infrastructure.controller;
 
 [ApiController]
 [Route("/api/recruteure")]
-public class RecruteurCommandController : ControllerBase
+public class RecruteurCommandController : CommandController
 {
-    private readonly CreerRecruteurCommandHandler _creerRecruteurCommandHandler;
 
-    public RecruteurCommandController(CreerRecruteurCommandHandler creerRecruteurCommandHandler)
+    public RecruteurCommandController(CommandBusFactory commandBusFactory) : base(commandBusFactory)
     {
-        _creerRecruteurCommandHandler = creerRecruteurCommandHandler;
+        _commandBusFactory.Build();
     }
-
-    public record RecruteurCreationDto(string email);
 
     [HttpPost("")]
     public ActionResult Create([FromBody] CreateRecruteurRequest createRecruteurRequest)
     {
-        var idRecruteur = _creerRecruteurCommandHandler.Handle(new CreerRecruteurCommand(
+        var commandResponse = base.GetCommandBus().Dispatch(new CreerRecruteurCommand(
             createRecruteurRequest.Language,
             createRecruteurRequest.Email,
             createRecruteurRequest.XP));
-        
-        if (idRecruteur > 0)
+
+        var recruteurCréé = commandResponse.FindFirst<RecruteurCrée>();
+        if (recruteurCréé != null)
         {
-            var response = new CreateRecruteurResponse(idRecruteur, 
+            var response = new CreateRecruteurResponse(recruteurCréé.Id, 
                 createRecruteurRequest.Language,
                 createRecruteurRequest.Email,
                 createRecruteurRequest.XP.Value);
             
-            return CreatedAtAction("Create", new { id = idRecruteur },
+            return CreatedAtAction("Create", new { id = commandResponse },
                 response);
         }
         return BadRequest();

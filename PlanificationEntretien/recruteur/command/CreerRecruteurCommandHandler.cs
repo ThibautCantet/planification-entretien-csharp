@@ -1,10 +1,11 @@
 using System;
+using com.soat.planification_entretien.common.cqrs.command;
 using PlanificationEntretien.application_service;
 using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.recruteur.application_service;
 
-public class CreerRecruteurCommandHandler
+public class CreerRecruteurCommandHandler : ICommandHandler<CreerRecruteurCommand, CommandResponse>
 {
     private readonly IRecruteurRepository _recruteurRepository;
     private readonly MessageBus _messageBus;
@@ -15,7 +16,7 @@ public class CreerRecruteurCommandHandler
         _messageBus = messageBus;
     }
 
-    public int Handle(CreerRecruteurCommand command)
+    public CommandResponse Handle(CreerRecruteurCommand command)
     {
         try
         {
@@ -24,18 +25,24 @@ public class CreerRecruteurCommandHandler
                 command.ExperienceEnAnnees);
             
             var savedRecruteurId = _recruteurRepository.Save(recruteur);
-            
-            _messageBus.Send(new RecruteurCrée(savedRecruteurId,
+
+            var recruteurCrée = new RecruteurCrée(savedRecruteurId,
                 command.Language,
                 command.ExperienceEnAnnees.Value,
                 command.Email
-            ));
+            );
+            _messageBus.Send(recruteurCrée);
 
-            return savedRecruteurId;
+            return new CommandResponse(recruteurCrée);
         }
         catch (ArgumentException)
         {
-            return -1;
+            return new CommandResponse(new RecruteurNonCrée());
         }
+    }
+
+    public Type ListenTo()
+    {
+        return typeof(CreerRecruteurCommand);
     }
 }

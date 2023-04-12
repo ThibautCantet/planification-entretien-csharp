@@ -3,6 +3,7 @@ using PlanificationEntretien.candidat.domain;
 using PlanificationEntretien.candidat.domain_service;
 using PlanificationEntretien.common.cqrs.middleware.evt;
 using PlanificationEntretien.entretien.domain;
+using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.common.cqrs.middleware.command;
 
@@ -13,14 +14,16 @@ public class CommandBusFactory
     private readonly IEntretienRepository _entretienRepository;
     private readonly IEmailService _emailService;
     private readonly MessageBus _messsageBus;
+    private readonly IRecruteurRepository _recruteurRepository;
 
-    public CommandBusFactory(ICandidatRepository candidatRepository, CandidatFactory candidatFactory, IEntretienRepository entretienRepository, IEmailService emailService, MessageBus messsageBus)
+    public CommandBusFactory(ICandidatRepository candidatRepository, CandidatFactory candidatFactory, IEntretienRepository entretienRepository, IEmailService emailService, MessageBus messsageBus, IRecruteurRepository recruteurRepository)
     {
         _candidatRepository = candidatRepository;
         _candidatFactory = candidatFactory;
         _entretienRepository = entretienRepository;
         _emailService = emailService;
         _messsageBus = messsageBus;
+        _recruteurRepository = recruteurRepository;
     }
 
     public ICommandBus Build()
@@ -30,7 +33,8 @@ public class CommandBusFactory
             _candidatFactory,
             _entretienRepository,
             _emailService,
-            _messsageBus);
+            _messsageBus,
+            _recruteurRepository);
 
         IEventBus eventBus = BuildEventBus();
 
