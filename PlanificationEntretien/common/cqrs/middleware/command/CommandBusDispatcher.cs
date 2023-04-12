@@ -35,6 +35,10 @@ public class CommandBusDispatcher : ICommandBus
         {
             return new PlanifierEntretienCommandHandler(_entretienRepository, _emailService, _messsageBus).Handle(command as PlanifierEntretienCommand);
         }
+        if (command is ValiderEntretienCommand)
+        {
+            return new ValiderEntretienCommandHandler(_entretienRepository).Handle(command as ValiderEntretienCommand);
+        }
 
         throw new UnmatchedCommandHandlerException(command);
     }

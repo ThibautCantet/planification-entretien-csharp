@@ -1,8 +1,11 @@
+using System;
+using com.soat.planification_entretien.common.cqrs.command;
+using PlanificationEntretien.entretien.command.domain;
 using PlanificationEntretien.entretien.domain;
 
 namespace PlanificationEntretien.entretien.application_service;
 
-public class ValiderEntretienCommandHandler
+public class ValiderEntretienCommandHandler : ICommandHandler<ValiderEntretienCommand, CommandResponse>
 {
     private readonly IEntretienRepository _entretienRepository;
 
@@ -11,16 +14,21 @@ public class ValiderEntretienCommandHandler
         _entretienRepository = entretienRepository;
     }
 
-    public bool Handle(ValiderEntretienCommand command)
+    public CommandResponse Handle(ValiderEntretienCommand command)
     {
         var entretien = _entretienRepository.FindById(command.Id);
         if (entretien != null)
         {
             entretien.Valider();
             _entretienRepository.Save(entretien);
-            return true;
+            return new CommandResponse(new EntretienValidé());
         }
 
-        return false;
+        return new CommandResponse(new EntretienNonValidé());
+    }
+
+    public Type ListenTo()
+    {
+        return typeof(ValiderEntretienCommand);
     }
 }

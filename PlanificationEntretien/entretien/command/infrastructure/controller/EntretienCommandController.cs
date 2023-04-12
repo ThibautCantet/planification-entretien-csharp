@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.candidat.domain;
 using PlanificationEntretien.common.cqrs.middleware.command;
 using PlanificationEntretien.entretien.application_service;
+using PlanificationEntretien.entretien.command.domain;
 using PlanificationEntretien.entretien.domain;
 using PlanificationEntretien.recruteur.domain;
 using Candidat = PlanificationEntretien.entretien.domain.Candidat;
@@ -53,7 +54,8 @@ public class EntretienCommandController : CommandController
 
     public IActionResult Valider(int id)
     {
-        if (_validerEntretienCommandHandler.Handle(new ValiderEntretienCommand(id)))
+        var commandResponse = base.GetCommandBus().Dispatch(new ValiderEntretienCommand(id));
+        if (commandResponse.FindAny<EntretienValidé>())
         {
             return Ok();
         }
