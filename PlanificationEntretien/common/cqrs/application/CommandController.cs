@@ -1,9 +1,10 @@
 
+using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.common.cqrs.middleware.command;
 
 namespace com.soat.planification_entretien.common.cqrs.application
 {
-    public abstract class CommandController
+    public abstract class CommandController : ControllerBase
     {
         private ICommandBus _commandBus;
         private readonly CommandBusFactory _commandBusFactory;
