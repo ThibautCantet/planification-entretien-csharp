@@ -22,7 +22,10 @@ public abstract class ATest
         {
             _commandBusFactory = new(
                 CandidatRepository(),
-                new CandidatFactory());
+                new CandidatFactory(),
+                EntretienRepository(),
+                _emailService,
+                _messageBus);
         }
         return _commandBusFactory;
     }
