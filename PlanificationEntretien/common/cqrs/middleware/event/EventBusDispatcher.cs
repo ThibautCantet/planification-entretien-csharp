@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using com.soat.planification_entretien.common.cqrs.command;
 using PlanificationEntretien.domain;
+using PlanificationEntretien.recruteur.application_service.application;
+using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.common.cqrs.middleware.evt;
 
 public class EventBusDispatcher : IEventBus
 {
     private readonly HashSet<Event> _publishedEvents;
+    private readonly IRecruteurDao _recruteurDao;
 
-    public EventBusDispatcher()
+    public EventBusDispatcher(IRecruteurDao recruteurDao)
     {
+        _recruteurDao = recruteurDao;
         this._publishedEvents = new();
     }
 
@@ -42,7 +46,12 @@ public class EventBusDispatcher : IEventBus
                     //}
                     break;
                 case EventHandlerType.VOID:
-                    //TODO handle selon le type
+                    Type eventHandlerType = handler.GetType();
+                    if (eventHandlerType == typeof(RecruteurCréeListener)) {
+                        var recruteurCréeListener = handler as RecruteurCréeListener;
+                        recruteurCréeListener.Handle(@event as RecruteurCrée);
+                    }
+                    //((IEventHandlerReturnVoid)handler).Handle(@event);
                     break;
             }
         }
@@ -62,7 +71,9 @@ public class EventBusDispatcher : IEventBus
 
     private IEnumerable<IEventHandler> GetListeners(Event @event)
     {
-        //TODO retourner tous les listener écoutant l'event
-        yield break;
+        if (@event.GetType() == typeof(RecruteurCrée))
+        {
+            yield return new RecruteurCréeListener(_recruteurDao);
+        }
     }
 }

@@ -86,11 +86,9 @@ namespace PlanificationEntretien.Steps
         public void GivenLesRecruteursExistants(Table table)
         {
             var recruteurs = table.Rows.Select(row => BuildRecruteur(row));
-            var entretienCréeListener = new RecruteurCréeListener(RecruteurDao(), _messageBus);
-            var creerRecruteurCommandHandler = new CreerRecruteurCommandHandler(RecruteurRepository(), _messageBus);
             foreach (var recruteur in recruteurs)
             {
-                creerRecruteurCommandHandler.Handle(new CreerRecruteurCommand(recruteur.Language, recruteur.Email,
+                CommandBusFactory().Build().Dispatch(new CreerRecruteurCommand(recruteur.Language, recruteur.Email,
                     recruteur.ExperienceEnAnnees));
             }
         }

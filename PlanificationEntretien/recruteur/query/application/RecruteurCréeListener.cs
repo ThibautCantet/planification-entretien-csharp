@@ -1,28 +1,29 @@
-using PlanificationEntretien.application_service;
-using PlanificationEntretien.domain;
+using System;
+using PlanificationEntretien.common.cqrs.middleware.evt;
 using PlanificationEntretien.recruteur.domain;
 
 namespace PlanificationEntretien.recruteur.application_service.application;
 
-public class RecruteurCréeListener : Listener
+public class RecruteurCréeListener : EventHandlerVoid<RecruteurCrée>
 {
-    private readonly IRecruteurDao recruteurDao;
-    private readonly MessageBus messageBus;
+    private readonly IRecruteurDao _recruteurDao;
 
-    public RecruteurCréeListener(IRecruteurDao recruteurDao, MessageBus messageBus) {
-        this.recruteurDao = recruteurDao;
-        this.messageBus = messageBus;
-        this.messageBus.Subscribe(this);
+    public RecruteurCréeListener(IRecruteurDao recruteurDao) {
+        this._recruteurDao = recruteurDao;
     }
 
-    public void OnMessage(Event e)
-    {
-        var recruteurCrée = (RecruteurCrée)e;
+    public override void Handle(RecruteurCrée recruteurCrée)
+    { 
         if (recruteurCrée.ExperienceInYears >= 10) {
-            recruteurDao.AddExperimente(new RecruteurDetail(recruteurCrée.Id,
-                    recruteurCrée.Language,
-                    recruteurCrée.ExperienceInYears,
-                    recruteurCrée.Email));
+            _recruteurDao.AddExperimente(new RecruteurDetail(recruteurCrée.Id,
+                recruteurCrée.Language,
+                recruteurCrée.ExperienceInYears,
+                recruteurCrée.Email));
         }
+    }
+
+    public override Type ListenTo()
+    {
+        return typeof(RecruteurCrée);
     }
 }
