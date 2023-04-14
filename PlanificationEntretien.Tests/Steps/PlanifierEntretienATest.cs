@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.application_service;
 using Candidat = PlanificationEntretien.candidat.domain.Candidat;
 using Recruteur = PlanificationEntretien.recruteur.domain.Recruteur;
 using PlanificationEntretien.entretien.domain;
@@ -52,7 +51,7 @@ namespace PlanificationEntretien.Steps
         public void WhenOnTenteUnePlanificationDEntretien()
         {
             var _entretienCréeListener = new EntretienCréeListener(new RendreRecruteurIndisponibleCommandHandler(RecruteurRepository()));
-            _planifierEntretienCommandHandler = new PlanifierEntretienCommandHandler(EntretienRepository(), _emailService, _messageBus);
+            _planifierEntretienCommandHandler = new PlanifierEntretienCommandHandler(EntretienRepository(), _emailService);
             var entretienController =
                 new EntretienCommandController( null, CandidatRepository(), RecruteurRepository(), CommandBusFactory());
 

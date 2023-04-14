@@ -1,4 +1,3 @@
-using PlanificationEntretien.application_service;
 using PlanificationEntretien.candidat.domain_service;
 using PlanificationEntretien.candidat.infrastructure.repository;
 using PlanificationEntretien.common.cqrs.middleware.command;
@@ -13,7 +12,6 @@ namespace PlanificationEntretien.Steps;
 public abstract class ATest
 {
     protected readonly IEmailService _emailService = new FakeEmailService();
-    protected MessageBus _messageBus = new ();
 
     private CommandBusFactory _commandBusFactory;
     protected CommandBusFactory CommandBusFactory()
@@ -25,7 +23,6 @@ public abstract class ATest
                 new CandidatFactory(),
                 EntretienRepository(),
                 _emailService,
-                _messageBus,
                 RecruteurRepository(),
                 RecruteurDao());
         }

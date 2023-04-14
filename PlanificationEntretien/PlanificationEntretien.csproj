@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <Folder Include="candidat\command\infrastructure" />
+      <Folder Include="common\application_service" />
       <Folder Include="entretien\command\infrastructure" />
       <Folder Include="obj\Debug\netcoreapp3.1" />
     </ItemGroup>

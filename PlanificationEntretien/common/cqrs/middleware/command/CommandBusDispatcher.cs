@@ -1,5 +1,4 @@
 using com.soat.planification_entretien.common.cqrs.command;
-using PlanificationEntretien.application_service;
 using PlanificationEntretien.candidat.application_service;
 using PlanificationEntretien.candidat.domain;
 using PlanificationEntretien.candidat.domain_service;
@@ -16,16 +15,14 @@ public class CommandBusDispatcher : ICommandBus
     private readonly CandidatFactory _candidatFactory;
     private readonly IEntretienRepository _entretienRepository;
     private readonly IEmailService _emailService;
-    private readonly MessageBus _messsageBus;
     private readonly IRecruteurRepository _recruteurRepository;
 
-    public CommandBusDispatcher(ICandidatRepository candidatRepository, CandidatFactory candidatFactory, IEntretienRepository entretienRepository, IEmailService emailService, MessageBus messsageBus, IRecruteurRepository recruteurRepository)
+    public CommandBusDispatcher(ICandidatRepository candidatRepository, CandidatFactory candidatFactory, IEntretienRepository entretienRepository, IEmailService emailService, IRecruteurRepository recruteurRepository)
     {
         this._candidatRepository = candidatRepository;
         this._candidatFactory = candidatFactory;
         this._entretienRepository = entretienRepository;
         this._emailService = emailService;
-        this._messsageBus = messsageBus;
         this._recruteurRepository = recruteurRepository;
     }
 
@@ -37,7 +34,7 @@ public class CommandBusDispatcher : ICommandBus
         }
         if (command is PlanifierEntretienCommand)
         {
-            return new PlanifierEntretienCommandHandler(_entretienRepository, _emailService, _messsageBus).Handle(command as PlanifierEntretienCommand);
+            return new PlanifierEntretienCommandHandler(_entretienRepository, _emailService).Handle(command as PlanifierEntretienCommand);
         }
         if (command is ValiderEntretienCommand)
         {
@@ -45,7 +42,7 @@ public class CommandBusDispatcher : ICommandBus
         }
         if (command is CreerRecruteurCommand)
         {
-            return new CreerRecruteurCommandHandler(_recruteurRepository, _messsageBus).Handle(command as CreerRecruteurCommand);
+            return new CreerRecruteurCommandHandler(_recruteurRepository).Handle(command as CreerRecruteurCommand);
         }
 
         throw new UnmatchedCommandHandlerException(command);
