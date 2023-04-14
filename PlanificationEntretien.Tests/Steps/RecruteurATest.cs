@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.application_service;
 using PlanificationEntretien.recruteur.domain;
 using PlanificationEntretien.recruteur.application_service;
 using PlanificationEntretien.recruteur.application_service.application;
@@ -61,8 +60,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on liste les recruteurs expérimentés")]
         public async Task WhenOnListeLesRecruteursExperimentes()
         {
-            var listerRecruteurExperimente = new ListerRecruteurExperimenteQueryHandler(RecruteurDao());
-            var recruteurController = new RecruteurQueryController(listerRecruteurExperimente);
+            var recruteurController = new RecruteurQueryController(QueryBusFactory());
             _recruteurs = await recruteurController.ListerExperimentes();
         }
 
