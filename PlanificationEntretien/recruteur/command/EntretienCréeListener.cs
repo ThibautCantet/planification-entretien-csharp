@@ -1,24 +1,26 @@
-using PlanificationEntretien.domain;
-using PlanificationEntretien.application_service;
+using System;
+using PlanificationEntretien.common.cqrs.middleware.evt;
 using PlanificationEntretien.entretien.domain;
 using PlanificationEntretien.recruteur.application_service;
 
 namespace PlanificationEntretien.entretien.application_service;
 
-public class EntretienCréeListener : Listener
+public class EntretienCréeListener : EventHandlerVoid<EntretienCréé>
 {
     private readonly RendreRecruteurIndisponibleCommandHandler _rendreRendreRecruteurIndisponibleCommandHandler;
-    private readonly MessageBus _messageBus;
 
-    public EntretienCréeListener(RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler, MessageBus messageBus) {
+    public EntretienCréeListener(RendreRecruteurIndisponibleCommandHandler rendreRecruteurIndisponibleCommandHandler) {
         _rendreRendreRecruteurIndisponibleCommandHandler = rendreRecruteurIndisponibleCommandHandler;
-        _messageBus = messageBus;
-        _messageBus.Subscribe(this);
     }
 
-    public void OnMessage(Event entretienCréé)
+    public override void Handle(EntretienCréé entretienCréé)
     {
-        var recruteurId = (entretienCréé as EntretienCréé)!.RecruteurId;
+        var recruteurId = entretienCréé.RecruteurId;
         _rendreRendreRecruteurIndisponibleCommandHandler.Handle(new RendreRecruteurIndisponibleCommand(recruteurId));
+    }
+
+    public override Type ListenTo()
+    {
+        return typeof(EntretienCréé);
     }
 }

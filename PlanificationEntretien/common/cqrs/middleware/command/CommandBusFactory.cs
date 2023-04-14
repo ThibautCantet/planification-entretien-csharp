@@ -48,7 +48,7 @@ public class CommandBusFactory
 
     private IEventBus BuildEventBus()
     {
-        EventBusFactory eventBusFactory = new EventBusFactory(_recruteurDao);
+        EventBusFactory eventBusFactory = new EventBusFactory(_recruteurDao, _recruteurRepository);
         return eventBusFactory.Build();
     }
 }

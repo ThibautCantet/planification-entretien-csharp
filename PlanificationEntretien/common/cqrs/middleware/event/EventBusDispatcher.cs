@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using com.soat.planification_entretien.common.cqrs.command;
 using PlanificationEntretien.domain;
+using PlanificationEntretien.entretien.application_service;
+using PlanificationEntretien.entretien.domain;
 using PlanificationEntretien.recruteur.application_service.application;
 using PlanificationEntretien.recruteur.domain;
 
@@ -11,11 +13,13 @@ namespace PlanificationEntretien.common.cqrs.middleware.evt;
 public class EventBusDispatcher : IEventBus
 {
     private readonly HashSet<Event> _publishedEvents;
+    private readonly IRecruteurRepository _recruteurRepository;
     private readonly IRecruteurDao _recruteurDao;
 
-    public EventBusDispatcher(IRecruteurDao recruteurDao)
+    public EventBusDispatcher(IRecruteurDao recruteurDao, IRecruteurRepository recruteurRepository)
     {
         _recruteurDao = recruteurDao;
+        _recruteurRepository = recruteurRepository;
         this._publishedEvents = new();
     }
 
@@ -47,6 +51,10 @@ public class EventBusDispatcher : IEventBus
                     break;
                 case EventHandlerType.VOID:
                     Type eventHandlerType = handler.GetType();
+                    if (eventHandlerType == typeof(EntretienCréeListener)) {
+                        var entretienCréeListener = handler as EntretienCréeListener;
+                        entretienCréeListener.Handle(@event as EntretienCréé);
+                    }
                     if (eventHandlerType == typeof(RecruteurCréeListener)) {
                         var recruteurCréeListener = handler as RecruteurCréeListener;
                         recruteurCréeListener.Handle(@event as RecruteurCrée);
@@ -71,6 +79,10 @@ public class EventBusDispatcher : IEventBus
 
     private IEnumerable<IEventHandler> GetListeners(Event @event)
     {
+        if (@event.GetType() == typeof(EntretienCréé))
+        {
+            yield return new EntretienCréeListener(new RendreRecruteurIndisponibleCommandHandler(_recruteurRepository));
+        }
         if (@event.GetType() == typeof(RecruteurCrée))
         {
             yield return new RecruteurCréeListener(_recruteurDao);
