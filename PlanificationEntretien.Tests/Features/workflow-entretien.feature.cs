@@ -173,6 +173,99 @@ namespace PlanificationEntretien.Features
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Annuler un entretien validé")]
+        [Xunit.TraitAttribute("FeatureTitle", "Workflow d\'un entretien de recrutement chez Soat")]
+        [Xunit.TraitAttribute("Description", "Annuler un entretien validé")]
+        public virtual void AnnulerUnEntretienValide()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Annuler un entretien validé", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 19
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                            "id",
+                            "email",
+                            "language",
+                            "xp"});
+                table11.AddRow(new string[] {
+                            "1",
+                            "recruteur@soat.fr",
+                            "Java",
+                            "10"});
+#line 20
+        testRunner.Given("les recruteurs existants ci-dessous", ((string)(null)), table11, "Etant donné ");
+#line hidden
+                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                            "id",
+                            "email",
+                            "language",
+                            "xp"});
+                table12.AddRow(new string[] {
+                            "1",
+                            "candidat@mail.com",
+                            "Java",
+                            "5"});
+#line 23
+        testRunner.And("les candidats existants ci-dessous", ((string)(null)), table12, "Et ");
+#line hidden
+                TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                            "id",
+                            "recruteur",
+                            "candidat",
+                            "horaire",
+                            "status"});
+                table13.AddRow(new string[] {
+                            "1",
+                            "recruteur@soat.fr",
+                            "candidat@mail.com",
+                            "16/04/2019 15:00",
+                            "VALIDE"});
+#line 26
+        testRunner.And("les entretiens existants ci-dessous", ((string)(null)), table13, "Et ");
+#line hidden
+#line 29
+        testRunner.When("on annule l\'entretien 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
+#line hidden
+                TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
+                            "id",
+                            "recruteur",
+                            "candidat",
+                            "language",
+                            "horaire",
+                            "status"});
+                table14.AddRow(new string[] {
+                            "1",
+                            "recruteur@soat.fr",
+                            "candidat@mail.com",
+                            "Java",
+                            "16/04/2019 15:00",
+                            "ANNULE"});
+#line 30
+        testRunner.Then("on récupères les entretiens suivants en base", ((string)(null)), table14, "Alors ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

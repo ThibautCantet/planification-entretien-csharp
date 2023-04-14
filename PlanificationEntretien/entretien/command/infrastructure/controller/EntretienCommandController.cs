@@ -15,18 +15,14 @@ namespace PlanificationEntretien.entretien.infrastructure.controller;
 [Route("/api/entretien")]
 public class EntretienCommandController : CommandController
 {
-    private readonly ValiderEntretienCommandHandler _validerEntretienCommandHandler;
     private readonly ICandidatRepository _candidatRepository;
     private readonly IRecruteurRepository _recruteurRepository;
 
-    public EntretienCommandController(
-        ValiderEntretienCommandHandler validerEntretienCommandHandler,
-        ICandidatRepository candidatRepository,
+    public EntretienCommandController(ICandidatRepository candidatRepository,
         IRecruteurRepository recruteurRepository,
         CommandBusFactory commandBusFactory) : base(commandBusFactory)
     {
         _commandBusFactory.Build();
-        _validerEntretienCommandHandler = validerEntretienCommandHandler;
         _candidatRepository = candidatRepository;
         _recruteurRepository = recruteurRepository;
     }
@@ -56,6 +52,17 @@ public class EntretienCommandController : CommandController
     {
         var commandResponse = base.GetCommandBus().Dispatch(new ValiderEntretienCommand(id));
         if (commandResponse.FindAny<EntretienValidé>())
+        {
+            return Ok();
+        }
+
+        return null;
+    }
+
+    public IActionResult Annuler(int id)
+    {
+        var commandResponse = base.GetCommandBus().Dispatch(new AnnulerEntretienCommand(id));
+        if (commandResponse.FindAny<EntretienAnnulé>())
         {
             return Ok();
         }

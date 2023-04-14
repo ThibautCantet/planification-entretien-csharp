@@ -41,6 +41,11 @@ namespace PlanificationEntretien.entretien.domain
             Status = Status.VALIDEE;
         }
 
+        public void Annuler()
+        {
+            Status = Status.ANNULE;
+        }
+
         public bool Equals(Entretien? other)
         {
             if (ReferenceEquals(null, other)) return false;

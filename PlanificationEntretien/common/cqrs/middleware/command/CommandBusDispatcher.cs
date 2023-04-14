@@ -40,6 +40,10 @@ public class CommandBusDispatcher : ICommandBus
         {
             return new ValiderEntretienCommandHandler(_entretienRepository).Handle(command as ValiderEntretienCommand);
         }
+        if (command is AnnulerEntretienCommand)
+        {
+            return new AnnulerEntretienCommandHandler(_entretienRepository).Handle(command as AnnulerEntretienCommand);
+        }
         if (command is CreerRecruteurCommand)
         {
             return new CreerRecruteurCommandHandler(_recruteurRepository).Handle(command as CreerRecruteurCommand);

@@ -14,7 +14,7 @@ namespace PlanificationEntretien.Steps
     [Binding]
     public class WorkflowEntretienATest : ATest
     {
-        private IActionResult _validateEntretienResponse;
+        private IActionResult _entretienResponse;
         private int _entretienId;
 
         [Given(@"les recruteurs existants ci-dessous")]
@@ -53,17 +53,16 @@ namespace PlanificationEntretien.Steps
         public void WhenOnValideLentretien(int entretienId)
         {
             _entretienId = entretienId;
-            var validerEntretien = new ValiderEntretienCommandHandler(EntretienRepository());
             var entretienController =
-                new EntretienCommandController(validerEntretien, CandidatRepository(), RecruteurRepository(), CommandBusFactory());
+                new EntretienCommandController(CandidatRepository(), RecruteurRepository(), CommandBusFactory());
 
-            _validateEntretienResponse = entretienController.Valider(entretienId);
+            _entretienResponse = entretienController.Valider(entretienId);
         }
 
         [Then(@"on récupères les entretiens suivants en base")]
         public void ThenOnRecuperesLesEntretiensSuivantsEnBase(Table table)
         {
-            Assert.IsType<OkResult>(_validateEntretienResponse);
+            Assert.IsType<OkResult>(_entretienResponse);
 
             var entretien = EntretienRepository().FindById(_entretienId);
             var entretiens = table.Rows.Select(row =>
@@ -91,6 +90,16 @@ namespace PlanificationEntretien.Steps
                     recruteur.ExperienceEnAnnees),
                 horaire,
                 statusValue);
+        }
+
+        [When(@"on annule l'entretien (.*)")]
+        public void WhenOnAnnuleLentretien(int entretienId)
+        {
+            _entretienId = entretienId;
+            var entretienController =
+                new EntretienCommandController(CandidatRepository(), RecruteurRepository(), CommandBusFactory());
+
+            _entretienResponse = entretienController.Annuler(entretienId);
         }
     }
 }
