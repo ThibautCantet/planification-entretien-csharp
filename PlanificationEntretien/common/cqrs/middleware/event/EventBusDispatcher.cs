@@ -4,7 +4,9 @@ using System.Linq;
 using com.soat.planification_entretien.common.cqrs.command;
 using PlanificationEntretien.domain;
 using PlanificationEntretien.entretien.application_service;
+using PlanificationEntretien.entretien.command.domain;
 using PlanificationEntretien.entretien.domain;
+using PlanificationEntretien.entretien.query.application;
 using PlanificationEntretien.recruteur.application_service.application;
 using PlanificationEntretien.recruteur.domain;
 
@@ -15,11 +17,13 @@ public class EventBusDispatcher : IEventBus
     private readonly HashSet<Event> _publishedEvents;
     private readonly IRecruteurRepository _recruteurRepository;
     private readonly IRecruteurDao _recruteurDao;
+    private readonly IEntretienProjectionDao _entretienProjectionDao;
 
-    public EventBusDispatcher(IRecruteurDao recruteurDao, IRecruteurRepository recruteurRepository)
+    public EventBusDispatcher(IRecruteurDao recruteurDao, IRecruteurRepository recruteurRepository, IEntretienProjectionDao entretienProjectionDao)
     {
         _recruteurDao = recruteurDao;
         _recruteurRepository = recruteurRepository;
+        _entretienProjectionDao = entretienProjectionDao;
         this._publishedEvents = new();
     }
 
@@ -59,6 +63,10 @@ public class EventBusDispatcher : IEventBus
                         var recruteurCréeListener = handler as RecruteurCréeListener;
                         recruteurCréeListener.Handle(@event as RecruteurCrée);
                     }
+                    if (eventHandlerType == typeof(EntretienAnnuleListener)) {
+                        var entretienAnnuleListener = handler as EntretienAnnuleListener;
+                        entretienAnnuleListener.Handle(@event as EntretienAnnulé);
+                    }
                     //((IEventHandlerReturnVoid)handler).Handle(@event);
                     break;
             }
@@ -86,6 +94,10 @@ public class EventBusDispatcher : IEventBus
         if (@event.GetType() == typeof(RecruteurCrée))
         {
             yield return new RecruteurCréeListener(_recruteurDao);
+        }
+        if (@event.GetType() == typeof(EntretienAnnulé))
+        {
+            yield return new EntretienAnnuleListener(_entretienProjectionDao);
         }
     }
 }

@@ -101,5 +101,13 @@ namespace PlanificationEntretien.Steps
 
             _entretienResponse = entretienController.Annuler(entretienId);
         }
+
+        [Then(@"le nombre d'entretiens annulé est incrémenté à (.*)")]
+        public void ThenLeNombreDentretiensAnnuleEstIncrementeA(int count)
+        {
+            var entretiensAnnules = EntretienDao().EntretiensAnnules();
+            
+            Assert.Equal(count, entretiensAnnules);
+        }
     }
 }

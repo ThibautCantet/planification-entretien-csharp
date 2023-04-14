@@ -24,7 +24,8 @@ public abstract class ATest
                 EntretienRepository(),
                 _emailService,
                 RecruteurRepository(),
-                RecruteurDao());
+                RecruteurDao(),
+                EntretienDao());
         }
         return _commandBusFactory;
     }

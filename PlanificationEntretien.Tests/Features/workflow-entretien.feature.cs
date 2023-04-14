@@ -262,6 +262,9 @@ namespace PlanificationEntretien.Features
 #line 30
         testRunner.Then("on récupères les entretiens suivants en base", ((string)(null)), table14, "Alors ");
 #line hidden
+#line 33
+      testRunner.And("le nombre d\'entretiens annulé est incrémenté à 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
+#line hidden
             }
             this.ScenarioCleanup();
         }
