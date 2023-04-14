@@ -30,6 +30,16 @@ public abstract class ATest
         }
         return _commandBusFactory;
     }
+    
+    private QueryBusFactory _queryBusFactory;
+    protected QueryBusFactory QueryBusFactory()
+    {
+        if (_queryBusFactory == null)
+        {
+            _queryBusFactory = new(EntretienDao());
+        }
+        return _queryBusFactory;
+    }
  
     private InMemoryEntretienRepository _inMemoryEntretienRepository;
     protected InMemoryEntretienRepository EntretienRepository()

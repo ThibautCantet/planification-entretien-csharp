@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
+using com.soat.planification_entretien.common.cqrs.query;
 using PlanificationEntretien.entretien.domain;
+using PlanificationEntretien.entretien.query.application;
 
 namespace PlanificationEntretien.entretien.application_service;
 
-public class ListerEntretienQueryHandler
+public class ListerEntretienQueryHandler : IQueryHandler<ListerEntretienQuery, QueryResponse<IEnumerable<IEntretien>>, IEnumerable<IEntretien>>
 {
     private readonly IEntretienDao _entretienDao;
 
@@ -12,8 +15,13 @@ public class ListerEntretienQueryHandler
         _entretienDao = entretienDao;
     }
     
-    public IEnumerable<IEntretien> Handle(ListerEntretienQuery query)
+    public QueryResponse<IEnumerable<IEntretien>> Handle(ListerEntretienQuery query)
     {
-        return _entretienDao.FindAll();
+        return new QueryResponse<IEnumerable<IEntretien>>(_entretienDao.FindAll(), new EntretiensListés());
+    }
+
+    public Type ListenTo()
+    {
+        return typeof(ListerEntretienQuery);
     }
 }

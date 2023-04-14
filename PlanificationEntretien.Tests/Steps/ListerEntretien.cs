@@ -77,7 +77,7 @@ namespace PlanificationEntretien.Steps
         public void WhenOnListeLesTousLesEntretiens()
         {
             var listerEntretien = new uc.ListerEntretienQueryHandler(EntretienDao());
-            var entretienController = new EntretienQueryController(listerEntretien);
+            var entretienController = new EntretienQueryController(QueryBusFactory());
             _listerEntretientActionResult = entretienController.Lister();
         }
 
