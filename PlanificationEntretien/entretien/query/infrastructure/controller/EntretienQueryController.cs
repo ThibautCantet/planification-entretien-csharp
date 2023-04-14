@@ -36,4 +36,15 @@ public class EntretienQueryController : QueryController
 
         return BadRequest();
     }
+
+    public IActionResult CountAnnules()
+    {
+        var queryResponse = base.GetQueryBus().Dispatch<int>(new CompterEntretiensAnnulesQuery()) as QueryResponse<int>;
+        if (queryResponse.FindFirst(typeof(EntretiensAnnulésComptés)) != null)
+        {
+            return Ok(queryResponse.Value);
+        }
+
+        return BadRequest();
+    }
 }

@@ -36,7 +36,8 @@ public abstract class ATest
         if (_queryBusFactory == null)
         {
             _queryBusFactory = new(EntretienDao(),
-                RecruteurDao());
+                RecruteurDao(),
+                EntretienDao());
         }
         return _queryBusFactory;
     }

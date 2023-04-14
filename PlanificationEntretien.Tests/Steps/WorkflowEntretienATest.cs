@@ -102,12 +102,22 @@ namespace PlanificationEntretien.Steps
             _entretienResponse = entretienController.Annuler(entretienId);
         }
 
-        [Then(@"le nombre d'entretiens annulé est incrémenté à (.*)")]
-        public void ThenLeNombreDentretiensAnnuleEstIncrementeA(int count)
+        [When(@"on récupère le nombre d'entretiens annulés")]
+        public void WhenOnRecupereLeNombreDentretiensAnnules()
         {
-            var entretiensAnnules = EntretienDao().EntretiensAnnules();
-            
-            Assert.Equal(count, entretiensAnnules);
+            var entretienController =
+                new EntretienQueryController(QueryBusFactory());
+
+            _entretienResponse = entretienController.CountAnnules();
+        }
+
+        [When(@"le nombre d'entretiens annulés est égal à (.*)")]
+        public void WhenLeNombreDentretiensAnnuleEstEgalA(int count)
+        {
+            var okResult = Assert.IsType<OkObjectResult>(_entretienResponse);
+            var result = Assert.IsType<int>(okResult.Value);
+
+            Assert.Equal(result, count);
         }
     }
 }
