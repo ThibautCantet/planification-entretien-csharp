@@ -2,9 +2,9 @@ using System;
 
 namespace PlanificationEntretien.controller;
 
-public class CreateEntretienRequest
+public class EntretienDto
 {
-    public CreateEntretienRequest(string? emailCandidat, string? emailRecruteur, DateTime disponibiliteCandidat, DateTime disponibiliteRecruteur)
+    public EntretienDto(string? emailCandidat, string? emailRecruteur, DateTime disponibiliteCandidat, DateTime disponibiliteRecruteur)
     {
         EmailCandidat = emailCandidat;
         EmailRecruteur = emailRecruteur;

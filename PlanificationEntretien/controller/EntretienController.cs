@@ -17,13 +17,13 @@ public class EntretienController : ControllerBase
 
     
     [HttpPost("")]
-    public Task<IActionResult> Create([FromBody] CreateEntretienRequest createOfferRequest)
+    public Task<IActionResult> Create([FromBody] EntretienDto entretienDto)
     {
-        var result = _entretienService.Planifier(createOfferRequest.EmailCandidat, createOfferRequest.DisponibiliteCandidat,
-            createOfferRequest.EmailRecruteur, createOfferRequest.DisponibiliteRecruteur);
+        var result = _entretienService.Planifier(entretienDto.EmailCandidat, entretienDto.DisponibiliteCandidat,
+            entretienDto.EmailRecruteur, entretienDto.DisponibiliteRecruteur);
         if (result)
         {
-            return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createOfferRequest }, createOfferRequest));
+            return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = entretienDto }, entretienDto));
         }
         else
         {

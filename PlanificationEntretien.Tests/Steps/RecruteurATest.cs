@@ -1,7 +1,7 @@
 using System;
 using PlanificationEntretien.controller;
 using PlanificationEntretien.model;
-using PlanificationEntretien.memory;
+using PlanificationEntretien.repository;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -11,15 +11,15 @@ namespace PlanificationEntretien.Steps
     public class RecruteurATest
     {
         private Recruteur _recruteur;
-        private IRecruteurRepository _recruteurRepository = new InMemoryRecruteurRepository();
-        private CreateRecruteurRequest _createRecruteurRequest;
+        private RecruteurRepository _recruteurRepository = new RecruteurRepository();
+        private RecruteurDto _createRecruteurRequest;
 
         [Given(@"un recruteur ""(.*)"" \(""(.*)""\) avec ""(.*)"" ans d’expériences")]
         public void GivenUnRecruteurAvecAnsDExperiences(string language, string email, string xp)
         {
             int? value = String.IsNullOrEmpty(xp) ? null : Int32.Parse(xp);
             _recruteur = new Recruteur(language, email, value);
-            _createRecruteurRequest = new CreateRecruteurRequest(language, email, value);
+            _createRecruteurRequest = new RecruteurDto(language, email, value);
         }
 
         [When(@"on tente d'enregistrer le recruteur")]

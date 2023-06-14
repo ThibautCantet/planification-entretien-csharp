@@ -2,8 +2,9 @@ using System;
 using System.Globalization;
 using PlanificationEntretien.email;
 using PlanificationEntretien.model;
-using PlanificationEntretien.memory;
+using PlanificationEntretien.repository;
 using PlanificationEntretien.service;
+using service;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -17,9 +18,9 @@ namespace PlanificationEntretien.Steps
         private Recruteur _recruteur;
         private DateTime _dateDeDisponibiliteDuRecruteur;
         private EntretienService _entretienService;
-        private readonly IEntretienRepository _entretienRepository = new InMemoryEntretienRepository();
-        private readonly ICandidatRepository _candidatRepository = new InMemoryCandidatRepository();
-        private readonly IRecruteurRepository _recruteurRepository = new InMemoryRecruteurRepository();
+        private readonly EntretienRepository _inMemoryEntretienRepository = new EntretienRepository();
+        private readonly CandidatRepository _inMemoryCandidatRepository = new CandidatRepository();
+        private readonly RecruteurRepository _inMemoryRecruteurRepository = new RecruteurRepository();
         private readonly IEmailService _emailService = new FakeEmailService();
 
         private Boolean _resultatPlanificationEntretien;
@@ -28,7 +29,7 @@ namespace PlanificationEntretien.Steps
         public void GivenUnCandidatAvecAnsDExperiencesQuiEstDisponibleA(string language, string email, string experienceInYears, string date, string time)
         {
             _candidat = new Candidat(language, email, Int32.Parse(experienceInYears));
-            _candidatRepository.Save(_candidat);
+            _inMemoryCandidatRepository.Save(_candidat);
             _disponibiliteDuCandidat = DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
         }
 
@@ -36,14 +37,14 @@ namespace PlanificationEntretien.Steps
         public void GivenUnRecruteurQuiAAnsDxpQuiEstDispo(string language, string email, string experienceInYears, string date, string time)
         {
             _recruteur = new Recruteur(language, email, Int32.Parse(experienceInYears));
-            _recruteurRepository.Save(_recruteur);
+            _inMemoryRecruteurRepository.Save(_recruteur);
             _dateDeDisponibiliteDuRecruteur = DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
         }
 
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            _entretienService = new EntretienService(_entretienRepository, _emailService, _candidatRepository, _recruteurRepository);
+            _entretienService = new EntretienService(_inMemoryEntretienRepository, _emailService, _inMemoryCandidatRepository, _inMemoryRecruteurRepository);
             _resultatPlanificationEntretien = _entretienService.Planifier(_candidat.Email, _disponibiliteDuCandidat, _recruteur.Email, _dateDeDisponibiliteDuRecruteur);
         }
 
@@ -52,7 +53,7 @@ namespace PlanificationEntretien.Steps
         {
             Assert.True(_resultatPlanificationEntretien);
             
-            Entretien entretien = _entretienRepository.FindByCandidat(_candidat);
+            Entretien entretien = _inMemoryEntretienRepository.FindByCandidat(_candidat);
             Entretien expectedEntretien = Entretien.of(_candidat, _recruteur, _disponibiliteDuCandidat);
             Assert.Equal(expectedEntretien, entretien);
         }
@@ -69,7 +70,7 @@ namespace PlanificationEntretien.Steps
         {
             Assert.False(_resultatPlanificationEntretien);
             
-            Entretien entretien = _entretienRepository.FindByCandidat(_candidat);
+            Entretien entretien = _inMemoryEntretienRepository.FindByCandidat(_candidat);
             Assert.Null(entretien);
         }
 

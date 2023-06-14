@@ -3,7 +3,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.model;
-using PlanificationEntretien.memory;
+using PlanificationEntretien.repository;
 
 namespace PlanificationEntretien.controller;
 
@@ -11,26 +11,26 @@ namespace PlanificationEntretien.controller;
 [Route("/api/candidat")]
 public class CandidatController : ControllerBase
 {
-    private readonly ICandidatRepository _candidatRepository;
+    private readonly CandidatRepository _candidatRepository;
 
-    public CandidatController(ICandidatRepository candidatRepository)
+    public CandidatController(CandidatRepository candidatRepository)
     {
-        _candidatRepository = candidatRepository;
+        this._candidatRepository = candidatRepository;
     }
 
     [HttpPost("")]
-    public Task<IActionResult> Create([FromBody] CreateCandidatRequest createCandidatRequest)
+    public Task<IActionResult> Create([FromBody] CandidatDto candidatDto)
     {
-        var candidat = new Candidat(createCandidatRequest.Language,
-            createCandidatRequest.Email,
-            createCandidatRequest.XP);
+        var candidat = new Candidat(candidatDto.Language,
+            candidatDto.Email,
+            candidatDto.XP);
         if (!string.IsNullOrEmpty(candidat.Email) && IsValid(candidat.Email)
                                                   && !string.IsNullOrEmpty(candidat.Language)
                                                   && candidat.ExperienceEnAnnees > 0)
         {
             _candidatRepository.Save(candidat);
-            return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = createCandidatRequest },
-                createCandidatRequest));
+            return Task.FromResult<IActionResult>(CreatedAtAction("Create", new { id = candidatDto },
+                candidatDto));
         }
         return Task.FromResult<IActionResult>(BadRequest());
     }

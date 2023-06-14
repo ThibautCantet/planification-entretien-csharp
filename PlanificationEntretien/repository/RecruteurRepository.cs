@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using PlanificationEntretien.model;
 
-namespace PlanificationEntretien.memory;
+namespace PlanificationEntretien.repository;
 
-public class InMemoryRecruteurRepository : IRecruteurRepository
+public class RecruteurRepository
 {
     private Dictionary<string, Recruteur> _candidats = new();
 

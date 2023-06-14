@@ -1,22 +1,22 @@
 using System;
 using System.Collections.Generic;
-using PlanificationEntretien.email;
-using PlanificationEntretien.memory;
+using PlanificationEntretien.repository;
 using PlanificationEntretien.model;
+using service;
 
 namespace PlanificationEntretien.service;
 
 public class EntretienService
 {
-    private readonly IEntretienRepository _entretienRepository;
-    private readonly ICandidatRepository _candidatRepository;
-    private readonly IRecruteurRepository _recruteurRepository;
+    private readonly EntretienRepository _entretienRepository;
+    private readonly CandidatRepository _candidatRepository;
+    private readonly RecruteurRepository _recruteurRepository;
     private readonly IEmailService _emailService;
 
-    public EntretienService(IEntretienRepository entretienRepository, IEmailService emailService,
-        ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository)
+    public EntretienService(EntretienRepository entretienRepository, IEmailService emailService,
+        CandidatRepository candidatRepository, RecruteurRepository recruteurRepository)
     {
-        _entretienRepository = entretienRepository;
+        this._entretienRepository = entretienRepository;
         _emailService = emailService;
         _candidatRepository = candidatRepository;
         _recruteurRepository = recruteurRepository;

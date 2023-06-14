@@ -1,8 +1,8 @@
 namespace PlanificationEntretien.controller;
 
-public record CreateRecruteurRequest()
+public record CandidatDto()
 {
-    public CreateRecruteurRequest(string language, string email, int? xp) : this()
+    public CandidatDto(string language, string email, int? xp) : this()
     {
         Language = language;
         Email = email;

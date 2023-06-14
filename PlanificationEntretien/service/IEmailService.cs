@@ -1,6 +1,6 @@
 using System;
 
-namespace PlanificationEntretien.email;
+namespace service;
 
 public interface IEmailService
 {
