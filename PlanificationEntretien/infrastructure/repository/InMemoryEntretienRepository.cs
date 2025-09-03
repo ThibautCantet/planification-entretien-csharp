@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.entretien;
 
 namespace PlanificationEntretien.infrastructure.repository;
 
 public class InMemoryEntretienRepository : IEntretienRepository
 {
-    private Dictionary<Candidat, InMemoryEntretien> _entretiens = new();
+    private Dictionary<CandidatEvalué, InMemoryEntretien> _entretiens = new();
 
     public Entretien FindById(int id)
     {
@@ -15,7 +14,7 @@ public class InMemoryEntretienRepository : IEntretienRepository
         return inMemoryEntretien != null ? ToEntretien(inMemoryEntretien) : null;
     }
 
-    public Entretien FindByCandidat(Candidat candidat)
+    public Entretien FindByCandidat(CandidatEvalué candidat)
     {
         InMemoryEntretien value;
         _entretiens.TryGetValue(candidat, out value);
@@ -28,14 +27,14 @@ public class InMemoryEntretienRepository : IEntretienRepository
 
     private static Entretien ToEntretien(InMemoryEntretien? value)
     {
-        return Entretien.of( value.Id, InMemoryCandidatRepository.ToCandidat(value.Candidat), InMemoryRecruteurRepository.ToRecruteur(value.Recruteur), value.Horaire);
+        return Entretien.of( value.Id, InMemoryCandidatRepository.ToCandidatEvalué(value.Candidat), InMemoryRecruteurRepository.ToRecruteurAssigné(value.Recruteur), value.Horaire);
     }
 
     public int Save(Entretien entretien)
     {
         var newId = _entretiens.Count + 1;
-        _entretiens.TryAdd(entretien.Candidat, new InMemoryEntretien(newId, InMemoryCandidatRepository.ToInMemoryCandidat(entretien.Candidat),
-            InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.Recruteur), entretien.Horaire));
+        _entretiens.TryAdd(entretien.CandidatEvalué, new InMemoryEntretien(newId, InMemoryCandidatRepository.ToInMemoryCandidat(entretien.CandidatEvalué),
+            InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.RecruteurAssigné), entretien.Horaire));
         return newId;
     }
 

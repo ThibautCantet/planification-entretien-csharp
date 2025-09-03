@@ -1,7 +1,5 @@
 using System;
-using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.entretien;
-using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.use_case;
 
@@ -16,15 +14,15 @@ public class PlanifierEntretien
         _emailService = emailService;
     }
 
-    public int Execute(Candidat candidat, DateTime disponibiliteDuCandidat,
-        Recruteur recruteur, DateTime disponibiliteDuRecruteur)
+    public int Execute(CandidatEvalué candidatEvalué, DateTime disponibiliteDuCandidat,
+        RecruteurAssigné recruteurAssigné, DateTime disponibiliteDuRecruteur)
     {
-        var entretien = new Entretien(candidat, recruteur);
+        var entretien = new Entretien(candidatEvalué, recruteurAssigné);
         if (entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur))
         {
             var entretienId = _entretienRepository.Save(entretien);
-            _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidat.Email, disponibiliteDuRecruteur);
-            _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteur.Email, disponibiliteDuRecruteur);
+            _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidatEvalué.Email, disponibiliteDuRecruteur);
+            _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteurAssigné.Email, disponibiliteDuRecruteur);
             return entretienId;
         }
 

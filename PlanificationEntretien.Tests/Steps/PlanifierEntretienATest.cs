@@ -74,7 +74,9 @@ namespace PlanificationEntretien.Steps
             Assert.NotEqual(0, createEntretienResponse.EntretienId);
 
             Entretien entretien = EntretienRepository.FindById(createEntretienResponse.EntretienId);
-            Entretien expectedEntretien = Entretien.of(entretien.Id, _candidat, _recruteur, _disponibiliteDuCandidat);
+            var candidatEvalué = new CandidatEvalué(_candidat.Id, _candidat.Language, _candidat.Email, _candidat.ExperienceEnAnnees);
+            var recruteurAssigné = new RecruteurAssigné(_recruteur.Id, _recruteur.Language, _recruteur.Email, _recruteur.ExperienceEnAnnees);
+            Entretien expectedEntretien = Entretien.of(entretien.Id, candidatEvalué, recruteurAssigné, _disponibiliteDuCandidat);
             Assert.Equal(expectedEntretien, entretien);
         }
 
@@ -92,7 +94,8 @@ namespace PlanificationEntretien.Steps
         [Then(@"L’entretien n'est pas planifié")]
         public void ThenLEntretienNestPasPlanifie()
         {
-            Entretien entretien = EntretienRepository.FindByCandidat(_candidat);
+            var candidatEvalué = new CandidatEvalué(_candidat.Id, _candidat.Language, _candidat.Email, _candidat.ExperienceEnAnnees);
+            Entretien entretien = EntretienRepository.FindByCandidat(candidatEvalué);
             Assert.Null(entretien);
         }
 

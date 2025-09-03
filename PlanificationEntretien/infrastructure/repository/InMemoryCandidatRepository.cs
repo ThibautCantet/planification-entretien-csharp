@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.entretien;
 
 namespace PlanificationEntretien.infrastructure.repository;
 
@@ -32,9 +33,9 @@ public class InMemoryCandidatRepository : ICandidatRepository
         return newId;
     }
 
-    internal static InMemoryCandidat ToInMemoryCandidat(Candidat candidat)
+    internal static InMemoryCandidat ToInMemoryCandidat(CandidatEvalué candidat)
     {
-        return new InMemoryCandidat(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees);
+        return new InMemoryCandidat(candidat.Id, candidat.Profil.Language, candidat.Email, candidat.Profil.AnnéeExperience);
     }
 
     private static InMemoryCandidat ToInMemoryCandidat(Candidat candidat, int idCandidat)
@@ -45,5 +46,10 @@ public class InMemoryCandidatRepository : ICandidatRepository
     internal static Candidat ToCandidat(InMemoryCandidat? value)
     {
         return new Candidat(value!.id, value.Language, value.Email, value.ExperienceEnAnnees);
+    }
+    
+    internal static CandidatEvalué ToCandidatEvalué(InMemoryCandidat? value)
+    {
+        return new CandidatEvalué(value!.id, value.Language, value.Email, value.ExperienceEnAnnees);
     }
 }

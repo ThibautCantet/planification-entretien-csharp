@@ -1,39 +1,36 @@
 using System;
-using PlanificationEntretien.domain.candidat;
-using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.domain.entretien;
 
 public interface IEntretien
 {
-    Candidat Candidat { get; }
-    Recruteur Recruteur { get; }
+    CandidatEvalué CandidatEvalué { get; }
+    RecruteurAssigné RecruteurAssigné { get; }
     DateTime Horaire { get; }
 }
 
 public class Entretien : IEquatable<Entretien>, IEntretien
 {
     public int Id { get; }
-    public Candidat Candidat { get; }
-    public Recruteur Recruteur { get; }
+    public CandidatEvalué CandidatEvalué { get; }
+    public RecruteurAssigné RecruteurAssigné { get; }
     public DateTime Horaire { get; private set; }
 
-    private Entretien(int id, Candidat candidat, Recruteur recruteur, DateTime horaire)
+    private Entretien(int id, CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné, DateTime horaire)
     {
         Id = id;
-        Candidat = candidat;
-        Recruteur = recruteur;
+        CandidatEvalué = candidatEvalué;
+        RecruteurAssigné = recruteurAssigné;
         Horaire = horaire;
     }
 
-    public Entretien(Candidat candidat, Recruteur recruteur) : this(-1, candidat, recruteur, DateTime.MinValue)
+    public Entretien(CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné) : this(-1, candidatEvalué, recruteurAssigné, DateTime.MinValue)
     {
     }
 
     public bool Planifier(DateTime disponibiliteDuCandidat, DateTime disponibiliteDuRecruteur)
     {
-        var planifiable = Candidat.Language.Equals(Recruteur.Language)
-                          && Candidat.ExperienceEnAnnees < Recruteur.ExperienceEnAnnees
+        var planifiable = RecruteurAssigné.Profil.EstCompatible(CandidatEvalué.Profil)
                           && disponibiliteDuCandidat.Equals(disponibiliteDuRecruteur);
         if (planifiable)
         {
@@ -46,7 +43,7 @@ public class Entretien : IEquatable<Entretien>, IEntretien
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return Id == other.Id && Candidat.Equals(other.Candidat) && Recruteur.Equals(other.Recruteur) && Horaire.Equals(other.Horaire);
+        return Id == other.Id && CandidatEvalué.Equals(other.CandidatEvalué) && RecruteurAssigné.Equals(other.RecruteurAssigné) && Horaire.Equals(other.Horaire);
     }
 
     public override bool Equals(object? obj)
@@ -59,11 +56,11 @@ public class Entretien : IEquatable<Entretien>, IEntretien
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, Candidat, Recruteur, Horaire);
+        return HashCode.Combine(Id, CandidatEvalué, RecruteurAssigné, Horaire);
     }
 
-    public static Entretien of(int id, Candidat candidat, Recruteur recruteur, DateTime horaire)
+    public static Entretien of(int id, CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné, DateTime horaire)
     {
-        return new Entretien(id, candidat, recruteur, horaire);
+        return new Entretien(id, candidatEvalué, recruteurAssigné, horaire);
     }
 }

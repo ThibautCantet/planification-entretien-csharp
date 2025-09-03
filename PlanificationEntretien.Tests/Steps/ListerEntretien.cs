@@ -52,7 +52,10 @@ namespace PlanificationEntretien.Steps
             var recruteur = RecruteurRepository.FindByEmail(emailRecruteur);
             var candidat = CandidatRepository.FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
-            return Entretien.of(id, candidat , recruteur, horaire);
+            return Entretien.of(id,
+                new CandidatEvalué(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees),
+                new RecruteurAssigné(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees),
+                horaire);
         }
 
         [When(@"on liste les tous les entretiens")]

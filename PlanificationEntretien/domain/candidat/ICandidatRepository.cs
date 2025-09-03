@@ -1,3 +1,4 @@
+
 namespace PlanificationEntretien.domain.candidat;
 
 public interface ICandidatRepository

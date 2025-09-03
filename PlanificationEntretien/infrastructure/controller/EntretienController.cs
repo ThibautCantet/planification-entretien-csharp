@@ -1,6 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.use_case;
 
@@ -30,8 +31,11 @@ public class EntretienController : ControllerBase
     {
         var candidat = _candidatRepository.FindById(createOfferRequest.IdCandidat);
         var recruteur = _recruteurRepository.FindById(createOfferRequest.IdRecruteur);
-        var entretienId = _planifierEntretien.Execute(candidat, createOfferRequest.DisponibiliteCandidat,
-            recruteur, createOfferRequest.DisponibiliteRecruteur);
+        var entretienId = _planifierEntretien.Execute(
+            new CandidatEvalué(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees),
+            createOfferRequest.DisponibiliteCandidat,
+            new RecruteurAssigné(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees),
+            createOfferRequest.DisponibiliteRecruteur);
         if (entretienId > 0)
         {
             var response = new CreateEntretienResponse(entretienId, candidat.Email, recruteur.Email,
@@ -44,8 +48,8 @@ public class EntretienController : ControllerBase
     public IActionResult Lister()
     {
         var entretiens = _listerEntretien.Execute()
-            .Select(entretien => new EntretienResponse(entretien.Candidat.Email,
-                entretien.Recruteur.Email,
+            .Select(entretien => new EntretienResponse(entretien.CandidatEvalué.Email,
+                entretien.RecruteurAssigné.Email,
                 entretien.Horaire))
             .ToList();
         return Ok(entretiens);
