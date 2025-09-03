@@ -1,12 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.infrastructure.repository;
 
 public class InMemoryRecruteurRepository : IRecruteurRepository
 {
     private Dictionary<string, InMemoryRecruteur> _recruteurs = new();
+
+    public InMemoryRecruteurRepository()
+    {
+    }
 
     public Recruteur FindById(int id)
     {

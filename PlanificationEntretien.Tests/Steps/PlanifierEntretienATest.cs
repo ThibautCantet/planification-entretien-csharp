@@ -1,9 +1,11 @@
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain;
-using PlanificationEntretien.email;
+using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.entretien;
+using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.infrastructure.controller;
+using PlanificationEntretien.infrastructure.entretien;
 using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;

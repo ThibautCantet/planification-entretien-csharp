@@ -1,22 +1,23 @@
 using System;
 using System.Net.Mail;
 
-namespace PlanificationEntretien.domain;
+namespace PlanificationEntretien.domain.recruteur;
 
-public class Candidat : IEquatable<Candidat>
+public class Recruteur : IEquatable<Recruteur>
 {
+    private readonly int MINIMUM_XP_REQUISE = 2;
     public int Id { get; }
     public string Language { get; }
     public string Email { get; }
     public int ExperienceEnAnnees { get; }
 
-    public Candidat(int id, string language, string email, int? experienceEnAnnees)
+    public Recruteur(int id, string language, string email, int? experienceEnAnnees)
     {
         if (string.IsNullOrEmpty(email) || !IsValid(email)
-                                        || email.EndsWith("soat.fr")
+                                        || !email.EndsWith("soat.fr")
                                         || string.IsNullOrEmpty(language)
                                         || experienceEnAnnees == null
-                                        || experienceEnAnnees <= 0)
+                                        || experienceEnAnnees <= MINIMUM_XP_REQUISE)
         {
             throw new ArgumentException();
         }
@@ -27,7 +28,8 @@ public class Candidat : IEquatable<Candidat>
         ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
     }
 
-    public Candidat(string language, string email, int? experienceEnAnnees) : this(0, language, email, experienceEnAnnees)
+    public Recruteur(string language, string email, int? experienceEnAnnees) : this(0, language, email,
+        experienceEnAnnees)
     {
     }
 
@@ -45,19 +47,19 @@ public class Candidat : IEquatable<Candidat>
         }
     }
 
-    public bool Equals(Candidat? other)
+    public bool Equals(Recruteur other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return Language == other.Language && Email == other.Email && ExperienceEnAnnees == other.ExperienceEnAnnees;
     }
 
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != this.GetType()) return false;
-        return Equals((Candidat)obj);
+        return Equals((Recruteur)obj);
     }
 
     public override int GetHashCode()

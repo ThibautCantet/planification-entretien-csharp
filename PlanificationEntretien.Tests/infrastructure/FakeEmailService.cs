@@ -1,6 +1,7 @@
 using System;
+using PlanificationEntretien.domain.entretien;
 
-namespace PlanificationEntretien.email;
+namespace PlanificationEntretien.infrastructure.entretien;
 
 public class FakeEmailService : IEmailService
 {

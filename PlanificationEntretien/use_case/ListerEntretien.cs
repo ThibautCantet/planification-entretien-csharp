@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.entretien;
 
 namespace PlanificationEntretien.use_case;
 

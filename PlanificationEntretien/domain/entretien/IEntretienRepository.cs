@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using PlanificationEntretien.domain.candidat;
 
-namespace PlanificationEntretien.domain;
+namespace PlanificationEntretien.domain.entretien;
 
 public interface IEntretienRepository
 {

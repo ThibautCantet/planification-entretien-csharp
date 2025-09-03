@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace PlanificationEntretien.domain;
+namespace PlanificationEntretien.domain.recruteur;
 
 public interface IRecruteurRepository
 {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using PlanificationEntretien.domain;
+using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.entretien;
 
 namespace PlanificationEntretien.infrastructure.repository;
 

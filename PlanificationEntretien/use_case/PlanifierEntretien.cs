@@ -1,6 +1,7 @@
 using System;
-using PlanificationEntretien.domain;
-using PlanificationEntretien.email;
+using PlanificationEntretien.domain.candidat;
+using PlanificationEntretien.domain.entretien;
+using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.use_case;
 
