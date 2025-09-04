@@ -12,22 +12,21 @@ public class Candidat : IEquatable<Candidat>
 
     public Candidat(int id, string language, string email, int? experienceEnAnnees)
     {
-        if (string.IsNullOrEmpty(email) || !IsValid(email)
-                                        || email.EndsWith("soat.fr")
-                                        || string.IsNullOrEmpty(language)
-                                        || experienceEnAnnees == null
-                                        || experienceEnAnnees <= 0)
+        if (string.IsNullOrEmpty(language)
+            || experienceEnAnnees == null
+            || experienceEnAnnees <= 0)
         {
             throw new ArgumentException();
         }
 
         Id = id;
         Language = language;
-        Email = email;
+        Email = new Email(email).Value;
         ExperienceEnAnnees = experienceEnAnnees.GetValueOrDefault(-1);
     }
 
-    public Candidat(string language, string email, int? experienceEnAnnees) : this(0, language, email, experienceEnAnnees)
+    public Candidat(string language, string email, int? experienceEnAnnees) : this(0, language, email,
+        experienceEnAnnees)
     {
     }
 
