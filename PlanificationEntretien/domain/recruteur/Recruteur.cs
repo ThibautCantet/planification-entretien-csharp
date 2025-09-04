@@ -12,7 +12,7 @@ public class Recruteur : IEquatable<Recruteur>
     public Recruteur(int id, string language, string email, int? experienceEnAnnees)
     {
         Id = new RecruteurId(id).Value;
-        Email = new Email(email).Value;
+        Email = shared.Email.EmailRecruteur(email).Value;
         var profil = new Profil(language, experienceEnAnnees);
         Language = profil.Langage;
         ExperienceEnAnnees = profil.ExperienceEnAnnees;

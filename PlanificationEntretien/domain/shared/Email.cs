@@ -1,18 +1,32 @@
 using System;
 using System.Net.Mail;
 
-namespace PlanificationEntretien.domain.candidat;
+namespace PlanificationEntretien.domain.shared;
 
 public class Email
 {
     public string Value { get; }
 
-    public Email(string value)
+    public static Email EmailRecruteur(string value)
+    {
+        if (!IsValid(value) || !value.EndsWith("soat.fr"))
+        {
+            throw new ArgumentException($"{value} is not a valid email");
+        }
+        return new Email(value);
+    }
+    
+    public static Email EmailCandidat(string value)
     {
         if (!IsValid(value) || value.EndsWith("soat.fr"))
         {
             throw new ArgumentException($"{value} is not a valid email");
         }
+        return new Email(value);
+    }
+    
+    private Email(string value)
+    {
         Value = value;
     }
 

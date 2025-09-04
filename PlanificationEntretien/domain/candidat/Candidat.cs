@@ -13,7 +13,7 @@ public class Candidat : IEquatable<Candidat>
     public Candidat(int id, string language, string email, int? experienceEnAnnees)
     {
         Id = new CandidatId(id).Value;
-        Email = new Email(email).Value;
+        Email = shared.Email.EmailCandidat(email).Value;
         var profile = new Profil(language, experienceEnAnnees);
         Language = profile.Langage;
         ExperienceEnAnnees = profile.ExperienceEnAnnees;
