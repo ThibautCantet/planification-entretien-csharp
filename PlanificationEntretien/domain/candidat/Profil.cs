@@ -1,6 +1,4 @@
 
-using PlanificationEntretien.domain.shared;
-
 namespace PlanificationEntretien.domain.candidat;
 
 public class Profil

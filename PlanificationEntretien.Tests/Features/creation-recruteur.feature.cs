@@ -204,14 +204,14 @@ namespace PlanificationEntretien.Features
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est vide")]
+        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand sa techno principale n\'est pas C#, Java, JS")]
         [Xunit.TraitAttribute("FeatureTitle", "Création d\'un recruteur")]
-        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est vide")]
-        public virtual void UnRecruteurNestPasCreeQuandSonNombreDanneesDexperienceEstVide()
+        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand sa techno principale n\'est pas C#, Java, JS")]
+        public virtual void UnRecruteurNestPasCreeQuandSaTechnoPrincipaleNestPasCJavaJS()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est vide", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand sa techno principale n\'est pas C#, Java, JS", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 19
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -233,7 +233,7 @@ namespace PlanificationEntretien.Features
             {
                 this.ScenarioStart();
 #line 20
-    testRunner.Given("un recruteur \"Java\" (\"recruteur@soat.fr\") avec \"\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+    testRunner.Given("un recruteur \"Python\" (\"recruteur@soat.fr\") avec \"3\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
 #line 21
     testRunner.When("on tente d\'enregistrer le recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
@@ -245,17 +245,14 @@ namespace PlanificationEntretien.Features
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est inférieur " +
-            "à 3")]
+        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est vide")]
         [Xunit.TraitAttribute("FeatureTitle", "Création d\'un recruteur")]
-        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est inférieur " +
-            "à 3")]
-        public virtual void UnRecruteurNestPasCreeQuandSonNombreDanneesDexperienceEstInferieurA3()
+        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est vide")]
+        public virtual void UnRecruteurNestPasCreeQuandSonNombreDanneesDexperienceEstVide()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est inférieur " +
-                    "à 3", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est vide", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 24
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -277,7 +274,7 @@ namespace PlanificationEntretien.Features
             {
                 this.ScenarioStart();
 #line 25
-    testRunner.Given("un recruteur \"Java\" (\"recruteur@soat.fr\") avec \"2\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+    testRunner.Given("un recruteur \"Java\" (\"recruteur@soat.fr\") avec \"\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
 #line 26
     testRunner.When("on tente d\'enregistrer le recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
@@ -289,14 +286,17 @@ namespace PlanificationEntretien.Features
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est négatif")]
+        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est inférieur " +
+            "à 3")]
         [Xunit.TraitAttribute("FeatureTitle", "Création d\'un recruteur")]
-        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est négatif")]
-        public virtual void UnRecruteurNestPasCreeQuandSonNombreDanneesDexperienceEstNegatif()
+        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est inférieur " +
+            "à 3")]
+        public virtual void UnRecruteurNestPasCreeQuandSonNombreDanneesDexperienceEstInferieurA3()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est négatif", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est inférieur " +
+                    "à 3", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 29
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -318,7 +318,7 @@ namespace PlanificationEntretien.Features
             {
                 this.ScenarioStart();
 #line 30
-    testRunner.Given("un recruteur \"Java\" (\"recruteur@soat.fr\") avec \"-1\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+    testRunner.Given("un recruteur \"Java\" (\"recruteur@soat.fr\") avec \"2\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
 #line 31
     testRunner.When("on tente d\'enregistrer le recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
@@ -330,14 +330,14 @@ namespace PlanificationEntretien.Features
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son email est vide")]
+        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est négatif")]
         [Xunit.TraitAttribute("FeatureTitle", "Création d\'un recruteur")]
-        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son email est vide")]
-        public virtual void UnRecruteurNestPasCreeQuandSonEmailEstVide()
+        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est négatif")]
+        public virtual void UnRecruteurNestPasCreeQuandSonNombreDanneesDexperienceEstNegatif()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son email est vide", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son nombre d\'années d\'expérience est négatif", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 34
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -359,7 +359,7 @@ namespace PlanificationEntretien.Features
             {
                 this.ScenarioStart();
 #line 35
-    testRunner.Given("un recruteur \"Java\" (\"\") avec \"3\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+    testRunner.Given("un recruteur \"Java\" (\"recruteur@soat.fr\") avec \"-1\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
 #line 36
     testRunner.When("on tente d\'enregistrer le recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
@@ -371,14 +371,14 @@ namespace PlanificationEntretien.Features
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son email est incorrect")]
+        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son email est vide")]
         [Xunit.TraitAttribute("FeatureTitle", "Création d\'un recruteur")]
-        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son email est incorrect")]
-        public virtual void UnRecruteurNestPasCreeQuandSonEmailEstIncorrect()
+        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son email est vide")]
+        public virtual void UnRecruteurNestPasCreeQuandSonEmailEstVide()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son email est incorrect", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son email est vide", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 39
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -400,12 +400,53 @@ namespace PlanificationEntretien.Features
             {
                 this.ScenarioStart();
 #line 40
-    testRunner.Given("un recruteur \"Java\" (\"recruteur\") avec \"3\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+    testRunner.Given("un recruteur \"Java\" (\"\") avec \"3\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
 #line 41
     testRunner.When("on tente d\'enregistrer le recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
 #line 42
+    testRunner.Then("le recruteur n\'est pas enregistré", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Un recruteur n\'est pas crée quand son email est incorrect")]
+        [Xunit.TraitAttribute("FeatureTitle", "Création d\'un recruteur")]
+        [Xunit.TraitAttribute("Description", "Un recruteur n\'est pas crée quand son email est incorrect")]
+        public virtual void UnRecruteurNestPasCreeQuandSonEmailEstIncorrect()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Un recruteur n\'est pas crée quand son email est incorrect", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 44
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 45
+    testRunner.Given("un recruteur \"Java\" (\"recruteur\") avec \"3\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+#line hidden
+#line 46
+    testRunner.When("on tente d\'enregistrer le recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
+#line hidden
+#line 47
     testRunner.Then("le recruteur n\'est pas enregistré", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
             }

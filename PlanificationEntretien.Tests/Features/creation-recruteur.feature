@@ -15,6 +15,11 @@ Fonctionnalité: Création d'un recruteur
     Etant donné un recruteur "" ("recruteur@soat.fr") avec "3" ans d’expériences
     Quand on tente d'enregistrer le recruteur
     Alors le recruteur n'est pas enregistré
+    
+  Scénario: Un recruteur n'est pas crée quand sa techno principale n'est pas C#, Java, JS
+    Etant donné un recruteur "Python" ("recruteur@soat.fr") avec "3" ans d’expériences
+    Quand on tente d'enregistrer le recruteur
+    Alors le recruteur n'est pas enregistré
 
   Scénario: Un recruteur n'est pas crée quand son nombre d'années d'expérience est vide
     Etant donné un recruteur "Java" ("recruteur@soat.fr") avec "" ans d’expériences

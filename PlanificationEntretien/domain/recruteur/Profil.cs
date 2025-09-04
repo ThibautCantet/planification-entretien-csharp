@@ -1,6 +1,4 @@
 
-using PlanificationEntretien.domain.candidat;
-using PlanificationEntretien.domain.shared;
 
 namespace PlanificationEntretien.domain.recruteur;
 

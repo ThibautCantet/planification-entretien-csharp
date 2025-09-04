@@ -109,14 +109,14 @@ namespace PlanificationEntretien.Features
             {
                 this.ScenarioStart();
 #line 5
-    testRunner.Given("un candidat \"Java\" (\"candidat@email.com\") avec \"2\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
+    testRunner.Given("un candidat \"Python\" (\"candidat@email.com\") avec \"2\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
 #line 6
     testRunner.When("on tente d\'enregistrer le candidat", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
 #line 7
-    testRunner.Then("le candidat est correctement enregistré avec ses informations \"Java\", \"candidat@e" +
-                        "mail.com\" et \"2\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
+    testRunner.Then("le candidat est correctement enregistré avec ses informations \"Python\", \"candidat" +
+                        "@email.com\" et \"2\" ans d’expériences", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
             }
             this.ScenarioCleanup();

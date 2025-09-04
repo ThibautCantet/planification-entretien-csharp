@@ -2,9 +2,9 @@
 Fonctionnalité: Création d'un candidat
 
   Scénario: Un candidat est crée quand toutes ses informations sont complètes
-    Etant donné un candidat "Java" ("candidat@email.com") avec "2" ans d’expériences
+    Etant donné un candidat "Python" ("candidat@email.com") avec "2" ans d’expériences
     Quand on tente d'enregistrer le candidat
-    Alors le candidat est correctement enregistré avec ses informations "Java", "candidat@email.com" et "2" ans d’expériences
+    Alors le candidat est correctement enregistré avec ses informations "Python", "candidat@email.com" et "2" ans d’expériences
 
   Scénario: Un candidat n'est pas crée quand il a un email soat.fr
     Etant donné un candidat "Java" ("candidat@soat.fr") avec "2" ans d’expériences
