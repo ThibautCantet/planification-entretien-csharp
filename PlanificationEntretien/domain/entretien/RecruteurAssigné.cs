@@ -1,4 +1,5 @@
 using System;
+using PlanificationEntretien.domain.candidat;
 
 namespace PlanificationEntretien.domain.entretien;
 
@@ -15,6 +16,11 @@ public class RecruteurAssigné
         Profil = new Profil(language, experienceEnAnnees);
     }
 
+    public bool EstCompatible(CandidatEvalué candidat)
+    {
+        return Profil.EstCompatible(candidat);
+    }
+    
     protected bool Equals(RecruteurAssigné? other)
     {
         return Id == other.Id && Email == other.Email && Profil.Equals(other.Profil);

@@ -35,7 +35,7 @@ public class InMemoryCandidatRepository : ICandidatRepository
 
     internal static InMemoryCandidat ToInMemoryCandidat(CandidatEvalué candidat)
     {
-        return new InMemoryCandidat(candidat.Id, candidat.Profil.Language, candidat.Email, candidat.Profil.AnnéeExperience);
+        return new InMemoryCandidat(candidat.Id, candidat.Langage, candidat.Email, candidat.ExperienceEnAnnees);
     }
 
     private static InMemoryCandidat ToInMemoryCandidat(Candidat candidat, int idCandidat)

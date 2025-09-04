@@ -30,7 +30,7 @@ public class Entretien : IEquatable<Entretien>, IEntretien
 
     public bool Planifier(DateTime disponibiliteDuCandidat, DateTime disponibiliteDuRecruteur)
     {
-        var planifiable = RecruteurAssigné.Profil.EstCompatible(CandidatEvalué.Profil)
+        var planifiable = RecruteurAssigné.EstCompatible(CandidatEvalué)
                           && disponibiliteDuCandidat.Equals(disponibiliteDuRecruteur);
         if (planifiable)
         {

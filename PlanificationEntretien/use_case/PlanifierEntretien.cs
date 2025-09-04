@@ -18,6 +18,7 @@ public class PlanifierEntretien
         RecruteurAssigné recruteurAssigné, DateTime disponibiliteDuRecruteur)
     {
         var entretien = new Entretien(candidatEvalué, recruteurAssigné);
+        var estCompatible = entretien.RecruteurAssigné.Profil.EstCompatible(candidatEvalué);
         if (entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur))
         {
             var entretienId = _entretienRepository.Save(entretien);

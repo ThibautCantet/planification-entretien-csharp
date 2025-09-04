@@ -4,8 +4,8 @@ namespace PlanificationEntretien.domain.entretien;
 
 public record Profil(String Language, int AnnéeExperience)
 {
-    public bool EstCompatible(Profil profil)
+    public bool EstCompatible(CandidatEvalué candidat)
     {
-        return Language.Equals(profil.Language) && AnnéeExperience > profil.AnnéeExperience;
+        return Language.Equals(candidat.Langage) && AnnéeExperience > candidat.ExperienceEnAnnees;
     } 
 };
