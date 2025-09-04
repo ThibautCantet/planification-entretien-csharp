@@ -1,7 +1,6 @@
-using System;
 using System.Net.Mail;
 
-namespace PlanificationEntretien.domain.candidat;
+namespace Candidat.domain;
 
 public class Candidat : IEquatable<Candidat>
 {
@@ -13,7 +12,7 @@ public class Candidat : IEquatable<Candidat>
     public Candidat(int id, string language, string email, int? experienceEnAnnees)
     {
         Id = new CandidatId(id).Value;
-        Email = shared.Email.EmailCandidat(email).Value;
+        Email = Shared.Email.EmailCandidat(email).Value;
         var profile = new Profil(language, experienceEnAnnees);
         Language = profile.Langage;
         ExperienceEnAnnees = profile.ExperienceEnAnnees;

@@ -1,5 +1,4 @@
 using System;
-using PlanificationEntretien.domain.candidat;
 
 namespace PlanificationEntretien.domain.entretien;
 
@@ -20,7 +19,7 @@ public class RecruteurAssigné
     {
         return Profil.EstCompatible(candidat);
     }
-    
+
     protected bool Equals(RecruteurAssigné? other)
     {
         return Id == other.Id && Email == other.Email && Profil.Equals(other.Profil);
@@ -33,7 +32,7 @@ public class RecruteurAssigné
         if (obj.GetType() != GetType()) return false;
         return Equals((RecruteurAssigné)obj);
     }
-    
+
     public override int GetHashCode()
     {
         return HashCode.Combine(Profil.AnnéeExperience, Profil.Language);

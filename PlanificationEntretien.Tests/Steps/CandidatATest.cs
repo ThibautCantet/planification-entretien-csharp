@@ -1,8 +1,7 @@
 using System;
+using Candidat.infrastructure.controller;
+using Candidat.use_case;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.infrastructure.controller;
-using PlanificationEntretien.domain.candidat;
-using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -43,7 +42,7 @@ namespace PlanificationEntretien.Steps
             Assert.NotEqual(0, createCandidatResponse.Id);
             
             var candidat = CandidatRepository.FindById(createCandidatResponse.Id);
-            Assert.Equal(candidat,  new Candidat(createCandidatResponse.Id, java, email, int.Parse(xp)));
+            Assert.Equal(candidat,  new Candidat.domain.Candidat(createCandidatResponse.Id, java, email, int.Parse(xp)));
         }
 
         [Then(@"le candidat n'est pas enregistré")]

@@ -1,7 +1,7 @@
+using Candidat.use_case;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.use_case;
 
-namespace PlanificationEntretien.infrastructure.controller;
+namespace Candidat.infrastructure.controller;
 
 [ApiController]
 [Route("/api/candidat")]

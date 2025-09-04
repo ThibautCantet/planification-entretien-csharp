@@ -1,6 +1,6 @@
 using System.Linq;
+using Candidat.domain;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.use_case;

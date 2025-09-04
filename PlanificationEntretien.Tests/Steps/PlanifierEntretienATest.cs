@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.infrastructure.controller;
@@ -15,7 +14,7 @@ namespace PlanificationEntretien.Steps
     [Binding]
     public class PlanifierEntretienATest : ATest
     {
-        private Candidat _candidat;
+        private Candidat.domain.Candidat _candidat;
         private DateTime _disponibiliteDuCandidat;
         private Recruteur _recruteur;
         private DateTime _dateDeDisponibiliteDuRecruteur;
@@ -28,9 +27,9 @@ namespace PlanificationEntretien.Steps
         public void GivenUnCandidatAvecAnsDExperiencesQuiEstDisponibleA(string language, string email,
             string experienceInYears, string date, string time)
         {
-            _candidat = new Candidat(language, email, Int32.Parse(experienceInYears));
+            _candidat = new Candidat.domain.Candidat(language, email, Int32.Parse(experienceInYears));
             var saveCandidatId = CandidatRepository.Save(_candidat);
-            _candidat = new Candidat(saveCandidatId, _candidat.Language, _candidat.Email, _candidat.ExperienceEnAnnees);
+            _candidat = new Candidat.domain.Candidat(saveCandidatId, _candidat.Language, _candidat.Email, _candidat.ExperienceEnAnnees);
             _disponibiliteDuCandidat =
                 DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
         }

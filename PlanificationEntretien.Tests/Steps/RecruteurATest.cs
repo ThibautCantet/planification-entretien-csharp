@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.infrastructure.controller;
-using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.use_case;
 using TechTalk.SpecFlow;

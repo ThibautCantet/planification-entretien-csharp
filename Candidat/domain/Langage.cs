@@ -1,6 +1,5 @@
-using System;
 
-namespace PlanificationEntretien.domain.candidat;
+namespace Candidat.domain;
 
 public class Langage
 {

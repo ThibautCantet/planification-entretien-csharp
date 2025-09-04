@@ -1,7 +1,7 @@
 using System;
 using System.Net.Mail;
 
-namespace PlanificationEntretien.domain.shared;
+namespace Shared;
 
 public class Email
 {
@@ -15,7 +15,7 @@ public class Email
         }
         return new Email(value);
     }
-    
+
     public static Email EmailCandidat(string value)
     {
         if (!IsValid(value) || value.EndsWith("soat.fr"))
@@ -24,7 +24,7 @@ public class Email
         }
         return new Email(value);
     }
-    
+
     private Email(string value)
     {
         Value = value;

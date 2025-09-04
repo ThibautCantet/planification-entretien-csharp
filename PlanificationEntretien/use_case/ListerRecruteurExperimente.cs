@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using PlanificationEntretien.domain.candidat;
 using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.use_case;

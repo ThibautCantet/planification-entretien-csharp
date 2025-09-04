@@ -1,6 +1,5 @@
-using System;
 
-namespace PlanificationEntretien.domain.candidat;
+namespace Candidat.domain;
 
 public class ExperienceEnAnnees
 {
@@ -13,7 +12,7 @@ public class ExperienceEnAnnees
         {
             throw new ArgumentException();
         }
-        
+
         Value = experienceEnAnnees.GetValueOrDefault(-1);
     }
 }

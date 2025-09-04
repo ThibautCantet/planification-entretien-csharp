@@ -1,7 +1,7 @@
 using System;
-using PlanificationEntretien.domain.candidat;
+using Candidat.domain;
 
-namespace PlanificationEntretien.use_case;
+namespace Candidat.use_case;
 
 public class CreerCandidat
 {
@@ -16,7 +16,7 @@ public class CreerCandidat
     {
         try
         {
-            var candidat = new Candidat(language,
+            var candidat = new domain.Candidat(language,
                 email,
                 experienceEnAnnees);
             return _candidatRepository.Save(candidat);

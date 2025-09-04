@@ -1,4 +1,4 @@
-namespace PlanificationEntretien.infrastructure.repository;
+namespace Candidat.infrastructure.repository;
 
 public record InMemoryCandidat(int id,
     string Language,

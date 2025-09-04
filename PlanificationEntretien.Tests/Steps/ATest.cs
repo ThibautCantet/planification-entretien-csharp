@@ -1,4 +1,5 @@
-using PlanificationEntretien.domain.candidat;
+using Candidat.domain;
+using Candidat.infrastructure.repository;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.infrastructure.repository;

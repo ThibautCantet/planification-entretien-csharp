@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <RootNamespace>Planification-Entretien</RootNamespace>
         <LangVersion>10</LangVersion>
         <Nullable>enable</Nullable>
@@ -22,6 +22,10 @@
 
     <ItemGroup>
       <Compile Remove="domain\shared\Langage.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Candidat\Candidat.csproj" />
     </ItemGroup>
 
 </Project>
