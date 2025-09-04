@@ -1,6 +1,6 @@
 using System;
 
-namespace PlanificationEntretien.domain.recruteur;
+namespace PlanificationEntretien.domain.shared;
 
 public class Langage
 {
