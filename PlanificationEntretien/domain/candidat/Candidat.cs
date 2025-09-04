@@ -12,9 +12,9 @@ public class Candidat : IEquatable<Candidat>
 
     public Candidat(int id, string language, string email, int? experienceEnAnnees)
     {
-        Id = id;
+        Id = new CandidatId(id).Value;
         Email = new Email(email).Value;
-        var profile = new Profile(language, experienceEnAnnees);
+        var profile = new Profil(language, experienceEnAnnees);
         Language = profile.Langage;
         ExperienceEnAnnees = profile.ExperienceEnAnnees;
     }
