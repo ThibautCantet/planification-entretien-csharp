@@ -120,7 +120,7 @@ namespace PlanificationEntretien.Features
     testRunner.When("on tente une planification d’entretien", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
 #line 8
-    testRunner.Then("L’entretien est planifié", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
+    testRunner.Then("L’entretien est planifié avec un status \"planifié\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
 #line 9
     testRunner.And("un mail de confirmation est envoyé au candidat et le recruteur", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");

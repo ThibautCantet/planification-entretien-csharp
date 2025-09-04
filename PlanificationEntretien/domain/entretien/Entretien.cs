@@ -7,6 +7,8 @@ public interface IEntretien
     CandidatEvalué CandidatEvalué { get; }
     RecruteurAssigné RecruteurAssigné { get; }
     DateTime Horaire { get; }
+
+    Status Status { get; }
 }
 
 public class Entretien : IEquatable<Entretien>, IEntretien
@@ -15,16 +17,19 @@ public class Entretien : IEquatable<Entretien>, IEntretien
     public CandidatEvalué CandidatEvalué { get; }
     public RecruteurAssigné RecruteurAssigné { get; }
     public DateTime Horaire { get; private set; }
+    
+    public Status Status { get; private set; }
 
-    private Entretien(int id, CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné, DateTime horaire)
+    private Entretien(int id, CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné, DateTime horaire, Status status)
     {
         Id = id;
         CandidatEvalué = candidatEvalué;
         RecruteurAssigné = recruteurAssigné;
         Horaire = horaire;
+        Status = status;
     }
 
-    public Entretien(CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné) : this(-1, candidatEvalué, recruteurAssigné, DateTime.MinValue)
+    public Entretien(CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné) : this(-1, candidatEvalué, recruteurAssigné, DateTime.MinValue, Status.Planifie)
     {
     }
 
@@ -43,7 +48,7 @@ public class Entretien : IEquatable<Entretien>, IEntretien
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return Id == other.Id && CandidatEvalué.Equals(other.CandidatEvalué) && RecruteurAssigné.Equals(other.RecruteurAssigné) && Horaire.Equals(other.Horaire);
+        return Id == other.Id && CandidatEvalué.Equals(other.CandidatEvalué) && RecruteurAssigné.Equals(other.RecruteurAssigné) && Horaire.Equals(other.Horaire) && Status.Equals(other.Status);
     }
 
     public override bool Equals(object? obj)
@@ -56,11 +61,11 @@ public class Entretien : IEquatable<Entretien>, IEntretien
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, CandidatEvalué, RecruteurAssigné, Horaire);
+        return HashCode.Combine(Id, CandidatEvalué, RecruteurAssigné, Horaire, Status);
     }
 
-    public static Entretien of(int id, CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné, DateTime horaire)
+    public static Entretien of(int id, CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné, DateTime horaire, Status status)
     {
-        return new Entretien(id, candidatEvalué, recruteurAssigné, horaire);
+        return new Entretien(id, candidatEvalué, recruteurAssigné, horaire, status);
     }
 }

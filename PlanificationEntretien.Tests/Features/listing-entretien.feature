@@ -12,13 +12,13 @@ Fonctionnalité: Lister les entretiens chez Soat
           | 2  | candidat2@mail.com | Java     | 7  |
           | 3  | candidat3@mail.com | C#       | 2  |
         Et les entretiens existants
-          | id | recruteur          | candidat           | horaire          |
-          | 1  | recruteur1@soat.fr | candidat1@mail.com | 16/04/2019 15:00 |
-          | 2  | recruteur1@soat.fr | candidat2@mail.com | 17/04/2019 15:00 |
-          | 3  | recruteur2@soat.fr | candidat3@mail.com | 17/04/2019 15:00 |
+          | id | recruteur          | candidat           | horaire          | status   |
+          | 1  | recruteur1@soat.fr | candidat1@mail.com | 16/04/2019 15:00 | PLANIFIE |
+          | 2  | recruteur1@soat.fr | candidat2@mail.com | 17/04/2019 15:00 | PLANIFIE |
+          | 3  | recruteur2@soat.fr | candidat3@mail.com | 17/04/2019 15:00 | PLANIFIE |
         Quand on liste les tous les entretiens
         Alors on récupères les entretiens suivants
-          | id | recruteur          | candidat           | language | horaire          |
-          | 1  | recruteur1@soat.fr | candidat1@mail.com | Java     | 16/04/2019 15:00 |
-          | 2  | recruteur1@soat.fr | candidat2@mail.com | Java     | 17/04/2019 15:00 |
-          | 3  | recruteur2@soat.fr | candidat3@mail.com | C#       | 17/04/2019 15:00 |
+          | id | recruteur          | candidat           | language | horaire          | status   |
+          | 1  | recruteur1@soat.fr | candidat1@mail.com | Java     | 16/04/2019 15:00 | PLANIFIE |
+          | 2  | recruteur1@soat.fr | candidat2@mail.com | Java     | 17/04/2019 15:00 | PLANIFIE |
+          | 3  | recruteur2@soat.fr | candidat3@mail.com | C#       | 17/04/2019 15:00 | PLANIFIE |

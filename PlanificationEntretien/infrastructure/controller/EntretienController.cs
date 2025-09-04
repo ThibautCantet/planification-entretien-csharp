@@ -50,7 +50,8 @@ public class EntretienController : ControllerBase
         var entretiens = _listerEntretien.Execute()
             .Select(entretien => new EntretienResponse(entretien.CandidatEvalué.Email,
                 entretien.RecruteurAssigné.Email,
-                entretien.Horaire))
+                entretien.Horaire,
+                entretien.Status))
             .ToList();
         return Ok(entretiens);
     }
