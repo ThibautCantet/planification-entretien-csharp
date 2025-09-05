@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.domain.recruteur;
@@ -70,12 +71,22 @@ namespace PlanificationEntretien.Steps
 
             _validateEntretienResponse = entretienController.Annuler(entretienId);
         }
+        
+        [Then(@"l'operation est un success")]
+        public void ThenOperationEstUnSuccess()
+        {
+            Assert.IsType<OkResult>(_validateEntretienResponse);
+        }
+        
+        [Then(@"la validation echoue")]
+        public void ThenLaValidationEchoue()
+        {
+            Assert.IsType<BadRequestResult>(_validateEntretienResponse);
+        }
 
         [Then(@"on récupères les entretiens suivants en base")]
         public void ThenOnRecuperesLesEntretiensSuivantsEnBase(Table table)
         {
-            Assert.IsType<OkResult>(_validateEntretienResponse);
-
             var entretien = EntretienRepository.FindById(_entretienId);
             var entretiens = table.Rows.Select(row =>
                 BuildEntretien(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4], row.Values.ToList()[5]));

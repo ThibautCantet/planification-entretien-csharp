@@ -1,4 +1,5 @@
 using System;
+using Shared;
 
 namespace PlanificationEntretien.domain.entretien;
 
@@ -69,12 +70,13 @@ public class Entretien : IEquatable<Entretien>, IEntretien
         return new Entretien(id, candidatEvalué, recruteurAssigné, horaire, status);
     }
 
-    public void Valider()
+    public Event Valider()
     {
         if (Status == Status.Annule)
-            return;
+            return new ValidationEntretienEchoue();
         
         Status = Status.Valide;
+        return new EntretienValidé();
     }
 
     public void Annuler()

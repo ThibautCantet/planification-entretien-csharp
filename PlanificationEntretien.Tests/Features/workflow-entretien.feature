@@ -12,10 +12,11 @@ Fonctionnalité: Workflow d'un entretien de recrutement chez Soat
           | id | recruteur         | candidat          | horaire          | status   |
           | 1  | recruteur@soat.fr | candidat@mail.com | 16/04/2019 15:00 | PLANIFIE |
         Quand on valide l'entretien 1
-        Alors on récupères les entretiens suivants en base
+        Alors l'operation est un success
+        Et on récupères les entretiens suivants en base
           | id | recruteur         | candidat          | language | horaire          | status |
           | 1  | recruteur@soat.fr | candidat@mail.com | Java     | 16/04/2019 15:00 | VALIDE |
-      
+
     Scénario: Annuler un entretien planifié
         Etant donné les recruteurs existants ci-dessous
           | id | email             | language | xp |
@@ -27,7 +28,8 @@ Fonctionnalité: Workflow d'un entretien de recrutement chez Soat
           | id | recruteur         | candidat          | horaire          | status   |
           | 1  | recruteur@soat.fr | candidat@mail.com | 16/04/2019 15:00 | PLANIFIE |
         Quand on annule l'entretien 1
-        Alors on récupères les entretiens suivants en base
+        Alors l'operation est un success
+        Et on récupères les entretiens suivants en base
           | id | recruteur         | candidat          | language | horaire          | status |
           | 1  | recruteur@soat.fr | candidat@mail.com | Java     | 16/04/2019 15:00 | ANNULE |
 
@@ -42,6 +44,7 @@ Fonctionnalité: Workflow d'un entretien de recrutement chez Soat
       | id | recruteur         | candidat          | horaire          | status |
       | 1  | recruteur@soat.fr | candidat@mail.com | 16/04/2019 15:00 | ANNULE |
     Quand on valide l'entretien 1
-    Alors on récupères les entretiens suivants en base
+    Alors la validation echoue
+    Et on récupères les entretiens suivants en base
       | id | recruteur         | candidat          | language | horaire          | status |
       | 1  | recruteur@soat.fr | candidat@mail.com | Java     | 16/04/2019 15:00 | ANNULE |

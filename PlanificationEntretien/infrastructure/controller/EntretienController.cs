@@ -64,10 +64,15 @@ public class EntretienController : ControllerBase
 
     public IActionResult Valider(int entretienId)
     {
-        _validerEntretien.Execute(entretienId);
+        var result = _validerEntretien.Execute(entretienId);
+        if (result is ValidationEntretienEchoue entretienEchoue)
+        {
+            return BadRequest();
+        }
+
         return Ok();
     }
-    
+
     public IActionResult Annuler(int entretienId)
     {
         _annulerEntretien.Execute(entretienId);

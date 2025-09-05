@@ -1,4 +1,5 @@
 using PlanificationEntretien.domain.entretien;
+using Shared;
 
 namespace PlanificationEntretien.use_case;
 
@@ -11,10 +12,12 @@ public class ValiderEntretien
         _entretienRepository = entretienRepository;
     }
 
-    public void Execute(int entretienId)
+    public Event Execute(int entretienId)
     {
         var entretien = _entretienRepository.FindById(entretienId);
-        entretien.Valider();
+        var result = entretien.Valider();
         _entretienRepository.Save(entretien);
+
+        return result;
     }
 }

@@ -152,6 +152,9 @@ namespace PlanificationEntretien.Features
 #line 14
         testRunner.When("on valide l\'entretien 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
+#line 15
+        testRunner.Then("l\'operation est un success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
+#line hidden
                 TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "id",
                             "recruteur",
@@ -166,8 +169,8 @@ namespace PlanificationEntretien.Features
                             "Java",
                             "16/04/2019 15:00",
                             "VALIDE"});
-#line 15
-        testRunner.Then("on récupères les entretiens suivants en base", ((string)(null)), table10, "Alors ");
+#line 16
+        testRunner.And("on récupères les entretiens suivants en base", ((string)(null)), table10, "Et ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -181,7 +184,7 @@ namespace PlanificationEntretien.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Annuler un entretien planifié", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 19
+#line 20
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -211,7 +214,7 @@ namespace PlanificationEntretien.Features
                             "recruteur@soat.fr",
                             "Java",
                             "10"});
-#line 20
+#line 21
         testRunner.Given("les recruteurs existants ci-dessous", ((string)(null)), table11, "Etant donné ");
 #line hidden
                 TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
@@ -224,7 +227,7 @@ namespace PlanificationEntretien.Features
                             "candidat@mail.com",
                             "Java",
                             "5"});
-#line 23
+#line 24
         testRunner.And("les candidats existants ci-dessous", ((string)(null)), table12, "Et ");
 #line hidden
                 TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
@@ -239,11 +242,14 @@ namespace PlanificationEntretien.Features
                             "candidat@mail.com",
                             "16/04/2019 15:00",
                             "PLANIFIE"});
-#line 26
+#line 27
         testRunner.And("les entretiens existants ci-dessous", ((string)(null)), table13, "Et ");
 #line hidden
-#line 29
+#line 30
         testRunner.When("on annule l\'entretien 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
+#line hidden
+#line 31
+        testRunner.Then("l\'operation est un success", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
                 TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
                             "id",
@@ -259,8 +265,8 @@ namespace PlanificationEntretien.Features
                             "Java",
                             "16/04/2019 15:00",
                             "ANNULE"});
-#line 30
-        testRunner.Then("on récupères les entretiens suivants en base", ((string)(null)), table14, "Alors ");
+#line 32
+        testRunner.And("on récupères les entretiens suivants en base", ((string)(null)), table14, "Et ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -274,7 +280,7 @@ namespace PlanificationEntretien.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Valider un entretien annulé", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 34
+#line 36
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -304,7 +310,7 @@ namespace PlanificationEntretien.Features
                             "recruteur@soat.fr",
                             "Java",
                             "10"});
-#line 35
+#line 37
     testRunner.Given("les recruteurs existants ci-dessous", ((string)(null)), table15, "Etant donné ");
 #line hidden
                 TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
@@ -317,7 +323,7 @@ namespace PlanificationEntretien.Features
                             "candidat@mail.com",
                             "Java",
                             "5"});
-#line 38
+#line 40
     testRunner.And("les candidats existants ci-dessous", ((string)(null)), table16, "Et ");
 #line hidden
                 TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
@@ -332,11 +338,14 @@ namespace PlanificationEntretien.Features
                             "candidat@mail.com",
                             "16/04/2019 15:00",
                             "ANNULE"});
-#line 41
+#line 43
     testRunner.And("les entretiens existants ci-dessous", ((string)(null)), table17, "Et ");
 #line hidden
-#line 44
+#line 46
     testRunner.When("on valide l\'entretien 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
+#line hidden
+#line 47
+    testRunner.Then("la validation echoue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
                 TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
                             "id",
@@ -352,8 +361,8 @@ namespace PlanificationEntretien.Features
                             "Java",
                             "16/04/2019 15:00",
                             "ANNULE"});
-#line 45
-    testRunner.Then("on récupères les entretiens suivants en base", ((string)(null)), table18, "Alors ");
+#line 48
+    testRunner.And("on récupères les entretiens suivants en base", ((string)(null)), table18, "Et ");
 #line hidden
             }
             this.ScenarioCleanup();
