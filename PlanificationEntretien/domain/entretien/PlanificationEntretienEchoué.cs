@@ -2,4 +2,4 @@ using Shared;
 
 namespace PlanificationEntretien.domain.entretien;
 
-public record PlanificationEntretienEchoué(Entretien Entretien) : Event;
+public record PlanificationEntretienEchoué() : Event;

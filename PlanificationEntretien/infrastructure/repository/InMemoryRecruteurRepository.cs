@@ -23,6 +23,14 @@ public class InMemoryRecruteurRepository : IRecruteurRepository , IRecruteurAssi
         return ToRecruteur(recruteur);
     }
 
+    public List<RecruteurAssigné> FindByDisponibles()
+    {
+       return _recruteurs.Values
+           .Where(r => r.EstDisponible.Value)
+           .Select(r => ToRecruteurAssigné(r))
+           .ToList();
+    }
+
     public Recruteur FindByEmail(string email)
     {
         InMemoryRecruteur value;

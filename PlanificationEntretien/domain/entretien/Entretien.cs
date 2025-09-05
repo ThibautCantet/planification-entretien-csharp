@@ -16,7 +16,7 @@ public class Entretien : IEquatable<Entretien>, IEntretien
 {
     public int Id { get; }
     public CandidatEvalué CandidatEvalué { get; }
-    public RecruteurAssigné RecruteurAssigné { get; }
+    public RecruteurAssigné RecruteurAssigné { get; private set; }
     public DateTime Horaire { get; private set; }
     
     public Status Status { get; private set; }
@@ -30,19 +30,14 @@ public class Entretien : IEquatable<Entretien>, IEntretien
         Status = status;
     }
 
-    public Entretien(CandidatEvalué candidatEvalué, RecruteurAssigné recruteurAssigné) : this(-1, candidatEvalué, recruteurAssigné, DateTime.MinValue, Status.Planifie)
+    public Entretien(CandidatEvalué candidatEvalué) : this(-1, candidatEvalué, null, DateTime.MinValue, Status.APlanifier)
     {
     }
 
-    public bool Planifier(DateTime disponibiliteDuCandidat, DateTime disponibiliteDuRecruteur)
+    public void Planifier(DateTime disponibiliteDuCandidat, RecruteurAssigné recruteur)
     {
-        var planifiable = RecruteurAssigné.EstCompatible(CandidatEvalué)
-                          && disponibiliteDuCandidat.Equals(disponibiliteDuRecruteur);
-        if (planifiable)
-        {
             Horaire = disponibiliteDuCandidat;
-        }
-        return planifiable;
+            RecruteurAssigné = recruteur;
     }
 
     public bool Equals(Entretien? other)

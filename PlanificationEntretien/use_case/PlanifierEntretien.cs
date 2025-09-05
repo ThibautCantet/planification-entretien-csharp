@@ -10,32 +10,33 @@ public class PlanifierEntretien
     private readonly IEntretienRepository _entretienRepository;
     private readonly IEmailService _emailService;
     private readonly ICandidatEvalueDAO _candidatDao;
-    private readonly IRecruteurAssigneDao _recruteurDao;
     private readonly MessageBus _messageBus;
+    private readonly TrouverRecruteurDisponible _trouverRecruteurDisponible;
 
     public PlanifierEntretien(IEntretienRepository entretienRepository,
         ICandidatEvalueDAO candidatDao,
-        IRecruteurAssigneDao recruteurDao,
         IEmailService emailService,
-        MessageBus messageBus)
+        MessageBus messageBus, 
+        TrouverRecruteurDisponible trouverRecruteurDisponible)
     {
         _entretienRepository = entretienRepository;
         _candidatDao = candidatDao;
-        _recruteurDao = recruteurDao;
         _emailService = emailService;
         _messageBus = messageBus;
+        _trouverRecruteurDisponible = trouverRecruteurDisponible;
     }
 
-    public Event Execute(int candidatEvaluéId, DateTime disponibiliteDuCandidat,
-        int recruteurAssignéId, DateTime disponibiliteDuRecruteur)
+    public Event Execute(int candidatEvaluéId, DateTime disponibiliteDuCandidat, DateTime disponibiliteDuRecruteur)
     {
         var candidatEvalué = _candidatDao.FindById(candidatEvaluéId);
-        var recruteurAssigné = _recruteurDao.FindById(recruteurAssignéId);
+        var recruteurAssigné = _trouverRecruteurDisponible.Execute(candidatEvalué);
 
-        var entretien = new Entretien(candidatEvalué, recruteurAssigné);
-
-        if (entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur))
-        {
+        if (recruteurAssigné is not null) {
+            //récuperer l'entretien initialisé sans recruteur ni date d'entretien
+            var entretien = new Entretien(candidatEvalué);
+            
+            entretien.Planifier(disponibiliteDuCandidat, recruteurAssigné);
+            
             var entretienId = _entretienRepository.Save(entretien);
             _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidatEvalué.Email, disponibiliteDuRecruteur);
             _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteurAssigné.Email, disponibiliteDuRecruteur);
@@ -44,7 +45,7 @@ public class PlanifierEntretien
             return plannificationReussi;
         }
 
-        var plannificationEchoue = new PlanificationEntretienEchoué(entretien);
+        var plannificationEchoue = new PlanificationEntretienEchoué();
         _messageBus.Send(plannificationEchoue);
         return plannificationEchoue;
     }

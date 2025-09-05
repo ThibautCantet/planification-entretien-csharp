@@ -36,7 +36,6 @@ public class EntretienController : ControllerBase
         var planificationResult = _planifierEntretien.Execute(
             createOfferRequest.IdCandidat,
             createOfferRequest.DisponibiliteCandidat,
-            createOfferRequest.IdRecruteur,
             createOfferRequest.DisponibiliteRecruteur);
 
         if (planificationResult is EntretienPlanifie entretienPlanifie)

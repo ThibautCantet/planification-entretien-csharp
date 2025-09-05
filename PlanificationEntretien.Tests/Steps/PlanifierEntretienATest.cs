@@ -40,12 +40,16 @@ namespace PlanificationEntretien.Steps
         public void GivenUnRecruteurQuiAAnsDxpQuiEstDispo(string language, string email, string experienceInYears,
             string date, string time)
         {
+            _dateDeDisponibiliteDuRecruteur =
+                DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
             _recruteur = new Recruteur(language, email, Int32.Parse(experienceInYears));
+            if (_disponibiliteDuCandidat != _dateDeDisponibiliteDuRecruteur)
+            {
+                _recruteur.RendreIndisponible();
+            }
             var saveRecruteurId = RecruteurRepository.Save(_recruteur);
             _recruteur = new Recruteur(saveRecruteurId, _recruteur.Language, _recruteur.Email,
                 _recruteur.ExperienceEnAnnees, _recruteur.EstDisponible);
-            _dateDeDisponibiliteDuRecruteur =
-                DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
         }
 
         [When(@"on tente une planification d’entretien")]
@@ -53,7 +57,7 @@ namespace PlanificationEntretien.Steps
         {
             var planificationReussiLisener = new PlanificationReussiListener(_messageBus, new RendreRecruteurIndisponible(RecruteurRepository));
             
-            _planifierEntretien = new PlanifierEntretien(EntretienRepository, CandidatEvalueDao, RecruteurAssigneDao, _emailService, _messageBus);
+            _planifierEntretien = new PlanifierEntretien(EntretienRepository, CandidatEvalueDao, _emailService, _messageBus, new TrouverRecruteurDisponible(RecruteurAssigneDao));
             var entretienController =
                 new EntretienController(_planifierEntretien, null,null, null);
 
