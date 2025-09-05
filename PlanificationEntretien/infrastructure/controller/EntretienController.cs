@@ -17,8 +17,9 @@ public class EntretienController : ControllerBase
     private readonly IRecruteurRepository _recruteurRepository;
     private readonly ListerEntretien _listerEntretien;
     private readonly ValiderEntretien _validerEntretien;
+    private readonly AnnulerEntretien _annulerEntretien;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretien listerEntretien,ValiderEntretien validerEntretien,
+    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretien listerEntretien,ValiderEntretien validerEntretien,AnnulerEntretien annulerEntretien,
         ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository
         )
     {
@@ -27,6 +28,7 @@ public class EntretienController : ControllerBase
         _recruteurRepository = recruteurRepository;
         _listerEntretien = listerEntretien;
         _validerEntretien = validerEntretien;
+        _annulerEntretien = annulerEntretien;
     }
 
 
@@ -64,5 +66,11 @@ public class EntretienController : ControllerBase
     {
         _validerEntretien.Execute(entretienId);
         return Ok();
+    }
+    
+    public IActionResult Annuler(int entretienId)
+    {
+        _annulerEntretien.Execute(entretienId);
+            return Ok();
     }
 }

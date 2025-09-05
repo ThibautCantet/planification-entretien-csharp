@@ -73,4 +73,9 @@ public class Entretien : IEquatable<Entretien>, IEntretien
     {
         Status = Status.Valide;
     }
+
+    public void Annuler()
+    {
+        Status = Status.Annule;
+    }
 }

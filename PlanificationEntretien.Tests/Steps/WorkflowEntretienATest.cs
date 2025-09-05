@@ -55,9 +55,20 @@ namespace PlanificationEntretien.Steps
             _entretienId = entretienId;
             var validerEntretien = new ValiderEntretien(EntretienRepository);
             var entretienController =
-                new EntretienController(null, null, validerEntretien, CandidatRepository, RecruteurRepository);
+                new EntretienController(null, null, validerEntretien, null, CandidatRepository, RecruteurRepository);
 
             _validateEntretienResponse = entretienController.Valider(entretienId);
+        }
+
+        [When(@"on annule l'entretien (.*)")]
+        public void WhenOnAnnuleLentretien(int entretienId)
+        {
+            _entretienId = entretienId;
+            var annulerEntretien = new AnnulerEntretien(EntretienRepository);
+            var entretienController =
+                new EntretienController(null, null, null, annulerEntretien, CandidatRepository, RecruteurRepository);
+
+            _validateEntretienResponse = entretienController.Annuler(entretienId);
         }
 
         [Then(@"on récupères les entretiens suivants en base")]
