@@ -13,19 +13,16 @@ namespace PlanificationEntretien.infrastructure.controller;
 public class EntretienController : ControllerBase
 {
     private readonly PlanifierEntretien _planifierEntretien;
-    private readonly ICandidatRepository _candidatRepository;
-    private readonly IRecruteurRepository _recruteurRepository;
     private readonly ListerEntretien _listerEntretien;
     private readonly ValiderEntretien _validerEntretien;
     private readonly AnnulerEntretien _annulerEntretien;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretien listerEntretien,ValiderEntretien validerEntretien,AnnulerEntretien annulerEntretien,
-        ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository
-        )
+    public EntretienController(PlanifierEntretien planifierEntretien,
+        ListerEntretien listerEntretien,
+        ValiderEntretien validerEntretien,
+        AnnulerEntretien annulerEntretien)
     {
         _planifierEntretien = planifierEntretien;
-        _candidatRepository = candidatRepository;
-        _recruteurRepository = recruteurRepository;
         _listerEntretien = listerEntretien;
         _validerEntretien = validerEntretien;
         _annulerEntretien = annulerEntretien;
@@ -35,19 +32,19 @@ public class EntretienController : ControllerBase
     [HttpPost]
     public ActionResult Create([FromBody] CreateEntretienRequest createOfferRequest)
     {
-        var candidat = _candidatRepository.FindById(createOfferRequest.IdCandidat);
-        var recruteur = _recruteurRepository.FindById(createOfferRequest.IdRecruteur);
-        var entretienId = _planifierEntretien.Execute(
-            new CandidatEvalué(candidat.Id, candidat.Language, candidat.Email, candidat.ExperienceEnAnnees),
+
+        var planificationResult = _planifierEntretien.Execute(
+            createOfferRequest.IdCandidat,
             createOfferRequest.DisponibiliteCandidat,
-            new RecruteurAssigné(recruteur.Id, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees),
+            createOfferRequest.IdRecruteur,
             createOfferRequest.DisponibiliteRecruteur);
-        if (entretienId > 0)
+
+        if (planificationResult is EntretienPlanifie entretienPlanifie)
         {
-            var response = new CreateEntretienResponse(entretienId, candidat.Email, recruteur.Email,
-                createOfferRequest.DisponibiliteCandidat);
+            var response = new CreateEntretienResponse(entretienPlanifie.EntretienId, entretienPlanifie.CandidatEmail, entretienPlanifie.RecruteurEmail, createOfferRequest.DisponibiliteCandidat);
             return CreatedAtAction("Create", new {id= createOfferRequest}, response);
         }
+
         return BadRequest();
     }
 

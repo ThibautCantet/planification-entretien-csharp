@@ -56,7 +56,7 @@ namespace PlanificationEntretien.Steps
             _entretienId = entretienId;
             var validerEntretien = new ValiderEntretien(EntretienRepository);
             var entretienController =
-                new EntretienController(null, null, validerEntretien, null, CandidatRepository, RecruteurRepository);
+                new EntretienController(null, null, validerEntretien, null);
 
             _validateEntretienResponse = entretienController.Valider(entretienId);
         }
@@ -67,7 +67,7 @@ namespace PlanificationEntretien.Steps
             _entretienId = entretienId;
             var annulerEntretien = new AnnulerEntretien(EntretienRepository);
             var entretienController =
-                new EntretienController(null, null, null, annulerEntretien, CandidatRepository, RecruteurRepository);
+                new EntretienController(null, null, null, annulerEntretien);
 
             _validateEntretienResponse = entretienController.Annuler(entretienId);
         }
