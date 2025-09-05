@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Candidat.domain;
 using Microsoft.AspNetCore.Mvc;
@@ -15,17 +16,20 @@ public class EntretienController : ControllerBase
     private readonly ICandidatRepository _candidatRepository;
     private readonly IRecruteurRepository _recruteurRepository;
     private readonly ListerEntretien _listerEntretien;
+    private readonly ValiderEntretien _validerEntretien;
 
-    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretien listerEntretien,
-        ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository)
+    public EntretienController(PlanifierEntretien planifierEntretien, ListerEntretien listerEntretien,ValiderEntretien validerEntretien,
+        ICandidatRepository candidatRepository, IRecruteurRepository recruteurRepository
+        )
     {
         _planifierEntretien = planifierEntretien;
         _candidatRepository = candidatRepository;
         _recruteurRepository = recruteurRepository;
         _listerEntretien = listerEntretien;
+        _validerEntretien = validerEntretien;
     }
 
-    
+
     [HttpPost]
     public ActionResult Create([FromBody] CreateEntretienRequest createOfferRequest)
     {
@@ -54,5 +58,11 @@ public class EntretienController : ControllerBase
                 entretien.Status))
             .ToList();
         return Ok(entretiens);
+    }
+
+    public IActionResult Valider(int entretienId)
+    {
+        _validerEntretien.Execute(entretienId);
+        return Ok();
     }
 }

@@ -68,4 +68,9 @@ public class Entretien : IEquatable<Entretien>, IEntretien
     {
         return new Entretien(id, candidatEvalué, recruteurAssigné, horaire, status);
     }
+
+    public void Valider()
+    {
+        Status = Status.Valide;
+    }
 }

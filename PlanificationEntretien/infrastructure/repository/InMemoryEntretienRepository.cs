@@ -38,9 +38,19 @@ public class InMemoryEntretienRepository : IEntretienRepository
 
     public int Save(Entretien entretien)
     {
+        if (_entretiens.ContainsKey(entretien.CandidatEvalué))
+        {
+            var e = new InMemoryEntretien(entretien.Id, ToInMemoryCandidat(entretien.CandidatEvalué),
+                InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.RecruteurAssigné), entretien.Horaire,
+                entretien.Status);
+            _entretiens[entretien.CandidatEvalué] = e;
+            return e.Id;
+        }
         var newId = _entretiens.Count + 1;
-        _entretiens.TryAdd(entretien.CandidatEvalué, new InMemoryEntretien(newId, ToInMemoryCandidat(entretien.CandidatEvalué),
-            InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.RecruteurAssigné), entretien.Horaire, entretien.Status));
+        _entretiens.TryAdd(entretien.CandidatEvalué, new InMemoryEntretien(newId,
+            ToInMemoryCandidat(entretien.CandidatEvalué),
+            InMemoryRecruteurRepository.ToInMemoryRecruteur(entretien.RecruteurAssigné), entretien.Horaire,
+            entretien.Status));
         return newId;
     }
 

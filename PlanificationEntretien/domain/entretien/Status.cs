@@ -2,5 +2,6 @@ namespace PlanificationEntretien.domain.entretien;
 
 public enum Status
 {
-    Planifie
+    Planifie,
+    Valide,
 }

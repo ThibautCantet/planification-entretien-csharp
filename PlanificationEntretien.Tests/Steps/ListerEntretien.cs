@@ -63,7 +63,7 @@ namespace PlanificationEntretien.Steps
         public void WhenOnListeLesTousLesEntretiens()
         {
             var listerEntretien = new uc.ListerEntretien(EntretienRepository);
-            var entretienController = new EntretienController(null, listerEntretien, CandidatRepository, RecruteurRepository);
+            var entretienController = new EntretienController(null, listerEntretien,null, CandidatRepository, RecruteurRepository);
             _listerEntretientActionResult = entretienController.Lister();
         }
 
@@ -76,7 +76,7 @@ namespace PlanificationEntretien.Steps
             var entretiens = table.Rows.Select(row => BuildEntretienResponse(row.Values.ToList()[1], row.Values.ToList()[2], row.Values.ToList()[4], row.Values.ToList()[5]));
             Assert.Equal(entretiensResponse, entretiens);
         }
-        
+
         private EntretienResponse BuildEntretienResponse(string emailRecruteur, string emailCandidat, string time, string status)
         {
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
