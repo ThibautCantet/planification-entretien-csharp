@@ -5,7 +5,7 @@ using PlanificationEntretien.domain.recruteur;
 
 namespace PlanificationEntretien.infrastructure.repository;
 
-public class InMemoryRecruteurRepository : IRecruteurRepository
+public class InMemoryRecruteurRepository : IRecruteurRepository , IRecruteurAssigneDao
 {
     private Dictionary<string, InMemoryRecruteur> _recruteurs = new();
 
@@ -38,7 +38,7 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
     {
         var newId = _recruteurs.Count + 1;
         _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur, newId));
-        
+
         return newId;
     }
 
@@ -53,7 +53,7 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
     {
         return new Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees);
     }
-    
+
     internal static RecruteurAssigné ToRecruteurAssigné(InMemoryRecruteur? value)
     {
         return new RecruteurAssigné(value.Id, value.Language, value.Email, value.ExperienceEnAnnees.Value);
@@ -67,5 +67,15 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
     internal static InMemoryRecruteur ToInMemoryRecruteur(RecruteurAssigné recruteur)
     {
         return new InMemoryRecruteur(recruteur.Id, recruteur.Profil.Language, recruteur.Email, recruteur.Profil.AnnéeExperience);
+    }
+
+    RecruteurAssigné IRecruteurAssigneDao.FindById(int id)
+    {
+        var recruteur = _recruteurs.Values.FirstOrDefault(r => r.Id == id);
+        if (recruteur == null)
+        {
+            return null;
+        }
+        return ToRecruteurAssigné(recruteur);
     }
 }

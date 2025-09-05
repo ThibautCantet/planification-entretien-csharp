@@ -1,7 +1,5 @@
 using System;
-using Candidat.domain;
 using PlanificationEntretien.domain.entretien;
-using PlanificationEntretien.domain.recruteur;
 using Shared;
 
 namespace PlanificationEntretien.use_case;
@@ -10,30 +8,27 @@ public class PlanifierEntretien
 {
     private readonly IEntretienRepository _entretienRepository;
     private readonly IEmailService _emailService;
-    private readonly ICandidatRepository _candidatRepository;
-    private readonly IRecruteurRepository _recruteurRepository;
+    private readonly ICandidatEvalueDAO _candidatDao;
+    private readonly IRecruteurAssigneDao _recruteurDao;
 
     public PlanifierEntretien(IEntretienRepository entretienRepository,
-        ICandidatRepository candidatRepository,
-        IRecruteurRepository recruteurRepository,
+        ICandidatEvalueDAO candidatDao,
+        IRecruteurAssigneDao recruteurDao,
         IEmailService emailService)
     {
         _entretienRepository = entretienRepository;
-        _candidatRepository = candidatRepository;
-        _recruteurRepository = recruteurRepository;
+        _candidatDao = candidatDao;
+        _recruteurDao = recruteurDao;
         _emailService = emailService;
     }
 
     public Event Execute(int candidatEvaluéId, DateTime disponibiliteDuCandidat,
         int recruteurAssignéId, DateTime disponibiliteDuRecruteur)
     {
+        var candidatEvalué = _candidatDao.FindById(candidatEvaluéId);
+        var recruteurAssigné = _recruteurDao.FindById(recruteurAssignéId);
 
-        var candidatEvalué = _candidatRepository.FindById(candidatEvaluéId);
-        var recruteurAssigné = _recruteurRepository.FindById(recruteurAssignéId);
-
-        var entretien = new Entretien(
-            new CandidatEvalué(candidatEvalué.Id, candidatEvalué.Language, candidatEvalué.Email, candidatEvalué.ExperienceEnAnnees),
-            new RecruteurAssigné(recruteurAssigné.Id, recruteurAssigné.Language, recruteurAssigné.Email, recruteurAssigné.ExperienceEnAnnees));
+        var entretien = new Entretien(candidatEvalué, recruteurAssigné);
 
         if (entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur))
         {

@@ -49,7 +49,7 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            _planifierEntretien = new PlanifierEntretien(EntretienRepository, CandidatRepository, RecruteurRepository, _emailService);
+            _planifierEntretien = new PlanifierEntretien(EntretienRepository, CandidatEvalueDao, RecruteurAssigneDao, _emailService);
             var entretienController =
                 new EntretienController(_planifierEntretien, null,null, null);
 
