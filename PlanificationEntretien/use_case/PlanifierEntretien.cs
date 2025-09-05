@@ -1,4 +1,5 @@
 using System;
+using PlanificationEntretien.application_service;
 using PlanificationEntretien.domain.entretien;
 using Shared;
 
@@ -10,16 +11,19 @@ public class PlanifierEntretien
     private readonly IEmailService _emailService;
     private readonly ICandidatEvalueDAO _candidatDao;
     private readonly IRecruteurAssigneDao _recruteurDao;
+    private readonly MessageBus _messageBus;
 
     public PlanifierEntretien(IEntretienRepository entretienRepository,
         ICandidatEvalueDAO candidatDao,
         IRecruteurAssigneDao recruteurDao,
-        IEmailService emailService)
+        IEmailService emailService,
+        MessageBus messageBus)
     {
         _entretienRepository = entretienRepository;
         _candidatDao = candidatDao;
         _recruteurDao = recruteurDao;
         _emailService = emailService;
+        _messageBus = messageBus;
     }
 
     public Event Execute(int candidatEvaluéId, DateTime disponibiliteDuCandidat,
@@ -35,9 +39,13 @@ public class PlanifierEntretien
             var entretienId = _entretienRepository.Save(entretien);
             _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidatEvalué.Email, disponibiliteDuRecruteur);
             _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteurAssigné.Email, disponibiliteDuRecruteur);
-            return new EntretienPlanifie(entretienId, candidatEvalué.Email, recruteurAssigné.Email);
+            var plannificationReussi = new EntretienPlanifie(entretienId, candidatEvalué.Email, recruteurAssigné.Email);
+            _messageBus.Send(plannificationReussi);
+            return plannificationReussi;
         }
 
-        return new PlanificationEntretienEchoué(entretien);
+        var plannificationEchoue = new PlanificationEntretienEchoué(entretien);
+        _messageBus.Send(plannificationEchoue);
+        return plannificationEchoue;
     }
 }

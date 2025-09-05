@@ -8,18 +8,20 @@ public class Recruteur : IEquatable<Recruteur>
     public string Language { get; }
     public string Email { get; }
     public int ExperienceEnAnnees { get; }
+    public bool EstDisponible { get; private set; } = true;
 
-    public Recruteur(int id, string language, string email, int? experienceEnAnnees)
+    public Recruteur(int id, string language, string email, int? experienceEnAnnees, bool estDisponible)
     {
         Id = new RecruteurId(id).Value;
         Email = Shared.Email.EmailRecruteur(email).Value;
         var profil = new Profil(language, experienceEnAnnees);
         Language = profil.Langage;
         ExperienceEnAnnees = profil.ExperienceEnAnnees;
+        EstDisponible = estDisponible;
     }
 
     public Recruteur(string language, string email, int? experienceEnAnnees) : this(0, language, email,
-        experienceEnAnnees)
+        experienceEnAnnees, true)
     {
     }
 
@@ -41,5 +43,10 @@ public class Recruteur : IEquatable<Recruteur>
     public override int GetHashCode()
     {
         return HashCode.Combine(Language, Email, ExperienceEnAnnees);
+    }
+
+    public void RendreIndisponible()
+    {
+        EstDisponible = false;
     }
 }

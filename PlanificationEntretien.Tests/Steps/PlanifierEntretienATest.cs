@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
+using PlanificationEntretien.application_service;
 using PlanificationEntretien.domain.entretien;
 using PlanificationEntretien.domain.recruteur;
 using PlanificationEntretien.infrastructure.controller;
@@ -19,6 +20,7 @@ namespace PlanificationEntretien.Steps
         private Recruteur _recruteur;
         private DateTime _dateDeDisponibiliteDuRecruteur;
         private PlanifierEntretien _planifierEntretien;
+        private MessageBus _messageBus = new();
         private readonly IEmailService _emailService = new FakeEmailService();
         private CreatedAtActionResult _createEntretienResponse;
 
@@ -41,7 +43,7 @@ namespace PlanificationEntretien.Steps
             _recruteur = new Recruteur(language, email, Int32.Parse(experienceInYears));
             var saveRecruteurId = RecruteurRepository.Save(_recruteur);
             _recruteur = new Recruteur(saveRecruteurId, _recruteur.Language, _recruteur.Email,
-                _recruteur.ExperienceEnAnnees);
+                _recruteur.ExperienceEnAnnees, _recruteur.EstDisponible);
             _dateDeDisponibiliteDuRecruteur =
                 DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
         }
@@ -49,7 +51,9 @@ namespace PlanificationEntretien.Steps
         [When(@"on tente une planification d’entretien")]
         public void WhenOnTenteUnePlanificationDEntretien()
         {
-            _planifierEntretien = new PlanifierEntretien(EntretienRepository, CandidatEvalueDao, RecruteurAssigneDao, _emailService);
+            var planificationReussiLisener = new PlanificationReussiListener(_messageBus, new RendreRecruteurIndisponible(RecruteurRepository));
+            
+            _planifierEntretien = new PlanifierEntretien(EntretienRepository, CandidatEvalueDao, RecruteurAssigneDao, _emailService, _messageBus);
             var entretienController =
                 new EntretienController(_planifierEntretien, null,null, null);
 
@@ -68,7 +72,7 @@ namespace PlanificationEntretien.Steps
             Assert.Equal(createEntretienRequest.EmailCandidat, _candidat.Email);
             Assert.Equal(createEntretienRequest.EmailRecruteur, _recruteur.Email);
             Assert.Equal(createEntretienRequest.Horaire, _disponibiliteDuCandidat);
-            
+
             var createEntretienResponse = _createEntretienResponse.Value as CreateEntretienResponse;
             Assert.NotEqual(0, createEntretienResponse.EntretienId);
 
@@ -108,6 +112,14 @@ namespace PlanificationEntretien.Steps
             Assert.False(
                 ((FakeEmailService)_emailService).UnEmailDeConfirmationAEteEnvoyeAuCandidat(_recruteur.Email,
                     _disponibiliteDuCandidat));
+        }
+
+        [Then(@"le recruteur ""(.*)"" n'est plus disponible")]
+        public void ThenLeRecruteurNestPlusDisponible(string email)
+        {
+            var recruteur = RecruteurRepository.FindByEmail(email);
+
+            Assert.False(recruteur.EstDisponible);
         }
     }
 }

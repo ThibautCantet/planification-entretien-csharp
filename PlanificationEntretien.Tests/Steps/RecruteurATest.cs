@@ -48,7 +48,7 @@ namespace PlanificationEntretien.Steps
             Assert.NotEqual(0, createRecruteurResponse.Id);
 
             var recruteur = RecruteurRepository.FindById(createRecruteurResponse.Id);
-            Assert.Equal(recruteur, new Recruteur(createRecruteurResponse.Id, techno, email, int.Parse(xp)));
+            Assert.Equal(recruteur, new Recruteur(createRecruteurResponse.Id, techno, email, int.Parse(xp), true));
         }
 
         [Then(@"le recruteur n'est pas enregistré")]

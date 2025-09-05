@@ -36,9 +36,15 @@ public class InMemoryRecruteurRepository : IRecruteurRepository , IRecruteurAssi
 
     public int Save(Recruteur recruteur)
     {
+        if (_recruteurs.ContainsKey(recruteur.Email))
+        {
+            var r = ToInMemoryRecruteur(recruteur, recruteur.Id);
+            _recruteurs[recruteur.Email] = r;
+
+            return r.Id;
+        }
         var newId = _recruteurs.Count + 1;
         _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur, newId));
-
         return newId;
     }
 
@@ -51,7 +57,7 @@ public class InMemoryRecruteurRepository : IRecruteurRepository , IRecruteurAssi
 
     internal static Recruteur ToRecruteur(InMemoryRecruteur? value)
     {
-        return new Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees);
+      return new Recruteur(value.Id, value.Language, value.Email, value.ExperienceEnAnnees, value.EstDisponible.Value);
     }
 
     internal static RecruteurAssigné ToRecruteurAssigné(InMemoryRecruteur? value)
@@ -61,12 +67,12 @@ public class InMemoryRecruteurRepository : IRecruteurRepository , IRecruteurAssi
 
     internal static InMemoryRecruteur ToInMemoryRecruteur(Recruteur recruteur, int idRecruteur)
     {
-        return new InMemoryRecruteur(idRecruteur, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees);
+        return new InMemoryRecruteur(idRecruteur, recruteur.Language, recruteur.Email, recruteur.ExperienceEnAnnees, recruteur.EstDisponible);
     }
 
     internal static InMemoryRecruteur ToInMemoryRecruteur(RecruteurAssigné recruteur)
     {
-        return new InMemoryRecruteur(recruteur.Id, recruteur.Profil.Language, recruteur.Email, recruteur.Profil.AnnéeExperience);
+        return new InMemoryRecruteur(recruteur.Id, recruteur.Profil.Language, recruteur.Email, recruteur.Profil.AnnéeExperience,null);
     }
 
     RecruteurAssigné IRecruteurAssigneDao.FindById(int id)
