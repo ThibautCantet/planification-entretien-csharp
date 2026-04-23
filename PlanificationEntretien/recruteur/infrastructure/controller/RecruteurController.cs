@@ -6,7 +6,7 @@ using PlanificationEntretien.recruteur.application_service;
 namespace PlanificationEntretien.recruteur.infrastructure.controller;
 
 [ApiController]
-[Route("/api/recruteure")]
+[Route("/api/recruteur")]
 public class RecruteurController : ControllerBase
 {
     private readonly CreerRecruteur _creerRecruteur;

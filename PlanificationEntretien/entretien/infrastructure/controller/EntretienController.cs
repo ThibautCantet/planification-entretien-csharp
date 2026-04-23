@@ -29,7 +29,6 @@ public class EntretienController : ControllerBase
         _validerEntretien = validerEntretien;
     }
 
-    
     [HttpPost]
     public ActionResult Create([FromBody] CreateEntretienRequest createOfferRequest)
     {
@@ -50,6 +49,7 @@ public class EntretienController : ControllerBase
         return BadRequest();
     }
 
+    [HttpGet]
     public IActionResult Lister()
     {
         var entretiens = _listerEntretien.Execute()
