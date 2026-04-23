@@ -7,7 +7,7 @@ using PlanificationEntretien.use_case;
 namespace PlanificationEntretien.infrastructure.controller;
 
 [ApiController]
-[Route("/api/recruteure")]
+[Route("/api/recruteur")]
 public class RecruteurController : ControllerBase
 {
     private readonly CreerRecruteur _creerRecruteur;
