@@ -1,5 +1,5 @@
 using System;
-using PlanificationEntretien.entretien.domain;
+using PlanificationEntretien.Entretien.Domain;
 
 namespace PlanificationEntretien.entretien.infrastructure;
 

@@ -1,0 +1,11 @@
+using PlanificationEntretien.Common.Domain;
+
+namespace PlanificationEntretien.Entretien.Domain;
+
+public record EntretienCréé(int EntretienId, int RecruteurId) : Event
+{
+    public EntretienCréé UpdateId(int entretienId)
+    {
+        return this with { EntretienId = entretienId };
+    }
+}

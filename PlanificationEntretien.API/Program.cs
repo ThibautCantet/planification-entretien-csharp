@@ -1,15 +1,15 @@
-using PlanificationEntretien.candidat.application_service;
-using PlanificationEntretien.candidat.domain;
-using PlanificationEntretien.candidat.infrastructure.repository;
-using PlanificationEntretien.entretien.application_service;
-using PlanificationEntretien.entretien.domain;
-using PlanificationEntretien.entretien.infrastructure.repository;
-using PlanificationEntretien.infrastructure.email;
-using PlanificationEntretien.recruteur.application_service;
-using PlanificationEntretien.recruteur.domain;
-using PlanificationEntretien.recruteur.infrastructure.repository;
-using Candidat = PlanificationEntretien.candidat.domain.Candidat;
-using Recruteur = PlanificationEntretien.recruteur.domain.Recruteur;
+using PlanificationEntretien.Candidat.ApplicationService;
+using PlanificationEntretien.Candidat.Domain;
+using PlanificationEntretien.Candidat.Infrastructure.Repository;
+using PlanificationEntretien.Entretien.ApplicationService;
+using PlanificationEntretien.Entretien.Domain;
+using PlanificationEntretien.Entretien.Infrastructure.Email;
+using PlanificationEntretien.entretien.Infrastructure.Repository;
+using PlanificationEntretien.Recruteur.ApplicationService;
+using PlanificationEntretien.Recruteur.Domain;
+using PlanificationEntretien.Recruteur.Infrastructure.Repository;
+using Candidat = PlanificationEntretien.Candidat.Domain.Candidat;
+using Recruteur = PlanificationEntretien.Recruteur.Domain.Recruteur;
 
 var builder = WebApplication.CreateBuilder(args);
 

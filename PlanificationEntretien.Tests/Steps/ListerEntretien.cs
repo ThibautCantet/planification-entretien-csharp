@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Candidat = PlanificationEntretien.candidat.domain.Candidat;
-using entretientCandidat = PlanificationEntretien.entretien.domain;
-using Recruteur = PlanificationEntretien.entretien.domain.Recruteur;
-using PlanificationEntretien.entretien.domain;
-using PlanificationEntretien.entretien.infrastructure.controller;
-using uc = PlanificationEntretien.entretien.application_service;
+using entretientCandidat = PlanificationEntretien.Entretien.Domain;
+using Recruteur = PlanificationEntretien.Entretien.Domain.Recruteur;
+using PlanificationEntretien.Entretien.Domain;
+using PlanificationEntretien.Entretien.Infrastructure.Controller;
+using uc = PlanificationEntretien.Entretien.ApplicationService;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -33,7 +32,7 @@ namespace PlanificationEntretien.Steps
         public void GivenLesCandidatsExistants(Table table)
         {
             var candidats = table.Rows.Select(row =>
-                new Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
+                new Candidat.Domain.Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
             foreach (var candidat in candidats)
             {
                 CandidatRepository.Save(candidat);
@@ -51,20 +50,20 @@ namespace PlanificationEntretien.Steps
             }
         }
 
-        private Entretien BuildEntretien(int id, string emailRecruteur, string emailCandidat, string time, string status)
+        private entretientCandidat.Entretien BuildEntretien(int id, string emailRecruteur, string emailCandidat, string time, string status)
         {
             var recruteur = RecruteurRepository.FindByEmail(emailRecruteur);
             var candidat = CandidatRepository.FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
             Status.TryParse<Status>(status, out var statusValue);
-            return Entretien.of(
+            return Entretien.Domain.Entretien.of(
                 id,
                 new entretientCandidat.Candidat(
                     candidat.Id,
                     candidat.Language,
                     candidat.Email,
                     candidat.ExperienceEnAnnees),
-                new Recruteur(
+                new entretientCandidat.Recruteur(
                     recruteur.Id,
                     recruteur.Language,
                     recruteur.Email,

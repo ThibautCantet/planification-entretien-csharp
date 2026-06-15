@@ -1,13 +1,12 @@
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.application_service;
-using Candidat = PlanificationEntretien.candidat.domain.Candidat;
-using Recruteur = PlanificationEntretien.recruteur.domain.Recruteur;
-using PlanificationEntretien.entretien.domain;
-using PlanificationEntretien.entretien.infrastructure.controller;
-using PlanificationEntretien.entretien.application_service;
+using PlanificationEntretien.Common.ApplicationService;
+using PlanificationEntretien.Entretien.Domain;
+using PlanificationEntretien.Entretien.Infrastructure.Controller;
+using PlanificationEntretien.Entretien.ApplicationService;
 using PlanificationEntretien.entretien.infrastructure;
+using PlanificationEntretien.Recruteur.ApplicationService;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -16,9 +15,9 @@ namespace PlanificationEntretien.Steps
     [Binding]
     public class PlanifierEntretienATest : ATest
     {
-        private Candidat _candidat;
+        private Candidat.Domain.Candidat _candidat;
         private DateTime _disponibiliteDuCandidat;
-        private Recruteur _recruteur;
+        private Recruteur.Domain.Recruteur _recruteur;
         private DateTime _dateDeDisponibiliteDuRecruteur;
         private PlanifierEntretien _planifierEntretien;
         private readonly IEmailService _emailService = new FakeEmailService();
@@ -31,9 +30,9 @@ namespace PlanificationEntretien.Steps
             string experienceInYears, string date, string time)
         {
             var id = CandidatRepository.Next();
-            _candidat = new Candidat(id, language, email, Int32.Parse(experienceInYears));
+            _candidat = new Candidat.Domain.Candidat(id, language, email, Int32.Parse(experienceInYears));
             var saveCandidatId = CandidatRepository.Save(_candidat);
-            _candidat = new Candidat(saveCandidatId, _candidat.Language, _candidat.Email, _candidat.ExperienceEnAnnees);
+            _candidat = new Candidat.Domain.Candidat(saveCandidatId, _candidat.Language, _candidat.Email, _candidat.ExperienceEnAnnees);
             _disponibiliteDuCandidat =
                 DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
         }
@@ -42,9 +41,9 @@ namespace PlanificationEntretien.Steps
         public void GivenUnRecruteurQuiAAnsDxpQuiEstDispo(string language, string email, string experienceInYears,
             string date, string time)
         {
-            _recruteur = new Recruteur(language, email, Int32.Parse(experienceInYears));
+            _recruteur = new Recruteur.Domain.Recruteur(language, email, Int32.Parse(experienceInYears));
             var saveRecruteurId = RecruteurRepository.Save(_recruteur);
-            _recruteur = new Recruteur(saveRecruteurId, _recruteur.Language, _recruteur.Email,
+            _recruteur = new Recruteur.Domain.Recruteur(saveRecruteurId, _recruteur.Language, _recruteur.Email,
                 _recruteur.ExperienceEnAnnees);
             _dateDeDisponibiliteDuRecruteur =
                 DateTime.ParseExact(date + " " + time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
@@ -77,16 +76,16 @@ namespace PlanificationEntretien.Steps
             var createEntretienResponse = _createEntretienResponse.Value as CreateEntretienResponse;
             Assert.NotEqual(0, createEntretienResponse.EntretienId);
 
-            Entretien entretien = EntretienRepository.FindById(createEntretienResponse.EntretienId);
+            Entretien.Domain.Entretien entretien = EntretienRepository.FindById(createEntretienResponse.EntretienId);
             Status.TryParse<Status>(status, out var statusValue);
-            Entretien expectedEntretien = Entretien.of(
+            Entretien.Domain.Entretien expectedEntretien = Entretien.Domain.Entretien.of(
                 entretien.Id,
-                new entretien.domain.Candidat(
+                new Entretien.Domain.Candidat(
                     _candidat.Id,
                     _candidat.Language,
                     _candidat.Email,
                     _candidat.ExperienceEnAnnees),
-                new entretien.domain.Recruteur(
+                new Entretien.Domain.Recruteur(
                     _recruteur.Id,
                     _recruteur.Language,
                     _recruteur.Email,
@@ -110,7 +109,7 @@ namespace PlanificationEntretien.Steps
         [Then(@"L’entretien n'est pas planifié")]
         public void ThenLEntretienNestPasPlanifie()
         {
-            Entretien entretien = EntretienRepository.FindByCandidat(_candidat.Email);
+            var entretien = EntretienRepository.FindByCandidat(_candidat.Email);
             Assert.Null(entretien);
         }
 

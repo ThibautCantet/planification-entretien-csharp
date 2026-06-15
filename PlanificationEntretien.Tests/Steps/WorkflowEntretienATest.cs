@@ -2,12 +2,11 @@ using System;
 using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.entretien.domain;
-using PlanificationEntretien.entretien.infrastructure.controller;
-using PlanificationEntretien.entretien.application_service;
+using PlanificationEntretien.Entretien.Domain;
+using PlanificationEntretien.Entretien.Infrastructure.Controller;
+using PlanificationEntretien.Entretien.ApplicationService;
 using TechTalk.SpecFlow;
 using Xunit;
-using candidat = PlanificationEntretien.candidat.domain;
 
 namespace PlanificationEntretien.Steps
 {
@@ -31,7 +30,7 @@ namespace PlanificationEntretien.Steps
         public void GivenLesCandidatsExistantsCiDessous(Table table)
         {
             var candidats = table.Rows.Select(row =>
-                new candidat.domain.Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
+                new Candidat.Domain.Candidat(int.Parse(row.Values.ToList()[0]), row.Values.ToList()[2], row.Values.ToList()[1], int.Parse(row.Values.ToList()[3])));
             foreach (var candidat in candidats)
             {
                 CandidatRepository.Save(candidat);
@@ -71,20 +70,20 @@ namespace PlanificationEntretien.Steps
             Assert.Equal(entretien, entretiens.First());
         }
 
-        private Entretien BuildEntretien(int id, string emailRecruteur, string emailCandidat, string time, string status)
+        private Entretien.Domain.Entretien BuildEntretien(int id, string emailRecruteur, string emailCandidat, string time, string status)
         {
             var recruteur = RecruteurRepository.FindByEmail(emailRecruteur);
             var candidat = CandidatRepository.FindByEmail(emailCandidat);
             var horaire = DateTime.ParseExact(time, "dd/MM/yyyy mm:ss", CultureInfo.InvariantCulture);
             Status.TryParse<Status>(status, out var statusValue);
-            return Entretien.of(
+            return Entretien.Domain.Entretien.of(
                 id,
-                new Candidat(
+                new Entretien.Domain.Candidat(
                     candidat.Id,
                     candidat.Language,
                     candidat.Email,
                     candidat.ExperienceEnAnnees),
-                new Recruteur(
+                new Entretien.Domain.Recruteur(
                     recruteur.Id,
                     recruteur.Language,
                     recruteur.Email,

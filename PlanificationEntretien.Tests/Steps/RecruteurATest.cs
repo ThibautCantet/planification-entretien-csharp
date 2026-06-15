@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.recruteur.domain;
-using PlanificationEntretien.recruteur.application_service;
-using PlanificationEntretien.recruteur.infrastructure.controller;
+using PlanificationEntretien.Recruteur.ApplicationService;
+using PlanificationEntretien.Recruteur.Infrastructure.Controller;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -42,13 +41,13 @@ namespace PlanificationEntretien.Steps
             Assert.IsType<CreatedAtActionResult>(_actionResult);
             Assert.IsType<CreateRecruteurResponse>(_actionResult.Value);
             var createRecruteurResponse = _actionResult.Value as CreateRecruteurResponse;
-            Assert.Equal(createRecruteurResponse.language, _createRecruteurRequest.Language);
-            Assert.Equal(createRecruteurResponse.email, _createRecruteurRequest.Email);
-            Assert.Equal(createRecruteurResponse.xp, _createRecruteurRequest.XP);
+            Assert.Equal(createRecruteurResponse.Language, _createRecruteurRequest.Language);
+            Assert.Equal(createRecruteurResponse.Email, _createRecruteurRequest.Email);
+            Assert.Equal(createRecruteurResponse.Xp, _createRecruteurRequest.XP);
             Assert.NotEqual(0, createRecruteurResponse.Id);
 
             var recruteur = RecruteurRepository.FindById(createRecruteurResponse.Id);
-            Assert.Equal(recruteur, new Recruteur(createRecruteurResponse.Id, techno, email, int.Parse(xp)));
+            Assert.Equal(recruteur, new Recruteur.Domain.Recruteur(createRecruteurResponse.Id, techno, email, int.Parse(xp)));
         }
 
         [Then(@"le recruteur n'est pas enregistré")]
@@ -95,10 +94,10 @@ namespace PlanificationEntretien.Steps
             }
         }
 
-        public static Recruteur BuildRecruteur(TableRow row)
+        public static Recruteur.Domain.Recruteur BuildRecruteur(TableRow row)
         {
             var values = row.Values.ToList();
-            return new Recruteur( values[2], values[1], int.Parse(values[3]));
+            return new Recruteur.Domain.Recruteur( values[2], values[1], int.Parse(values[3]));
         }
     }
 }

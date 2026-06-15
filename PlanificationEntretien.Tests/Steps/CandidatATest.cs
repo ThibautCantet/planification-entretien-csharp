@@ -1,9 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using PlanificationEntretien.candidat.domain_service;
-using PlanificationEntretien.candidat.domain;
-using PlanificationEntretien.candidat.application_service;
-using PlanificationEntretien.candidat.infrastructure.controller;
+using PlanificationEntretien.Candidat.ApplicationService;
+using PlanificationEntretien.Candidat.DomainService;
+using PlanificationEntretien.Candidat.Infrastructure.Controller;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -39,13 +38,13 @@ namespace PlanificationEntretien.Steps
             Assert.IsType<CreatedAtActionResult>(_actionResult);
             Assert.IsType<CreateCandidatResponse>(_actionResult.Value);
             var createCandidatResponse = _actionResult.Value as CreateCandidatResponse;
-            Assert.Equal(createCandidatResponse.language, _candidatRequest.Language);
-            Assert.Equal(createCandidatResponse.email, _candidatRequest.Email);
-            Assert.Equal(createCandidatResponse.xp, _candidatRequest.Xp);
+            Assert.Equal(createCandidatResponse.Language, _candidatRequest.Language);
+            Assert.Equal(createCandidatResponse.Email, _candidatRequest.Email);
+            Assert.Equal(createCandidatResponse.Xp, _candidatRequest.Xp);
             Assert.NotEqual(0, createCandidatResponse.Id);
             
             var candidat = CandidatRepository.FindById(createCandidatResponse.Id);
-            Assert.Equal(candidat,  new Candidat(createCandidatResponse.Id, java, email, int.Parse(xp)));
+            Assert.Equal(candidat,  new Candidat.Domain.Candidat(createCandidatResponse.Id, java, email, int.Parse(xp)));
         }
 
         [Then(@"le candidat n'est pas enregistré")]
