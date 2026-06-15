@@ -5,11 +5,6 @@ namespace PlanificationEntretien.Common.Cqrs.Middleware.Command;
 
 public class CommandBusFactory
 {
-
-    public CommandBusFactory()
-    {
-    }
-
     public ICommandBus Build()
     {
         CommandBusDispatcher commandBusDispatcher = new CommandBusDispatcher();

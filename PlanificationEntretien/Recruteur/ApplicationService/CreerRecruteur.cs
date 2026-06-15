@@ -16,7 +16,8 @@ public class CreerRecruteur
     {
         try
         {
-            var recruteur = new Domain.Recruteur(language,
+            var recruteurId = _recruteurRepository.Next();
+            var recruteur = new Domain.Recruteur(recruteurId, language,
                 email,
                 experienceEnAnnees);
             return _recruteurRepository.Save(recruteur);

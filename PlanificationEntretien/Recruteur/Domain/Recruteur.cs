@@ -26,11 +26,6 @@ public class Recruteur : IEquatable<Recruteur>
         _experience = new Experience(experienceEnAnnees.GetValueOrDefault(-1));
         EstDisponible = estDisponible;
     }
-
-    public Recruteur(string language, string email, int? experienceEnAnnees) : this(0, language, email,
-        experienceEnAnnees, true)
-    {
-    }
     
     public Recruteur(int id, string language, string email, int? experienceEnAnnees) : this(id, language, email,
         experienceEnAnnees, true)

@@ -41,7 +41,8 @@ namespace PlanificationEntretien.Steps
         public void GivenUnRecruteurQuiAAnsDxpQuiEstDispo(string language, string email, string experienceInYears,
             string date, string time)
         {
-            _recruteur = new Recruteur.Domain.Recruteur(language, email, Int32.Parse(experienceInYears));
+            var id = RecruteurRepository.Next();
+            _recruteur = new Recruteur.Domain.Recruteur(id, language, email, Int32.Parse(experienceInYears));
             var saveRecruteurId = RecruteurRepository.Save(_recruteur);
             _recruteur = new Recruteur.Domain.Recruteur(saveRecruteurId, _recruteur.Language, _recruteur.Email,
                 _recruteur.ExperienceEnAnnees);

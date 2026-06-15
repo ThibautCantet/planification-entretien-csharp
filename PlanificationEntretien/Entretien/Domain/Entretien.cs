@@ -20,15 +20,16 @@ public class Entretien : IEquatable<Entretien>, IEntretien
 
     public Status Status { get; private set; }
 
-    private Entretien(int id, Candidat candidat, Recruteur recruteur, DateTime horaire)
+    private Entretien(int id, Candidat candidat, Recruteur recruteur, DateTime horaire, Status status)
     {
         Id = id;
         Candidat = candidat;
         Recruteur = recruteur;
         Horaire = horaire;
+        Status = status;
     }
 
-    public Entretien(Candidat candidat, Recruteur recruteur) : this(-1, candidat, recruteur, DateTime.MinValue)
+    public Entretien(int id, Candidat candidat, Recruteur recruteur) : this(id, candidat, recruteur, DateTime.MinValue, Status.NON_PLANIFIE)
     {
     }
 
@@ -68,8 +69,8 @@ public class Entretien : IEquatable<Entretien>, IEntretien
         return HashCode.Combine(Id, Candidat, Recruteur, Horaire);
     }
 
-    public static Entretien of(int id, Candidat candidat, Recruteur recruteur, DateTime horaire, Status statusValue)
+    public static Entretien of(int id, Candidat candidat, Recruteur recruteur, DateTime horaire, Status status)
     {
-        return new Entretien(id, candidat, recruteur, horaire);
+        return new Entretien(id, candidat, recruteur, horaire, status);
     }
 }

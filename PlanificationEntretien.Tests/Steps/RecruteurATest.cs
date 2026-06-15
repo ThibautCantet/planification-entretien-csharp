@@ -97,7 +97,7 @@ namespace PlanificationEntretien.Steps
         public static Recruteur.Domain.Recruteur BuildRecruteur(TableRow row)
         {
             var values = row.Values.ToList();
-            return new Recruteur.Domain.Recruteur( values[2], values[1], int.Parse(values[3]));
+            return new Recruteur.Domain.Recruteur(int.Parse(values[0]), values[2], values[1], int.Parse(values[3]));
         }
     }
 }

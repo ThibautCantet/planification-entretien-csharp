@@ -18,10 +18,24 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register repositories
-builder.Services.AddSingleton<ICandidatRepository, InMemoryCandidatRepository>();
-builder.Services.AddSingleton<IRecruteurRepository, InMemoryRecruteurRepository>();
-builder.Services.AddSingleton<IEntretienRepository, InMemoryEntretienRepository>();
+// Register repositories (Postgres ou InMemory selon la config)
+var usePostgres = builder.Configuration.GetValue<bool>("UsePostgres");
+var connectionString = builder.Configuration.GetConnectionString("Postgres") ?? string.Empty;
+
+if (usePostgres)
+{
+    builder.Services.AddSingleton<ICandidatRepository>(_ => new PostgresCandidatRepository(connectionString));
+    builder.Services.AddSingleton<IRecruteurRepository>(_ => new PostgresRecruteurRepository(connectionString));
+    builder.Services.AddSingleton<IEntretienRepository>(_ => new PostgresEntretienRepository(connectionString));
+    Console.WriteLine("🐘 Repositories PostgreSQL activés");
+}
+else
+{
+    builder.Services.AddSingleton<ICandidatRepository, InMemoryCandidatRepository>();
+    builder.Services.AddSingleton<IRecruteurRepository, InMemoryRecruteurRepository>();
+    builder.Services.AddSingleton<IEntretienRepository, InMemoryEntretienRepository>();
+    Console.WriteLine("💾 Repositories InMemory activés");
+}
 
 // Register email service
 builder.Services.AddSingleton<IEmailService, ConsoleEmailService>();
@@ -69,9 +83,9 @@ void SeedData(IServiceProvider services)
             var candidat3Id = candidatRepo.Save(new Candidat(3, "Python", "charlie@example.com", 5));
 
             // Create sample recruiters
-            var recruiter1Id = recruteurRepo.Save(new Recruteur("Java", "java-recruiter@example.com", 10));
-            var recruiter2Id = recruteurRepo.Save(new Recruteur("CSharp", "csharp-recruiter@example.com", 8));
-            var recruiter3Id = recruteurRepo.Save(new Recruteur("Python", "python-recruiter@example.com", 12));
+            var recruiter1Id = recruteurRepo.Save(new Recruteur(1, "Java", "java-recruiter@example.com", 10));
+            var recruiter2Id = recruteurRepo.Save(new Recruteur(2,"CSharp", "csharp-recruiter@example.com", 8));
+            var recruiter3Id = recruteurRepo.Save(new Recruteur(3, "Python", "python-recruiter@example.com", 12));
 
             Console.WriteLine("✅ Données de démonstration chargées avec succès!");
             Console.WriteLine($"📝 3 Candidats créés (IDs: {candidat1Id}, {candidat2Id}, {candidat3Id})");

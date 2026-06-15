@@ -22,16 +22,16 @@ public class PlanifierEntretien
     public IEnumerable<Event> Execute(Domain.Candidat candidat, DateTime disponibiliteDuCandidat,
         Domain.Recruteur recruteur, DateTime disponibiliteDuRecruteur)
     {
-        var entretien = new Domain.Entretien(candidat, recruteur);
+        var entretienId = _entretienRepository.Next();
+        var entretien = new Domain.Entretien(entretienId, candidat, recruteur);
         var resultat = entretien.Planifier(disponibiliteDuCandidat, disponibiliteDuRecruteur);
         var entretienCréé = resultat as EntretienCréé;
         if (entretienCréé != null)
         {
-            var entretienId = _entretienRepository.Save(entretien);
+            _entretienRepository.Save(entretien);
             _emailService.EnvoyerUnEmailDeConfirmationAuCandidat(candidat.Email, disponibiliteDuRecruteur);
             _emailService.EnvoyerUnEmailDeConfirmationAuRecruteur(recruteur.Email, disponibiliteDuRecruteur);
-            _messageBus.Send(new EntretienCréé(entretienId, recruteur.Id));
-            resultat = entretienCréé.UpdateId(entretienId);
+            _messageBus.Send(entretienCréé);
         }
 
         return new List<Event> { resultat };

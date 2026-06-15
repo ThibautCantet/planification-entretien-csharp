@@ -32,28 +32,22 @@ public class InMemoryRecruteurRepository : IRecruteurRepository
 
     public int Save(Recruteur.Domain.Recruteur recruteur)
     {
-        if (recruteur.Id == 0)
-        {
-            var newId = _recruteurs.Count + 1;
-            _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur, newId));
-
-            return newId;
-        }
-
         _recruteurs.Remove(recruteur.Email);
-        if (_recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur)))
-        {
-            return recruteur.Id;
-        }
-
-        return -1;
+        _recruteurs.TryAdd(recruteur.Email, ToInMemoryRecruteur(recruteur));
+        return recruteur.Id;
     }
+
 
     public List<Recruteur.Domain.Recruteur> FindAll()
     {
         return _recruteurs.Values
             .Select(r => new Recruteur.Domain.Recruteur(r.Id, r.Language, r.Email, r.ExperienceEnAnnees, r.EstDisponible))
             .ToList();
+    }
+
+    public int Next()
+    {
+        return _recruteurs.Count + 1;
     }
 
     internal static Recruteur.Domain.Recruteur ToRecruteur(InMemoryRecruteur? value)

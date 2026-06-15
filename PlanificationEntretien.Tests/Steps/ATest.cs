@@ -9,7 +9,10 @@ namespace PlanificationEntretien.Steps;
 
 public abstract class ATest
 {
-    protected IEntretienRepository EntretienRepository = new InMemoryEntretienRepository();
-    protected IRecruteurRepository RecruteurRepository = new InMemoryRecruteurRepository();
-    protected ICandidatRepository CandidatRepository = new InMemoryCandidatRepository();
+    protected const string ConnectionString =
+        "Host=localhost;Port=5432;Database=planification_entretien;Username=postgres;Password=postgres";
+
+    protected IEntretienRepository EntretienRepository = new PostgresEntretienRepository(ConnectionString);
+    protected IRecruteurRepository RecruteurRepository = new PostgresRecruteurRepository(ConnectionString);
+    protected ICandidatRepository CandidatRepository = new PostgresCandidatRepository(ConnectionString);
 }

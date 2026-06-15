@@ -8,4 +8,5 @@ public interface IRecruteurRepository
     Recruteur FindByEmail(string email);
     int Save(Recruteur recruteur);
     List<Recruteur> FindAll();
+    int Next();
 }

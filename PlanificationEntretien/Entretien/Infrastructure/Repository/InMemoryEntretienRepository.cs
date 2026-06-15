@@ -38,19 +38,9 @@ public class InMemoryEntretienRepository : IEntretienRepository
 
     public int Save(Entretien.Domain.Entretien entretien)
     {
-        if (_entretiens.ContainsKey(entretien.Candidat))
-        {
-            _entretiens.TryAdd(entretien.Candidat,
-                toInMemoryEntretien(entretien));
-            return entretien.Id;
-        }
-        else
-        {
-            var newId = _entretiens.Count + 1;
-            _entretiens.TryAdd(entretien.Candidat,
-                toInMemoryEntretien(entretien, newId));
-            return newId;
-        }
+        _entretiens.Remove(entretien.Candidat);
+        _entretiens.TryAdd(entretien.Candidat, toInMemoryEntretien(entretien));
+        return entretien.Id;
     }
 
     private static InMemoryEntretien toInMemoryEntretien(Entretien.Domain.Entretien entretien)
@@ -70,5 +60,10 @@ public class InMemoryEntretienRepository : IEntretienRepository
     public IEnumerable<Entretien.Domain.Entretien> FindAll()
     {
         return _entretiens.Values.Select(e => ToEntretien(e)).ToList();
+    }
+
+    public int Next()
+    {
+        return _entretiens.Count + 1;
     }
 }

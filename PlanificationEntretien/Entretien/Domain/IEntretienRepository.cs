@@ -8,4 +8,5 @@ public interface IEntretienRepository
     Entretien FindByCandidat(string candidatEmail);
     int Save(Entretien entretien);
     IEnumerable<Entretien> FindAll();
+    int Next();
 }
